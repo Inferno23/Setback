@@ -1,0 +1,9 @@
+X Play a full legal trick
+X Wrong person leads a trick -> Exception
+X Player plays anything when they are out of trump, and trump leads.
+X Winner of trick starts the next trick
+X Player does not follow suit -> Exception
+X Player plays trump when they don't have card in suit
+X Player plays trump when they do have card in suit
+X Play four tricks
+X Play a full legal round with four tricks

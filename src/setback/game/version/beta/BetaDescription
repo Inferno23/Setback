@@ -1,0 +1,9 @@
+Beta Setback will consist of a single round with four tricks.
+The player hands will each consist of four cards, that can be played in various orders, but must follow suit rules.
+Trump will always be Spades, and some trump rules will need to be implemented.
+	e.g Trump can break suit.
+The Player Hands are as follows:
+	Player One - Ace Spades, Three Spades, Two Diamonds, Five Clubs
+	Player Two - Two Spades, Ace Diamonds, Eight Clubs, Three Hearts
+	Player Three - Jack Spades, Six Clubs, Three Clubs, Two Clubs
+	Player Four - Ten Spades, Three Diamonds, Four Clubs, Five Hearts

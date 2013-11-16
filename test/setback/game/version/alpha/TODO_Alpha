@@ -1,0 +1,18 @@
+X Start Game
+X Play Card before start game -> exception
+X Play Card before start round -> exception
+X Play legal card
+X Play incorrect card -> exception
+X Player Two plays first -> exception
+X Play two legal cards
+X Play one legal and one illegal card -> exception
+X Play a full legal trick
+X Play a full legal round
+X Attempt to restart a game -> exception
+X Attempt to restart a round -> exception
+X Attempt to start a round before a game -> exception
+X Play two legal rounds
+X Attempt to play round before start round -> exception
+X Attempt to play round before start game -> exception
+X Attempt to play trick before start game -> exception
+X Attempt to play trick before start round -> exception

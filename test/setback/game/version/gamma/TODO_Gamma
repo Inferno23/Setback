@@ -1,0 +1,23 @@
+X Place Four Legal Bets
+X Determine the winner of the betting
+X Player 1-3 tries to TAKE bet -> Exception
+X All players pass -> Exception
+X Player 4 TAKEs bet properly
+X Player tries to underbid previous bid
+- Player tries to equal previous bid
+X Betting winner leads first trick
+X Betting winner selects trump
+X Team wins the bet, fails to meet the goal
+X Team wins the bet, meets the goal
+X Five bet succeeds
+X Five bet fails
+
+- Play two rounds, scores persist
+- Play two rounds, dealer rotates
+
+- Mock object for end of game testing.
+- End of game conditions
+- 21 points on bet wins
+- 21 points off bet continues
+- -11 points loses
+- 21 points with differential < 2 continues

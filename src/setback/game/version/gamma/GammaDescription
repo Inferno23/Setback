@@ -1,0 +1,9 @@
+Gamma Setback will consist of a single round with four tricks.
+The player hands will each consist of four cards, that can be played in various orders, but must follow suit rules.
+These hands are the same as in Beta.
+The new factor in this version is the BetController, which handles betting by the players.
+This means certain things will need to be implemented:
+	- Betting
+	- Picking Trump
+	- Correct person leading first trick
+	- Check if a team met its goal for the round, this will help with persistent scoring.

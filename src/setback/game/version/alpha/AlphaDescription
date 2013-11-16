@@ -1,0 +1,12 @@
+Alpha Setback will consist of a single round with a single trick.
+The player hands will each consist of one card, that they will play in the round.
+Trump will always be Spades, but most trump rules won't need to be implemented.
+The trick will go as follows:
+	Player One plays the Ace of Spades, 
+	Player Two plays the Two of Spades, 
+	Player Three plays the Jack of Spades,
+	Player Four plays the Ten of Spades.
+This trick will produce a TrickResult.  That TrickResult will be the only result in the RoundResult.
+
+This version will require basic implementation of playCard, playTrick, and playRound,
+and support for a Hand.
