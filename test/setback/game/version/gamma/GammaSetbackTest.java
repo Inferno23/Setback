@@ -398,30 +398,36 @@ public class GammaSetbackTest {
 	// End of the game tests //
 	///////////////////////////
 	
-//	@Test
-//	public void teamOneHitsTwentyOneAndWins() throws SetbackException {
-//		mockGame = new MockGammaSetbackController(17, 0);
-//		RoundResult roundResult = teamOneWinsRound(mockGame);
-//		assertEquals(21, roundResult.getTeamOneRoundScore());
-//		assertEquals(0, roundResult.getTeamTwoRoundScore());
-//		assertEquals(RoundResultStatus.TEAM_ONE_WINS, roundResult.getStatus());
-//	}
-//	
-//	@Test
-//	public void teamOneExceedsTwentyOneAndWins() throws SetbackException {
-//		mockGame = new MockGammaSetbackController(18, 0);
-//		RoundResult roundResult = teamOneWinsRound(mockGame);
-//		assertEquals(22, roundResult.getTeamOneRoundScore());
-//		assertEquals(0, roundResult.getTeamTwoRoundScore());
-//		assertEquals(RoundResultStatus.TEAM_ONE_WINS, roundResult.getStatus());
-//	}
-//	
-//	@Test
-//	public void teamOneHitsTwentyOneButWithinTwo() throws SetbackException {
-//		mockGame = new MockGammaSetbackController(17, 20);
-//		RoundResult roundResult = teamOneWinsRound(mockGame);
-//		assertEquals(21, roundResult.getTeamOneRoundScore());
-//		assertEquals(20, roundResult.getTeamTwoRoundScore());
-//		assertEquals(RoundResultStatus.OK, roundResult.getStatus());
-//	}
+	@Test
+	public void teamOneHitsTwentyOneOnBetAndWins() throws SetbackException {
+		mockGame = new MockGammaSetbackController(17, 0);
+		RoundResult roundResult = teamOneWinsRound(mockGame);
+		assertEquals(4, roundResult.getTeamOneRoundScore());
+		assertEquals(0, roundResult.getTeamTwoRoundScore());
+		assertEquals(21, mockGame.getTeamOneScore());
+		assertEquals(0, mockGame.getTeamTwoScore());
+		assertEquals(RoundResultStatus.TEAM_ONE_WINS, roundResult.getStatus());
+	}
+	
+	@Test
+	public void teamOneExceedsTwentyOneOnBetAndWins() throws SetbackException {
+		mockGame = new MockGammaSetbackController(18, 0);
+		RoundResult roundResult = teamOneWinsRound(mockGame);
+		assertEquals(4, roundResult.getTeamOneRoundScore());
+		assertEquals(0, roundResult.getTeamTwoRoundScore());
+		assertEquals(22, mockGame.getTeamOneScore());
+		assertEquals(0, mockGame.getTeamTwoScore());
+		assertEquals(RoundResultStatus.TEAM_ONE_WINS, roundResult.getStatus());
+	}
+	
+	@Test
+	public void teamOneHitsTwentyOneOnBetButWithinTwo() throws SetbackException {
+		mockGame = new MockGammaSetbackController(17, 20);
+		RoundResult roundResult = teamOneWinsRound(mockGame);
+		assertEquals(4, roundResult.getTeamOneRoundScore());
+		assertEquals(0, roundResult.getTeamTwoRoundScore());
+		assertEquals(21, mockGame.getTeamOneScore());
+		assertEquals(20, mockGame.getTeamTwoScore());
+		assertEquals(RoundResultStatus.OK, roundResult.getStatus());
+	}
 }

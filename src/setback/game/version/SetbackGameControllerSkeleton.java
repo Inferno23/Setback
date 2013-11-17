@@ -18,6 +18,7 @@ import setback.game.common.CardSuit;
 import setback.game.common.Hand;
 import setback.game.common.Round;
 import setback.game.common.RoundResult;
+import setback.game.common.RoundResultStatus;
 import setback.game.common.Trick;
 import setback.game.common.TrickResult;
 
@@ -30,6 +31,7 @@ import setback.game.common.TrickResult;
 public abstract class SetbackGameControllerSkeleton implements SetbackGameController {
 
 	protected boolean gameStarted;
+	protected boolean gameOver;
 	protected boolean roundStarted;
 	protected boolean bettingResolved;
 	protected boolean trumpSelected;
@@ -68,6 +70,7 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 	 */
 	protected void initializeGame() {
 		gameStarted = true;
+		gameOver = false;
 		dealer = PlayerNumber.PLAYER_ONE;
 		currentPlayer = PlayerNumber.PLAYER_ONE;
 		playerOneHand = new Hand(PlayerNumber.PLAYER_ONE);
@@ -195,13 +198,24 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		}
 
 		final Round round = new Round(tricks);
-		final RoundResult result = round.determineRoundResults(winningBet);  
+		RoundResult result = round.determineRoundResults(winningBet);  
 		roundStarted = false;
 		bettingResolved = false;
 		trumpSelected = false;
 		dealer = updatePlayer(dealer);
 		teamOneScore += result.getTeamOneRoundScore();
 		teamTwoScore += result.getTeamTwoRoundScore();
+		
+		if (teamOneScore >= 21) {
+			if (teamOneScore < (teamTwoScore + 2)) {
+				// Differential is not two or more, keep playing.
+			}
+			else {
+				result = new RoundResult(result.getTeamOneRoundScore(), 
+						result.getTeamTwoRoundScore(), RoundResultStatus.TEAM_ONE_WINS);
+			}
+		}
+		
 		return result;
 	}
 
@@ -353,5 +367,27 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 			// If the card is trump, then there is no problem
 		}
 		// If the suit matches, then there is no problem.
+	}
+
+	/* (non-Javadoc)
+	 * @see setback.game.SetbackGameController#getTeamOneScore()
+	 */
+	@Override
+	public int getTeamOneScore() throws SetbackException {
+		if (!gameStarted) {
+			throw new SetbackException("You must start the game!");
+		}
+		return teamOneScore;
+	}
+
+	/* (non-Javadoc)
+	 * @see setback.game.SetbackGameController#getTeamTwoScore()
+	 */
+	@Override
+	public int getTeamTwoScore() throws SetbackException {
+		if (!gameStarted) {
+			throw new SetbackException("You must start the game!");
+		}
+		return teamTwoScore;
 	}
 }

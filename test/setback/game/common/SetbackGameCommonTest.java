@@ -370,4 +370,15 @@ public class SetbackGameCommonTest {
 		assertEquals(3, status.length);
 		assertEquals(RoundResultStatus.OK, RoundResultStatus.valueOf("OK"));
 	}
+	
+	@Test
+	public void cardEqualsNullTest() {
+		assertFalse(jackOfSpades.equals(null));
+	}
+	
+	@Test
+	public void nullCardHashTest() {
+		Card fakeCard = new Card(null, null);
+		assertEquals(31*31, fakeCard.hashCode());
+	}
 }

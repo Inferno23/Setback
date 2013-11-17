@@ -15,9 +15,9 @@ X Five bet fails
 - Play two rounds, scores persist
 - Play two rounds, dealer rotates
 
-- Mock object for end of game testing.
+X Mock object for end of game testing.
 - End of game conditions
-- 21 points on bet wins
+X 21 points on bet wins
 - 21 points off bet continues
 - -11 points loses
-- 21 points with differential < 2 continues
+X 21 points with differential < 2 continues

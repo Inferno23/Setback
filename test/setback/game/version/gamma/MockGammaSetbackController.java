@@ -40,6 +40,6 @@ public class MockGammaSetbackController extends GammaSetbackGame implements
 		playerOneHand = new Hand(PlayerNumber.PLAYER_ONE);
 		playerTwoHand = new Hand(PlayerNumber.PLAYER_TWO);
 		playerThreeHand = new Hand(PlayerNumber.PLAYER_THREE);
-		playerFourHand = new Hand(PlayerNumber.PLAYER_FOUR);
+		playerFourHand = new Hand(PlayerNumber.PLAYER_FOUR); 
 	}
 }

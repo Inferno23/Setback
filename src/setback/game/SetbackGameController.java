@@ -109,4 +109,18 @@ public interface SetbackGameController {
 	 * @throws SetbackException if the wrong player picks a suit.
 	 */
 	void selectTrump(PlayerNumber leader, CardSuit trump) throws SetbackException;
+	
+	/**
+	 * This method returns the score for team one.
+	 * @throws SetbackExcption if the game has not been started.
+	 * @return The persistent score for team one.
+	 */
+	int getTeamOneScore() throws SetbackException;
+	
+	/**
+	 * This method returns the score for team two.
+	 * @throws SetbackExcption if the game has not been started.
+	 * @return The persistent score for team two.
+	 */
+	int getTeamTwoScore() throws SetbackException;
 }
