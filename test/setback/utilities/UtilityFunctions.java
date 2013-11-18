@@ -4,7 +4,7 @@
  */
 package setback.utilities;
 
-import static setback.utilities.TestCard.aceOfSpades;
+import static setback.utilities.TestCard.*;
 import static setback.utilities.TestCard.jackOfSpades;
 import static setback.utilities.TestCard.tenOfSpades;
 import static setback.utilities.TestCard.twoOfSpades;
@@ -78,7 +78,7 @@ public class UtilityFunctions {
 	}
 	
 	
-	public static RoundResult teamOneWinsRound(SetbackGameController game) throws SetbackException {
+	public static RoundResult teamOneWinsRoundOnBet(SetbackGameController game) throws SetbackException {
 		game.startGame();
 		game.startRound();
 		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.TWO);
@@ -95,6 +95,54 @@ public class UtilityFunctions {
 		CardPlayerDescriptor cpdFour = new CardPlayerDescriptor(tenOfSpades, PlayerNumber.PLAYER_FOUR);
 		
 		TrickResult trickResult = game.playTrick(cpdOne, cpdTwo, cpdThree, cpdFour);
+		
+		List<TrickResult> tricks = new ArrayList<TrickResult>();
+		tricks.add(trickResult);
+		
+		return game.playRound(tricks);
+	}
+	
+	public static RoundResult teamOneLosesRoundOnBet(SetbackGameController game) throws SetbackException {
+		game.startGame();
+		game.startRound();
+		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.FIVE);
+		game.placeBet(PlayerNumber.PLAYER_TWO, Bet.PASS);
+		game.placeBet(PlayerNumber.PLAYER_THREE, Bet.PASS);
+		game.placeBet(PlayerNumber.PLAYER_FOUR, Bet.PASS);
+		game.resolveBets();
+		game.selectTrump(PlayerNumber.PLAYER_ONE, CardSuit.DIAMONDS);
+		game.startTrick();
+		
+		CardPlayerDescriptor cpdOne = new CardPlayerDescriptor(twoOfDiamonds, PlayerNumber.PLAYER_ONE);
+		CardPlayerDescriptor cpdTwo = new CardPlayerDescriptor(aceOfDiamonds, PlayerNumber.PLAYER_TWO);
+		CardPlayerDescriptor cpdThree = new CardPlayerDescriptor(jackOfSpades, PlayerNumber.PLAYER_THREE);
+		CardPlayerDescriptor cpdFour = new CardPlayerDescriptor(threeOfDiamonds, PlayerNumber.PLAYER_FOUR);
+		
+		TrickResult trickResult = game.playTrick(cpdOne, cpdTwo, cpdThree, cpdFour);
+		
+		List<TrickResult> tricks = new ArrayList<TrickResult>();
+		tricks.add(trickResult);
+		
+		return game.playRound(tricks);
+	}
+	
+	public static RoundResult teamOneWinsRoundOffBet(SetbackGameController game) throws SetbackException {
+		game.startGame();
+		game.startRound();
+		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.PASS);
+		game.placeBet(PlayerNumber.PLAYER_TWO, Bet.TWO);
+		game.placeBet(PlayerNumber.PLAYER_THREE, Bet.PASS);
+		game.placeBet(PlayerNumber.PLAYER_FOUR, Bet.PASS);
+		game.resolveBets();
+		game.selectTrump(PlayerNumber.PLAYER_TWO, CardSuit.SPADES);
+		game.startTrick();
+		
+		CardPlayerDescriptor cpdOne = new CardPlayerDescriptor(aceOfSpades, PlayerNumber.PLAYER_ONE);
+		CardPlayerDescriptor cpdTwo = new CardPlayerDescriptor(twoOfSpades, PlayerNumber.PLAYER_TWO);
+		CardPlayerDescriptor cpdThree = new CardPlayerDescriptor(jackOfSpades, PlayerNumber.PLAYER_THREE);
+		CardPlayerDescriptor cpdFour = new CardPlayerDescriptor(tenOfSpades, PlayerNumber.PLAYER_FOUR);
+		
+		TrickResult trickResult = game.playTrick(cpdTwo, cpdThree, cpdFour, cpdOne);
 		
 		List<TrickResult> tricks = new ArrayList<TrickResult>();
 		tricks.add(trickResult);

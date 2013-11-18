@@ -206,14 +206,27 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		teamOneScore += result.getTeamOneRoundScore();
 		teamTwoScore += result.getTeamTwoRoundScore();
 		
-		if (teamOneScore >= 21) {
-			if (teamOneScore < (teamTwoScore + 2)) {
-				// Differential is not two or more, keep playing.
+		if (winningBet.getBettor().equals(PlayerNumber.PLAYER_ONE)
+				|| winningBet.getBettor().equals(PlayerNumber.PLAYER_THREE)) {
+			// Team One won the bet, check if they won the game.
+			if (teamOneScore >= 21) {
+				if (teamOneScore < (teamTwoScore + 2)) {
+					// Differential is not two or more, keep playing.
+				}
+				else {
+					result = new RoundResult(result.getTeamOneRoundScore(), 
+							result.getTeamTwoRoundScore(), RoundResultStatus.TEAM_ONE_WINS);
+				}
 			}
-			else {
-				result = new RoundResult(result.getTeamOneRoundScore(), 
-						result.getTeamTwoRoundScore(), RoundResultStatus.TEAM_ONE_WINS);
-			}
+		}
+		else {
+			// Team Two won the bet, check if they won the game.
+		}
+		
+		if (teamOneScore <= -11) {
+			// Always check if the teams hit -11
+			result = new RoundResult(result.getTeamOneRoundScore(), 
+					result.getTeamTwoRoundScore(), RoundResultStatus.TEAM_TWO_WINS);
 		}
 		
 		return result;
