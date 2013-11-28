@@ -9,6 +9,7 @@ import java.util.List;
 import setback.common.PlayerNumber;
 import setback.common.SetbackException;
 import setback.game.BetController;
+import setback.game.CardDealerController;
 import setback.game.SetbackGameController;
 import setback.game.common.Bet;
 import setback.game.common.BetResult;
@@ -35,8 +36,17 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 	protected boolean roundStarted;
 	protected boolean bettingResolved;
 	protected boolean trumpSelected;
+	protected boolean discardingResolved;
 	protected boolean trickStarted;
 
+	protected boolean playerOneDiscarded;
+	protected boolean playerTwoDiscarded;
+	protected boolean playerThreeDiscarded;
+	protected boolean playerFourDiscarded;
+	protected boolean discardingIgnored;
+	
+	protected CardDealerController dealerController;
+	
 	protected PlayerNumber dealer;
 	protected PlayerNumber currentPlayer;
 	protected CardSuit trump;
@@ -93,143 +103,8 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 			throw new SetbackException("The round has already been started!");
 		}
 		roundStarted = true;
-		dealHands();
+		dealerController.dealHands(playerOneHand, playerTwoHand, playerThreeHand, playerFourHand);
 		bettingResolved = false;
-	}
-
-	/* (non-Javadoc)
-	 * @see setback.game.SetbackGameController#startTrick()
-	 */
-	@Override
-	public void startTrick() throws SetbackException {
-		if (!gameStarted) {
-			throw new SetbackException("You must start the game!");
-		}
-		if (!roundStarted) {
-			throw new SetbackException("You must start the round!");
-		}
-		if (!bettingResolved) {
-			throw new SetbackException("You must resolve betting!");
-		}
-		if (!trumpSelected) {
-			throw new SetbackException("You must select trump!");
-		}
-		if (trickStarted) {
-			throw new SetbackException("The trick has already been started!");
-		}
-		trickStarted = true;
-		leadSuit = null;
-	}
-
-	/* (non-Javadoc)
-	 * @see setback.game.SetbackGameController#playCard(setback.game.common.Card, setback.common.PlayerNumber)
-	 */
-	@Override
-	public CardPlayerDescriptor playCard(Card card, PlayerNumber player)
-			throws SetbackException {
-		if (!gameStarted) {
-			throw new SetbackException("You must start the game!");
-		}
-		if (!roundStarted) {
-			throw new SetbackException("You must start the round!");
-		}
-		if (!player.equals(currentPlayer)) {
-			throw new SetbackException("It is not your turn! It is " +
-					currentPlayer.toString() + "'s turn!");
-		}
-
-		final Hand currentHand = getCurrentHand();
-		validateCard(card, currentHand);
-		// Remove the played card from the hand.
-		currentHand.getCards().remove(card);
-		// Update the currentPlayer for the next card. 
-		currentPlayer = updatePlayer(currentPlayer);
-
-		return new CardPlayerDescriptor(card, player);
-	}
-
-	/* (non-Javadoc)
-	 * @see setback.game.SetbackGameController#playTrick(setback.game.common.CardPlayerDescriptor,
-	 * setback.game.common.CardPlayerDescriptor,
-	 * setback.game.common.CardPlayerDescriptor,
-	 * setback.game.common.CardPlayerDescriptor)
-	 */
-	@Override
-	public TrickResult playTrick(CardPlayerDescriptor firstCard,
-			CardPlayerDescriptor secondCard, CardPlayerDescriptor thirdCard,
-			CardPlayerDescriptor fourthCard) throws SetbackException {
-
-		if (!gameStarted) {
-			throw new SetbackException("You must start the game!");
-		}
-		if (!roundStarted) {
-			throw new SetbackException("You must start the round!");
-		}
-		if (!bettingResolved) {
-			throw new SetbackException("You must resolve betting!");
-		}
-		if (!trumpSelected) {
-			throw new SetbackException("You must select trump!");
-		}
-		if (!trickStarted) {
-			throw new SetbackException("You must start the trick!");
-		}
-
-		final Trick trick = new Trick(firstCard, secondCard, thirdCard, fourthCard);
-		final TrickResult result = trick.determineTrickResults(trump);
-		currentPlayer = result.getWinner();
-		trickStarted = false;
-		leadSuit = null;
-		return result;
-	}
-
-	/* (non-Javadoc)
-	 * @see setback.game.SetbackGameController#playRound(java.util.List)
-	 */
-	@Override
-	public RoundResult playRound(List<TrickResult> tricks)
-			throws SetbackException {
-
-		if (!gameStarted) {
-			throw new SetbackException("You must start the game!");
-		}
-		if (!roundStarted) {
-			throw new SetbackException("You must start the round!");
-		}
-
-		final Round round = new Round(tricks);
-		RoundResult result = round.determineRoundResults(winningBet);  
-		roundStarted = false;
-		bettingResolved = false;
-		trumpSelected = false;
-		dealer = updatePlayer(dealer);
-		teamOneScore += result.getTeamOneRoundScore();
-		teamTwoScore += result.getTeamTwoRoundScore();
-		
-		if (winningBet.getBettor().equals(PlayerNumber.PLAYER_ONE)
-				|| winningBet.getBettor().equals(PlayerNumber.PLAYER_THREE)) {
-			// Team One won the bet, check if they won the game.
-			if (teamOneScore >= 21) {
-				if (teamOneScore < (teamTwoScore + 2)) {
-					// Differential is not two or more, keep playing.
-				}
-				else {
-					result = new RoundResult(result.getTeamOneRoundScore(), 
-							result.getTeamTwoRoundScore(), RoundResultStatus.TEAM_ONE_WINS);
-				}
-			}
-		}
-		else {
-			// Team Two won the bet, check if they won the game.
-		}
-		
-		if (teamOneScore <= -11) {
-			// Always check if the teams hit -11
-			result = new RoundResult(result.getTeamOneRoundScore(), 
-					result.getTeamTwoRoundScore(), RoundResultStatus.TEAM_TWO_WINS);
-		}
-		
-		return result;
 	}
 
 	/*
@@ -298,14 +173,210 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		trumpSelected = true;
 		this.trump = trump;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see setback.game.SetbackGameController#discardCards(setback.common.PlayerNumber, setback.game.common.Card, setback.game.common.Card, setback.game.common.Card)
+	 */
+	public void discardCards(PlayerNumber player, Card cardOne, Card cardTwo, Card cardThree) throws SetbackException {
+		//TODO: Implement me
+	}
+	
+	/* (non-Javadoc)
+	 * @see setback.game.SetbackGameController#startTrick()
+	 */
+	@Override
+	public void startTrick() throws SetbackException {
+		if (!gameStarted) {
+			throw new SetbackException("You must start the game!");
+		}
+		if (!roundStarted) {
+			throw new SetbackException("You must start the round!");
+		}
+		if (!bettingResolved) {
+			throw new SetbackException("You must resolve betting!");
+		}
+		if (!trumpSelected) {
+			throw new SetbackException("You must select trump!");
+		}
+		if (trickStarted) {
+			throw new SetbackException("The trick has already been started!");
+		}
+		trickStarted = true;
+		leadSuit = null;
+	}
+
+	/* (non-Javadoc)
+	 * @see setback.game.SetbackGameController#playCard(setback.game.common.Card, setback.common.PlayerNumber)
+	 */
+	@Override
+	public CardPlayerDescriptor playCard(Card card, PlayerNumber player)
+			throws SetbackException {
+		if (!gameStarted) {
+			throw new SetbackException("You must start the game!");
+		}
+		if (!roundStarted) {
+			throw new SetbackException("You must start the round!");
+		}
+		if (!player.equals(currentPlayer)) {
+			throw new SetbackException("It is not your turn! It is " +
+					currentPlayer.toString() + "'s turn!");
+		}
+
+		final Hand currentHand = getCurrentHand();
+		validateCard(card, currentHand);
+		// Remove the played card from the hand.
+		currentHand.getCards().remove(card);
+		// Update the currentPlayer for the next card. 
+		currentPlayer = updatePlayer(currentPlayer);
+
+		return new CardPlayerDescriptor(card, player);
+	}
 
 	/**
-	 * This function deals cards to each of the four players.
-	 * The cards are placed in the variables:
-	 * playerOneHand, playerTwoHand, playerThreeHand, playerFourHand.
+	 * This function checks that a card can be legally played.
+	 * @param card The card to play.
+	 * @param hand The hand from which the card comes.
+	 * @throws SetbackException If there is something wrong with the card.
 	 */
-	protected abstract void dealHands();
+	private void validateCard(Card card, Hand hand) throws SetbackException {
+		// Check that the card is in the hand.
+		if (!hand.getCards().contains(card)) {
+			throw new SetbackException("You don't have that card!");
+		}
 
+		// Check that the card is a legal choice.
+		if (leadSuit == null) {
+			leadSuit = card.getSuit();
+		}
+		else if (!card.getSuit().equals(leadSuit)) {
+			if (!card.getSuit().equals(trump)) {
+				if (hand.getNumberOfSuit(leadSuit) != 0) {
+					throw new SetbackException("You have to follow suit or play trump!");
+				}
+				// If the hand cannot follow the suit, then there is no problem.
+			}
+			// If the card is trump, then there is no problem
+		}
+		// If the suit matches, then there is no problem.
+	}
+	
+	/* (non-Javadoc)
+	 * @see setback.game.SetbackGameController#playTrick(setback.game.common.CardPlayerDescriptor,
+	 * setback.game.common.CardPlayerDescriptor,
+	 * setback.game.common.CardPlayerDescriptor,
+	 * setback.game.common.CardPlayerDescriptor)
+	 */
+	@Override
+	public TrickResult playTrick(CardPlayerDescriptor firstCard,
+			CardPlayerDescriptor secondCard, CardPlayerDescriptor thirdCard,
+			CardPlayerDescriptor fourthCard) throws SetbackException {
+
+		if (!gameStarted) {
+			throw new SetbackException("You must start the game!");
+		}
+		if (!roundStarted) {
+			throw new SetbackException("You must start the round!");
+		}
+		if (!bettingResolved) {
+			throw new SetbackException("You must resolve betting!");
+		}
+		if (!trumpSelected) {
+			throw new SetbackException("You must select trump!");
+		}
+		if (!trickStarted) {
+			throw new SetbackException("You must start the trick!");
+		}
+
+		final Trick trick = new Trick(firstCard, secondCard, thirdCard, fourthCard);
+		final TrickResult result = trick.determineTrickResults(trump);
+		currentPlayer = result.getWinner();
+		trickStarted = false;
+		leadSuit = null;
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see setback.game.SetbackGameController#playRound(java.util.List)
+	 */
+	@Override
+	public RoundResult playRound(List<TrickResult> tricks)
+			throws SetbackException {
+
+		if (!gameStarted) {
+			throw new SetbackException("You must start the game!");
+		}
+		if (!roundStarted) {
+			throw new SetbackException("You must start the round!");
+		}
+
+		final Round round = new Round(tricks);
+		RoundResult result = round.determineRoundResults(winningBet);  
+		roundStarted = false;
+		bettingResolved = false;
+		trumpSelected = false;
+		dealer = updatePlayer(dealer);
+		teamOneScore += result.getTeamOneRoundScore();
+		teamTwoScore += result.getTeamTwoRoundScore();
+		
+		if (winningBet.getBettor().equals(PlayerNumber.PLAYER_ONE)
+				|| winningBet.getBettor().equals(PlayerNumber.PLAYER_THREE)) {
+			// Team One won the bet, check if they won the game.
+			if (teamOneScore >= 21) {
+				if (teamOneScore >= (teamTwoScore + 2)) {
+					// Differential is large enough, the game is over.
+					result = new RoundResult(result.getTeamOneRoundScore(), 
+							result.getTeamTwoRoundScore(), RoundResultStatus.TEAM_ONE_WINS);
+				}
+			}
+		}
+		else {
+			// Team Two won the bet, check if they won the game.
+			if (teamTwoScore >= 21) {
+				if (teamTwoScore >= (teamOneScore + 2)) {
+					// Differential is large enough, the game is over.
+					result = new RoundResult(result.getTeamOneRoundScore(), 
+							result.getTeamTwoRoundScore(), RoundResultStatus.TEAM_TWO_WINS);
+				}
+			}
+		}
+		
+		if (teamOneScore <= -11) {
+			// Always check if the teams hit -11
+			result = new RoundResult(result.getTeamOneRoundScore(), 
+					result.getTeamTwoRoundScore(), RoundResultStatus.TEAM_TWO_WINS);
+		}
+		else if (teamTwoScore <= -11) {
+			// Always check if the teams hit -11
+			result = new RoundResult(result.getTeamOneRoundScore(), 
+					result.getTeamTwoRoundScore(), RoundResultStatus.TEAM_ONE_WINS);
+		}
+		
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see setback.game.SetbackGameController#getTeamOneScore()
+	 */
+	@Override
+	public int getTeamOneScore() throws SetbackException {
+		if (!gameStarted) {
+			throw new SetbackException("You must start the game!");
+		}
+		return teamOneScore;
+	}
+
+	/* (non-Javadoc)
+	 * @see setback.game.SetbackGameController#getTeamTwoScore()
+	 */
+	@Override
+	public int getTeamTwoScore() throws SetbackException {
+		if (!gameStarted) {
+			throw new SetbackException("You must start the game!");
+		}
+		return teamTwoScore;
+	}
+	
 	/**
 	 * Updates the currentPlayer variable to point to the next person
 	 * that should be playing a card.
@@ -352,55 +423,5 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 			break;
 		}
 		return resultHand;
-	}
-
-	/**
-	 * This function checks that a card can be legally played.
-	 * @param card The card to play.
-	 * @param hand The hand from which the card comes.
-	 * @throws SetbackException If there is something wrong with the card.
-	 */
-	private void validateCard(Card card, Hand hand) throws SetbackException {
-		// Check that the card is in the hand.
-		if (!hand.getCards().contains(card)) {
-			throw new SetbackException("You don't have that card!");
-		}
-
-		// Check that the card is a legal choice.
-		if (leadSuit == null) {
-			leadSuit = card.getSuit();
-		}
-		else if (!card.getSuit().equals(leadSuit)) {
-			if (!card.getSuit().equals(trump)) {
-				if (hand.getNumberOfSuit(leadSuit) != 0) {
-					throw new SetbackException("You have to follow suit or play trump!");
-				}
-				// If the hand cannot follow the suit, then there is no problem.
-			}
-			// If the card is trump, then there is no problem
-		}
-		// If the suit matches, then there is no problem.
-	}
-
-	/* (non-Javadoc)
-	 * @see setback.game.SetbackGameController#getTeamOneScore()
-	 */
-	@Override
-	public int getTeamOneScore() throws SetbackException {
-		if (!gameStarted) {
-			throw new SetbackException("You must start the game!");
-		}
-		return teamOneScore;
-	}
-
-	/* (non-Javadoc)
-	 * @see setback.game.SetbackGameController#getTeamTwoScore()
-	 */
-	@Override
-	public int getTeamTwoScore() throws SetbackException {
-		if (!gameStarted) {
-			throw new SetbackException("You must start the game!");
-		}
-		return teamTwoScore;
 	}
 }

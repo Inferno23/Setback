@@ -77,7 +77,14 @@ public class UtilityFunctions {
 		game.placeBet(PlayerNumber.PLAYER_FOUR, Bet.TWO);
 	}
 	
-	
+	/**
+	 * Plays a round with a single trick where Team One wins the bet of 2,
+	 * and wins the round, resulting in scores of +4 and +0.
+	 * NOTE: Uses cards from Beta/Gamma, but this still works with later versions
+	 * @param game The game controller to run this function on.
+	 * @return The result of the round that was played.
+	 * @throws SetbackException if something highly unexpected happens.
+	 */
 	public static RoundResult teamOneWinsRoundOnBet(SetbackGameController game) throws SetbackException {
 		game.startGame();
 		game.startRound();
@@ -102,6 +109,14 @@ public class UtilityFunctions {
 		return game.playRound(tricks);
 	}
 	
+	/**
+	 * Plays a round with a single trick where Team One wins the bet of 5,
+	 * but loses the round, resulting in scores of -5, and +3.
+	 * NOTE: Uses cards from Beta/Gamma, but this still works with later versions
+	 * @param game The game controller to run this function on.
+	 * @return The result of the round that was played.
+	 * @throws SetbackException if something highly unexpected happens.
+	 */
 	public static RoundResult teamOneLosesRoundOnBet(SetbackGameController game) throws SetbackException {
 		game.startGame();
 		game.startRound();
@@ -126,6 +141,14 @@ public class UtilityFunctions {
 		return game.playRound(tricks);
 	}
 	
+	/**
+	 * Plays a round with a single trick where Team Two wins the bet of 2,
+	 * but loses the round, resulting in scores of +4, and -2.
+	 * NOTE: Uses cards from Beta/Gamma, but this still works with later versions
+	 * @param game The game controller to run this function on.
+	 * @return The result of the round that was played.
+	 * @throws SetbackException if something highly unexpected happens.
+	 */
 	public static RoundResult teamOneWinsRoundOffBet(SetbackGameController game) throws SetbackException {
 		game.startGame();
 		game.startRound();
@@ -144,6 +167,38 @@ public class UtilityFunctions {
 		
 		TrickResult trickResult = game.playTrick(cpdTwo, cpdThree, cpdFour, cpdOne);
 		
+		List<TrickResult> tricks = new ArrayList<TrickResult>();
+		tricks.add(trickResult);
+		
+		return game.playRound(tricks);
+	}
+	
+	/**
+	 * Plays a round with a single trick where Team Two wins the bet of 2,
+	 * and wins the round, resulting in scores of +0, and +3.
+	 * NOTE: Uses cards from Beta/Gamma, but this still works with later versions
+	 * @param game The game controller to run this function on.
+	 * @return The result of the round that was played.
+	 * @throws SetbackException if something highly unexpected happens.
+	 */
+	public static RoundResult teamTwoWinsRoundOnBet(SetbackGameController game) throws SetbackException {
+		game.startGame();
+		game.startRound();
+		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.PASS);
+		game.placeBet(PlayerNumber.PLAYER_TWO, Bet.TWO);
+		game.placeBet(PlayerNumber.PLAYER_THREE, Bet.PASS);
+		game.placeBet(PlayerNumber.PLAYER_FOUR, Bet.PASS);
+		game.resolveBets();
+		game.selectTrump(PlayerNumber.PLAYER_TWO, CardSuit.DIAMONDS);
+		game.startTrick();
+		
+		CardPlayerDescriptor cpdOne = new CardPlayerDescriptor(twoOfDiamonds, PlayerNumber.PLAYER_ONE);
+		CardPlayerDescriptor cpdTwo = new CardPlayerDescriptor(aceOfDiamonds, PlayerNumber.PLAYER_TWO);
+		CardPlayerDescriptor cpdThree = new CardPlayerDescriptor(jackOfSpades, PlayerNumber.PLAYER_THREE);
+		CardPlayerDescriptor cpdFour = new CardPlayerDescriptor(threeOfDiamonds, PlayerNumber.PLAYER_FOUR);
+		
+		TrickResult trickResult = game.playTrick(cpdTwo, cpdThree, cpdFour, cpdOne);
+	
 		List<TrickResult> tricks = new ArrayList<TrickResult>();
 		tricks.add(trickResult);
 		

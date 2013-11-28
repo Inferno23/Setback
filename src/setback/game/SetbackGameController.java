@@ -41,6 +41,48 @@ public interface SetbackGameController {
 	void startRound() throws SetbackException;
 	
 	/**
+	 * This function places a bet for a player if the bet
+	 * is validated as legal.
+	 * @param bettor The player who is betting.
+	 * @param bet The bet that they are proposing.
+	 * @throws SetbackException If the bet is illegal.
+	 */
+	void placeBet(PlayerNumber bettor, Bet bet) throws SetbackException;
+	
+	/**
+	 * This method is called after the bets are placed.  It calls
+	 * determineWinner on the BetController, and determines who
+	 * won the bet.
+	 * @throws SetbackException if there are any problems.
+	 */
+	void resolveBets() throws SetbackException;
+	
+	/**
+	 * This method is called after the betting winner has been determined.
+	 * It allows the winner of the betting to determine trump.  If any
+	 * other player attempts to pick trump, an exception is thrown.
+	 * @param leader The player picking trump.
+	 * @param trump The suit that is trump.
+	 * @throws SetbackException if the wrong player picks a suit.
+	 */
+	void selectTrump(PlayerNumber leader, CardSuit trump) throws SetbackException;
+	
+	/**
+	 * This method is called after trump has been selected for the round.
+	 * It allows a player to discard three cards from their current hand.
+	 * Each player must discard at the beginning of each round in all
+	 * versions of the game beginning with Delta.
+	 * @param player The player who is discarding cards.
+	 * @param cardOne The first card to discard.
+	 * @param cardTwo The second card to discard.
+	 * @param cardThree The third card to discard.
+	 * @throws SetbackException If a player attempts to discard a card
+	 * that is not currently in their hand.
+	 * @since DeltaSetbackGame
+	 */
+	void discardCards(PlayerNumber player, Card cardOne, Card cardTwo, Card cardThree) throws SetbackException;
+	
+	/**
 	 * Before a trick can be played, this method must be called.
 	 * This will initialize the variable for the lead suit of a trick.
 	 * @throws SetbackException
@@ -82,33 +124,10 @@ public interface SetbackGameController {
 	 * @return The points that each team earned in the round.
 	 */
 	RoundResult playRound(List<TrickResult> tricks) throws SetbackException;
-	
-	/**
-	 * This function places a bet for a player if the bet
-	 * is validated as legal.
-	 * @param bettor The player who is betting.
-	 * @param bet The bet that they are proposing.
-	 * @throws SetbackException If the bet is illegal.
-	 */
-	void placeBet(PlayerNumber bettor, Bet bet) throws SetbackException;
-	
-	/**
-	 * This method is called after the bets are placed.  It calls
-	 * determineWinner on the BetController, and determines who
-	 * won the bet.
-	 * @throws SetbackException if there are any problems.
-	 */
-	void resolveBets() throws SetbackException;
-	
-	/**
-	 * This method is called after the betting winner has been determined.
-	 * It allows the winner of the betting to determine trump.  If any
-	 * other player attempts to pick trump, an exception is thrown.
-	 * @param leader The player picking trump.
-	 * @param trump The suit that is trump.
-	 * @throws SetbackException if the wrong player picks a suit.
-	 */
-	void selectTrump(PlayerNumber leader, CardSuit trump) throws SetbackException;
+
+	//////////////////////////////////////////
+	// These functions can happen any time. //
+	//////////////////////////////////////////
 	
 	/**
 	 * This method returns the score for team one.
