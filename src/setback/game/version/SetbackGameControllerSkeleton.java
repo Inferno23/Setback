@@ -178,8 +178,83 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 	 * (non-Javadoc)
 	 * @see setback.game.SetbackGameController#discardCards(setback.common.PlayerNumber, setback.game.common.Card, setback.game.common.Card, setback.game.common.Card)
 	 */
-	public void discardCards(PlayerNumber player, Card cardOne, Card cardTwo, Card cardThree) throws SetbackException {
-		//TODO: Implement me
+	public void discardCards(PlayerNumber player, Card cardOne, Card cardTwo, Card cardThree) throws SetbackException {		
+		// Check the state variables
+		if (!gameStarted) {
+			throw new SetbackException("You must start the game!");
+		}
+		if (!roundStarted) {
+			throw new SetbackException("You must start the round!");
+		}
+		if (!bettingResolved) {
+			throw new SetbackException("You must resolve betting!");
+		}
+		if (!trumpSelected) {
+			throw new SetbackException("You must select trump!");
+		}
+		if (discardingResolved) {
+			throw new SetbackException("Discarding has already been resolved!");
+		}
+		// Check if this player has already discarded
+		boolean alreadyDiscarded = true;
+		switch (player) {
+		case PLAYER_ONE:
+			alreadyDiscarded = playerOneDiscarded;
+			break;
+		case PLAYER_TWO:
+			alreadyDiscarded = playerTwoDiscarded;
+			break;
+		case PLAYER_THREE:
+			alreadyDiscarded = playerThreeDiscarded;
+			break;
+		case PLAYER_FOUR:
+		default:
+			alreadyDiscarded = playerFourDiscarded;
+			break;
+		}
+		if (alreadyDiscarded) {
+			throw new SetbackException("You have already discarded!");
+		}
+		// Check the cards for null values
+		if (cardOne == null || cardTwo == null || cardThree == null) {
+			throw new SetbackException("You must discard three valid cards!");
+		}
+		// Check that the cards are in the player's hand
+		Hand hand = getPlayerHand(player);
+		if (!hand.getCards().contains(cardOne)) {
+			throw new SetbackException("You do not have the " + cardOne.toString() + " so you cannot discard it!");
+		}
+		if (!hand.getCards().contains(cardTwo)) {
+			throw new SetbackException("You do not have the " + cardTwo.toString() + " so you cannot discard it!");
+		}
+		if (!hand.getCards().contains(cardThree)) {
+			throw new SetbackException("You do not have the " + cardThree.toString() + " so you cannot discard it!");
+		}
+		// Actually discard the cards
+		List<Card> cardList = hand.getCards();
+		cardList.remove(cardOne);
+		cardList.remove(cardTwo);
+		cardList.remove(cardThree);
+		hand.setCards(cardList);
+		// Update the individual flags
+		switch (player) {
+		case PLAYER_ONE:
+			playerOneDiscarded = true;
+			break;
+		case PLAYER_TWO:
+			playerTwoDiscarded = true;
+			break;
+		case PLAYER_THREE:
+			playerThreeDiscarded = true;
+			break;
+		case PLAYER_FOUR:
+		default:
+			playerFourDiscarded = true;
+			break;
+		}
+		// Update the master flag
+		discardingResolved = playerOneDiscarded && playerTwoDiscarded &&
+				playerThreeDiscarded && playerFourDiscarded;
 	}
 	
 	/* (non-Javadoc)
@@ -198,6 +273,9 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		}
 		if (!trumpSelected) {
 			throw new SetbackException("You must select trump!");
+		}
+		if (!discardingIgnored && !discardingResolved) {
+			throw new SetbackException("You must resolve discarding!");
 		}
 		if (trickStarted) {
 			throw new SetbackException("The trick has already been started!");
@@ -223,7 +301,7 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 					currentPlayer.toString() + "'s turn!");
 		}
 
-		final Hand currentHand = getCurrentHand();
+		final Hand currentHand = getPlayerHand(currentPlayer);
 		validateCard(card, currentHand);
 		// Remove the played card from the hand.
 		currentHand.getCards().remove(card);
@@ -315,6 +393,11 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		roundStarted = false;
 		bettingResolved = false;
 		trumpSelected = false;
+		discardingResolved = false;
+		playerOneDiscarded = false;
+		playerTwoDiscarded = false;
+		playerThreeDiscarded = false;
+		playerFourDiscarded = false;
 		dealer = updatePlayer(dealer);
 		teamOneScore += result.getTeamOneRoundScore();
 		teamTwoScore += result.getTeamTwoRoundScore();
@@ -402,13 +485,13 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 	}
 
 	/**
-	 * This function gets the hand of the currentPlayer.
-	 * It is just to make the code in playCard cleaner.
-	 * @return The current hand.
+	 * This function gets the hand of the specified player.
+	 * @param player The player whose hand should be returned.
+	 * @return The specified player's hand.
 	 */
-	private Hand getCurrentHand() {
+	private Hand getPlayerHand(PlayerNumber player) {
 		Hand resultHand;
-		switch(currentPlayer) {
+		switch(player) {
 		case PLAYER_ONE:
 			resultHand = playerOneHand;
 			break;

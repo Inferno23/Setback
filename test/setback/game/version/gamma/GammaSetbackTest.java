@@ -21,11 +21,11 @@ import static setback.utilities.TestCard.threeOfSpades;
 import static setback.utilities.TestCard.twoOfClubs;
 import static setback.utilities.TestCard.twoOfDiamonds;
 import static setback.utilities.TestCard.twoOfSpades;
-import static setback.utilities.UtilityFunctions.playerOneWinsBet;
-import static setback.utilities.UtilityFunctions.teamOneLosesRoundOnBet;
-import static setback.utilities.UtilityFunctions.teamOneWinsRoundOffBet;
-import static setback.utilities.UtilityFunctions.teamOneWinsRoundOnBet;
-import static setback.utilities.UtilityFunctions.teamTwoWinsRoundOnBet;
+import static setback.utilities.TestUtilityFunctions.playerOneWinsBet;
+import static setback.utilities.TestUtilityFunctions.teamOneLosesRoundOnBet;
+import static setback.utilities.TestUtilityFunctions.teamOneWinsRoundOffBet;
+import static setback.utilities.TestUtilityFunctions.teamOneWinsRoundOnBet;
+import static setback.utilities.TestUtilityFunctions.teamTwoWinsRoundOnBet;
 
 import java.util.ArrayList;
 import java.util.List;

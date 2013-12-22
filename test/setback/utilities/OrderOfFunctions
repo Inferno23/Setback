@@ -1,0 +1,10 @@
+1x	startGame()
+1x	startRound()
+4x	placeBet()
+1x	resolveBets()
+1x	selectTrump()
+4x	discardCards()	-	Not needed prior to Delta
+1x	startTrick()
+
+nx	playTrick()
+mx	playRound()

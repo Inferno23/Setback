@@ -381,4 +381,17 @@ public class SetbackGameCommonTest {
 		Card fakeCard = new Card(null, null);
 		assertEquals(31*31, fakeCard.hashCode());
 	}
+	
+	@Test
+	public void handPrintingTest() {
+		Hand hand = new Hand(PlayerNumber.PLAYER_ONE);
+		List<Card> cardList = new ArrayList<Card>();
+		cardList.add(aceOfClubs);
+		cardList.add(twoOfHearts);
+		hand.setCards(cardList);
+		
+		String equalityString = "PLAYER_ONE'S HAND:\nAce of Clubs\nTwo of Hearts\n";
+		
+		assertEquals(equalityString, hand.toString());
+	}
 }

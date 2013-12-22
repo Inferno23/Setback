@@ -13,7 +13,7 @@ import static setback.utilities.TestCard.sixOfClubs;
 import static setback.utilities.TestCard.tenOfSpades;
 import static setback.utilities.TestCard.threeOfSpades;
 import static setback.utilities.TestCard.twoOfSpades;
-import static setback.utilities.UtilityFunctions.playerOneWinsBet;
+import static setback.utilities.TestUtilityFunctions.playerOneWinsBet;
 
 import java.util.ArrayList;
 import java.util.List;

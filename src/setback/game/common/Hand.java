@@ -66,4 +66,16 @@ public class Hand {
 		
 		return count;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		String handString = owner + "'S HAND:\n";
+		for (Card card : cards) {
+			handString += card.toString() + "\n";
+		}
+		return handString;
+	}
 }

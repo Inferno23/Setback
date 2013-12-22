@@ -1,3 +1,17 @@
-- Full hands of random cards
-- Seeded constructor
-- Discard cards
+X Full hands of random cards
+X Seeded constructor
+X Discard cards
+
+X Discard prior to game - Exception
+X Discard prior to round - Exception
+X Discard prior to bets - Exception
+X Discard prior to trump - Exception
+
+X Discard too few cards - Exception
+X Discard card not in player's hand - Exception
+X Start a trick without discarding - Exception
+X Player tries to discard twice - Exception
+X Finish discarding without everyone discarding - Exception
+
+X Discard out of order
+X Discard in order

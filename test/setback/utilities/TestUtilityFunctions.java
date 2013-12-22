@@ -27,7 +27,7 @@ import setback.game.common.TrickResult;
  * @author Michael Burns
  * @version Nov 7, 2013
  */
-public class UtilityFunctions {
+public class TestUtilityFunctions {
 
 	/**
 	 * Places legal bets where Player One bets Two, and

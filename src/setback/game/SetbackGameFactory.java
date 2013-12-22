@@ -6,6 +6,7 @@ package setback.game;
 
 import setback.game.version.alpha.AlphaSetbackGame;
 import setback.game.version.beta.BetaSetbackGame;
+import setback.game.version.delta.DeltaSetbackGame;
 import setback.game.version.gamma.GammaSetbackGame;
 
 /**
@@ -55,5 +56,23 @@ public class SetbackGameFactory {
 	 */
 	public SetbackGameController makeGammaSetbackGame() {
 		return new GammaSetbackGame();
+	}
+	
+	/**
+	 * Create a new Delta Setback game with a random seed.
+	 * @return The created Delta Setback game.
+	 */
+	public SetbackGameController makeDeltaSetbackGame() {
+		return new DeltaSetbackGame(System.currentTimeMillis());
+	}
+	
+	/**
+	 * Create a new Delta Setback game.
+	 * @param seed The seed for the random number
+	 * generator in the dealer.
+	 * @return The created Delta Setback game.
+	 */
+	public SetbackGameController makeDeltaSetbackGame(long seed) {
+		return new DeltaSetbackGame(seed);
 	}
 }

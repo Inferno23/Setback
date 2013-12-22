@@ -1,0 +1,39 @@
+--------------
+Player One
+--------------
+SPADES:		3,	6,	A
+CLUBS:		6,	7
+HEARTS:		4,	A
+DIAMONDS:	7,	10,	J,	Q,	A
+
+--------------
+Player Two
+--------------
+SPADES:		8,	9,	Q
+CLUBS:		5,	K
+HEARTS:		2,	3,	6,	7,	9		
+DIAMONDS:	4,	5
+
+--------------
+Player Three
+--------------
+SPADES:		7,	J,	K
+CLUBS:		2,	3,	4,	10,	A
+HEARTS:		8,	10,	J
+DIAMONDS:	6
+
+--------------
+Player Four
+--------------
+SPADES:		2,	10
+CLUBS:		8,	9,	J
+HEARTS:		5,	Q,	K
+DIAMONDS:	2,	3,	8,	9
+
+--------------
+Under Cards
+--------------
+SPADES:		4,	5
+CLUBS:		Q
+HEARTS:
+DIAMONDS:	K
