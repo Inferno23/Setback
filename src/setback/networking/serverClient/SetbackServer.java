@@ -2,13 +2,14 @@
  * This file was developed for fun by Michael Burns for a private
  * implementation of the card game Setback, also known as Pitch.
  */
-package setback.networking;
+package setback.networking.serverClient;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 
 import setback.game.SetbackGameController;
 import setback.game.SetbackGameFactory;
+import setback.networking.PlayerController;
 
 /**
  * This class functions as the server that the players' clients

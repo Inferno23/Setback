@@ -4,9 +4,12 @@
  */
 package setback.game.version.delta;
 
+import java.util.ArrayList;
+
 import setback.game.SetbackGameController;
 import setback.game.version.SetbackGameControllerSkeleton;
 import setback.game.version.gamma.GammaBetController;
+import setback.networking.SetbackObserver;
 
 /**
  * The implementation of SetbackGameController for the Delta version.
@@ -39,5 +42,6 @@ public class DeltaSetbackGame extends SetbackGameControllerSkeleton implements
 		playerTwoSelected = false;
 		playerThreeSelected = false;
 		playerFourSelected = false;
+		observers = new ArrayList<SetbackObserver>();
 	}
 }

@@ -13,6 +13,8 @@ import setback.common.PlayerNumber;
 import setback.common.SetbackException;
 import setback.game.SetbackGameController;
 import setback.game.SetbackGameFactory;
+import setback.networking.command.Command;
+import setback.networking.command.CommandMessage;
 
 /**
  * This class will test the PlayerController class.
@@ -124,7 +126,7 @@ public class PlayerControllerTest {
 	}
 	
 	@Test
-	public void startGameWithoutFourPlayers() {
+	public void attemptBetWithoutFourPlayers() {
 		final String arguments[] = {"PASS"};
 		controllerOne.processInput(new CommandMessage(Command.REQUEST_PLAYER_ONE));
 		final String result = controllerOne.processInput(new CommandMessage(Command.PLACE_BET, arguments));
@@ -132,11 +134,74 @@ public class PlayerControllerTest {
 		assertEquals(expected, result);
 	}
 	
-//	@Test
-//	public void startGameWithFourPlayers() {
-//		controllerOne.processInput(new CommandMessage(Command.REQUEST_PLAYER_ONE));
-//		controllerTwo.processInput(new CommandMessage(Command.REQUEST_PLAYER_TWO));
-//		controllerThree.processInput(new CommandMessage(Command.REQUEST_PLAYER_THREE));
-//		controllerFour.processInput(new CommandMessage(Command.REQUEST_PLAYER_FOUR));
-//	}
+	@Test
+	public void playerTwoValidBet() {
+		initializeFourControllers();
+		final String arguments[] = {"PASS"};
+		final String result = controllerTwo.processInput(new CommandMessage(Command.PLACE_BET, arguments));
+		final String expected = "PLAYER_TWO BET PASS";
+		assertEquals(expected, result);
+	}
+	
+	@Test
+	public void playerOneEarlyBet() {
+		initializeFourControllers();
+		final String arguments[] = {"PASS"};
+		final String result = controllerOne.processInput(new CommandMessage(Command.PLACE_BET, arguments));
+		final String expected = "It is not your turn to bet!";
+		assertEquals(expected, result);
+	}
+	
+	@Test
+	public void playerOnePlaysValidCard() {
+		playerOneWinsBet();
+		final String card[] = {"Ace-of-Spades"};
+		final String result = controllerOne.processInput(new CommandMessage(Command.PLAY_CARD, card));
+		final String expected = "PLAYER_ONE PLAYED Ace-of-Spades";
+		assertEquals(expected, result);
+	}
+	
+	@Test
+	public void playerOnePlaysInvalidCard() {
+		playerOneWinsBet();
+		final String card[] = {"Queen-of-Spades"};
+		final String result = controllerOne.processInput(new CommandMessage(Command.PLAY_CARD, card));
+		final String expected = "You don't have that card!";
+		assertEquals(expected, result);
+	}
+	
+	@Test
+	public void playerTwoPlaysCardEarly() {
+		playerOneWinsBet();
+		final String card[] = {"Queen-of-Spades"};
+		final String result = controllerTwo.processInput(new CommandMessage(Command.PLAY_CARD, card));
+		final String expected = "It is not your turn! It is PLAYER_ONE's turn!";
+		assertEquals(expected, result);
+	}
+
+	/**
+	 * Helper function that initializes all four
+	 * PlayerControllers for the four players.
+	 */
+	private void initializeFourControllers() {
+		controllerOne.processInput(new CommandMessage(Command.REQUEST_PLAYER_ONE));
+		controllerTwo.processInput(new CommandMessage(Command.REQUEST_PLAYER_TWO));
+		controllerThree.processInput(new CommandMessage(Command.REQUEST_PLAYER_THREE));
+		controllerFour.processInput(new CommandMessage(Command.REQUEST_PLAYER_FOUR));
+	}
+
+	/**
+	 * Helper function that calls the initializeFourControllers
+	 * method, and then places bets for the four players, resulting
+	 * in PLAYER_ONE winning with a bet of two.
+	 */
+	private void playerOneWinsBet() {
+		initializeFourControllers();
+		final String pass[] = {"PASS"};
+		final String two[] = {"TWO"};
+		controllerTwo.processInput(new CommandMessage(Command.PLACE_BET, pass));
+		controllerThree.processInput(new CommandMessage(Command.PLACE_BET, pass));
+		controllerFour.processInput(new CommandMessage(Command.PLACE_BET, pass));
+		controllerOne.processInput(new CommandMessage(Command.PLACE_BET, two));
+	}
 }

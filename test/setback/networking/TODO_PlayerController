@@ -10,8 +10,9 @@ X Re-REQUEST_PLAYER_THREE - Player three rejected
 X REQUEST_PLAYER_FOUR - Player four accepted
 X Re-REQUEST_PLAYER_FOUR - Player four rejected
 X Place bet before game starts - Message from exception about start game
-- Four players join - Game started and round started
-
-- Play Card with real card - You played the <card name>
+X Four players join - Game started and round started
+X Place Bet out of turn - Message from exception
+X Place Bet in turn - <PlayerNumber> BET <Bet>
+X Play Card with real card - <PlayerNumber> PLAYED <Card>
 - Play Card with card not in hand - Message from exception
 - Play Card with fake card - That's not a valid card!

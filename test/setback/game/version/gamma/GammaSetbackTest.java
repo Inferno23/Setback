@@ -308,10 +308,10 @@ public class GammaSetbackTest {
 	public void playerOneWinsBetsAndSelectsTrump() throws SetbackException {
 		game.startGame();
 		game.startRound();
-		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.TWO);
 		game.placeBet(PlayerNumber.PLAYER_TWO, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_THREE, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_FOUR, Bet.PASS);
+		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.TWO);
 		game.resolveBets();
 		game.selectTrump(PlayerNumber.PLAYER_ONE, CardSuit.SPADES);
 	}
@@ -347,10 +347,10 @@ public class GammaSetbackTest {
 	public void teamTwoBetsTwoGetsNegative() throws SetbackException {
 		game.startGame();
 		game.startRound();
-		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_TWO, Bet.TWO);
 		game.placeBet(PlayerNumber.PLAYER_THREE, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_FOUR, Bet.PASS);
+		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.PASS);
 		game.resolveBets();
 		game.selectTrump(PlayerNumber.PLAYER_TWO, CardSuit.SPADES);
 		game.startTrick();
@@ -365,10 +365,10 @@ public class GammaSetbackTest {
 	public void teamOneBetsFiveAndFails() throws SetbackException {
 		game.startGame();
 		game.startRound();
-		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.FIVE);
 		game.placeBet(PlayerNumber.PLAYER_TWO, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_THREE, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_FOUR, Bet.PASS);
+		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.FIVE);
 		game.resolveBets();
 		game.selectTrump(PlayerNumber.PLAYER_ONE, CardSuit.SPADES);
 		game.startTrick();
@@ -383,10 +383,10 @@ public class GammaSetbackTest {
 	public void teamOneBetsFiveAndSucceeds() throws SetbackException {
 		game.startGame();
 		game.startRound();
-		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.FIVE);
 		game.placeBet(PlayerNumber.PLAYER_TWO, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_THREE, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_FOUR, Bet.PASS);
+		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.FIVE);
 		game.resolveBets();
 		game.selectTrump(PlayerNumber.PLAYER_ONE, CardSuit.SPADES);
 		game.startTrick();

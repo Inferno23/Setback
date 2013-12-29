@@ -4,9 +4,12 @@
  */
 package setback.game.version.gamma;
 
+import java.util.ArrayList;
+
 import setback.game.SetbackGameController;
 import setback.game.version.SetbackGameControllerSkeleton;
 import setback.game.version.beta.BetaCardDealerController;
+import setback.networking.SetbackObserver;
 
 /**
  * The implementation of SetbackGameController for the Gamma version.
@@ -31,5 +34,6 @@ public class GammaSetbackGame extends SetbackGameControllerSkeleton implements
 		dealerController = new BetaCardDealerController();
 		betController = new GammaBetController();
 		discardingIgnored = true;
+		observers = new ArrayList<SetbackObserver>();
 	}
 }

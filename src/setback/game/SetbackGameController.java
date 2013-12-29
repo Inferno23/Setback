@@ -12,8 +12,10 @@ import setback.game.common.Bet;
 import setback.game.common.Card;
 import setback.game.common.CardPlayerDescriptor;
 import setback.game.common.CardSuit;
+import setback.game.common.Hand;
 import setback.game.common.RoundResult;
 import setback.game.common.TrickResult;
+import setback.networking.SetbackObserver;
 
 /**
  * The SetbackGameController is the interface for any version of
@@ -134,8 +136,9 @@ public interface SetbackGameController {
 	 * @param requestedNumber The PlayerNumber that is being requested.
 	 * @return True if the number is granted, false if it is
 	 * already taken.
+	 * @throws SetbackException 
 	 */
-	boolean requestPlayerNumber(PlayerNumber requestedNumber);
+	boolean requestPlayerNumber(PlayerNumber requestedNumber) throws SetbackException;
 	
 	/**
 	 * Prior to starting a multiplayer game, all players must
@@ -144,6 +147,37 @@ public interface SetbackGameController {
 	 * @return True if four players are connected.
 	 */
 	boolean checkPlayersReady();
+	
+	//////////////////////////////////////////
+	// These functions are for observers    //
+	//////////////////////////////////////////
+	
+	/**
+	 * Adds an observer to the set of observers for this object.
+	 * @param observer The observer to add.
+	 */
+	void addObserver(SetbackObserver observer);
+	
+	/**
+	 * Notify all of the observers that a change has been made.
+	 * @param message The message to tell the Observers.
+	 */
+	void notifyObservers(String message);
+	
+	/**
+	 * This function gets the hand of the specified player.
+	 * @param player The player whose hand should be returned.
+	 * @return The specified player's hand.
+	 */
+	Hand getPlayerHand(PlayerNumber player);
+	
+	/**
+	 * This function checks if all four bets have been placed.
+	 * If it returns true, the PlayerController will resolve
+	 * the bets.
+	 * @return True if all four bets have been placed for a round.
+	 */
+	boolean checkAllBetsPlaced();
 	
 	//////////////////////////////////////////
 	// These functions can happen any time. //

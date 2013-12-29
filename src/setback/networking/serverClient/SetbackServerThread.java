@@ -2,7 +2,7 @@
  * This file was developed for fun by Michael Burns for a private
  * implementation of the card game Setback, also known as Pitch.
  */
-package setback.networking;
+package setback.networking.serverClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,6 +11,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import setback.common.SetbackException;
+import setback.networking.PlayerController;
+import setback.networking.command.CommandMessage;
+import setback.networking.command.CommandParser;
 
 /**
  * This is the thread that the server spawns.  It is associated

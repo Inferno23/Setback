@@ -4,12 +4,21 @@
  */
 package setback.networking;
 
-import java.util.Observer;
 
 /**
+ * The bare bones Observer interface for Setback.
+ * The only required method is update, which is
+ * called any time the Observable notifies its
+ * observers.
  * @author Michael
  * @version Dec 29, 2013
  */
 public interface SetbackObserver { //extends Observer {
-
+	
+	/**
+	 * This method is called whenever the observed object
+	 * is changed.
+	 * @param message The message from the Observable.
+	 */
+	void update(String message);
 }

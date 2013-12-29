@@ -22,7 +22,7 @@ import setback.game.common.RoundResult;
 import setback.game.common.RoundResultStatus;
 import setback.game.common.Trick;
 import setback.game.common.TrickResult;
-import setback.networking.SetbackObservable;
+import setback.networking.SetbackObserver;
 
 /**
  * This is the abstract class that implements the common features
@@ -30,7 +30,7 @@ import setback.networking.SetbackObservable;
  * @author Michael Burns
  * @version Oct 21, 2013
  */
-public abstract class SetbackGameControllerSkeleton extends SetbackObservable implements SetbackGameController {
+public abstract class SetbackGameControllerSkeleton implements SetbackGameController {
 
 	protected boolean gameStarted;
 	protected boolean gameOver;
@@ -51,9 +51,12 @@ public abstract class SetbackGameControllerSkeleton extends SetbackObservable im
 	protected boolean playerThreeSelected;
 	protected boolean playerFourSelected;
 
+	protected boolean allBetsPlaced;
+	
 	protected CardDealerController dealerController;
 
 	protected PlayerNumber dealer;
+	protected PlayerNumber nextBettor;
 	protected PlayerNumber currentPlayer;
 	protected CardSuit trump;
 	protected CardSuit leadSuit;
@@ -68,6 +71,8 @@ public abstract class SetbackGameControllerSkeleton extends SetbackObservable im
 
 	protected int teamOneScore;
 	protected int teamTwoScore;
+	
+	protected List<SetbackObserver> observers;
 
 	/* (non-Javadoc)
 	 * @see setback.game.SetbackGameController#startGame()
@@ -88,7 +93,8 @@ public abstract class SetbackGameControllerSkeleton extends SetbackObservable im
 		gameStarted = true;
 		gameOver = false;
 		dealer = PlayerNumber.PLAYER_ONE;
-		currentPlayer = PlayerNumber.PLAYER_ONE;
+		nextBettor = PlayerNumber.PLAYER_TWO;
+		currentPlayer = PlayerNumber.PLAYER_TWO;
 		playerOneHand = new Hand(PlayerNumber.PLAYER_ONE);
 		playerTwoHand = new Hand(PlayerNumber.PLAYER_TWO);
 		playerThreeHand = new Hand(PlayerNumber.PLAYER_THREE);
@@ -111,6 +117,10 @@ public abstract class SetbackGameControllerSkeleton extends SetbackObservable im
 		roundStarted = true;
 		dealerController.dealHands(playerOneHand, playerTwoHand, playerThreeHand, playerFourHand);
 		bettingResolved = false;
+		allBetsPlaced = false;
+		nextBettor = updatePlayer(dealer);
+		
+		notifyObservers("ROUND BEGIN");
 	}
 
 	/*
@@ -130,8 +140,17 @@ public abstract class SetbackGameControllerSkeleton extends SetbackObservable im
 		if (bettingResolved) {
 			throw new SetbackException("Betting has already been resolved!");
 		}
+		if (bettor != nextBettor) {
+			throw new SetbackException("It is not your turn to bet!");
+		}
 		// Delegate the actual duty to the BetController
 		betController.placeBet(bettor, bet);
+		nextBettor = updatePlayer(nextBettor);
+		if (bettor == dealer) {
+			allBetsPlaced = true;
+		}
+		
+		notifyObservers(bettor.toString() + " BET " + bet.toString());
 	}
 
 	/*
@@ -448,29 +467,37 @@ public abstract class SetbackGameControllerSkeleton extends SetbackObservable im
 	 * (non-Javadoc)
 	 * @see setback.game.SetbackGameController#selectPlayerNumber(setback.common.PlayerNumber)
 	 */
-	public boolean requestPlayerNumber(PlayerNumber requestedNumber) {
+	public boolean requestPlayerNumber(PlayerNumber requestedNumber) throws SetbackException {
 		boolean granted;
+		String message;
 
 		switch(requestedNumber) {
 		case PLAYER_ONE:
 			granted = !playerOneSelected;
 			playerOneSelected = true;
+			message = "PlayerOneSelected";
 			break;
 		case PLAYER_TWO:
 			granted = !playerTwoSelected;
 			playerTwoSelected = true;
+			message = "PlayerTwoSelected";
 			break;
 		case PLAYER_THREE:
 			granted = !playerThreeSelected;
 			playerThreeSelected = true;
+			message = "PlayerThreeSelected";
 			break;
 		case PLAYER_FOUR:
 			granted = !playerFourSelected;
 			playerFourSelected = true;
+			message = "PlayerFourSelected";
 			break;
 		default:
 			granted = false;
+			message = "NobodySelected";
 		}
+
+		notifyObservers(message);
 
 		return granted;
 	}
@@ -484,6 +511,54 @@ public abstract class SetbackGameControllerSkeleton extends SetbackObservable im
 				&& playerThreeSelected && playerFourSelected;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see setback.game.SetbackGameController#checkAllBetsPlaced()
+	 */
+	public boolean checkAllBetsPlaced() {
+		return allBetsPlaced;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see setback.game.SetbackGameController#addObserver(setback.networking.SetbackObserver)
+	 */
+	public void addObserver(SetbackObserver observer) {
+		observers.add(observer);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see setback.game.SetbackGameController#notifyObservers()
+	 */
+	public void notifyObservers(String message) {
+		for (SetbackObserver observer : observers) {
+			observer.update(message);
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see setback.game.SetbackGameController#getPlayerHand(setback.common.PlayerNumber)
+	 */
+	public Hand getPlayerHand(PlayerNumber player) {
+		Hand resultHand;
+		switch(player) {
+		case PLAYER_ONE:
+			resultHand = playerOneHand;
+			break;
+		case PLAYER_TWO:
+			resultHand = playerTwoHand;
+			break;
+		case PLAYER_THREE:
+			resultHand = playerThreeHand;
+			break;
+		default:
+			resultHand = playerFourHand;
+			break;
+		}
+		return resultHand;
+	}
 
 	/* (non-Javadoc)
 	 * @see setback.game.SetbackGameController#getTeamOneScore()
@@ -529,29 +604,5 @@ public abstract class SetbackGameControllerSkeleton extends SetbackObservable im
 			break;
 		}
 		return playerToUpdate;
-	}
-
-	/**
-	 * This function gets the hand of the specified player.
-	 * @param player The player whose hand should be returned.
-	 * @return The specified player's hand.
-	 */
-	private Hand getPlayerHand(PlayerNumber player) {
-		Hand resultHand;
-		switch(player) {
-		case PLAYER_ONE:
-			resultHand = playerOneHand;
-			break;
-		case PLAYER_TWO:
-			resultHand = playerTwoHand;
-			break;
-		case PLAYER_THREE:
-			resultHand = playerThreeHand;
-			break;
-		default:
-			resultHand = playerFourHand;
-			break;
-		}
-		return resultHand;
 	}
 }

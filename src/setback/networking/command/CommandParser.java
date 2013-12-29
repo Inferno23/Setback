@@ -2,7 +2,7 @@
  * This file was developed for fun by Michael Burns for a private
  * implementation of the card game Setback, also known as Pitch.
  */
-package setback.networking;
+package setback.networking.command;
 
 import setback.common.SetbackException;
 

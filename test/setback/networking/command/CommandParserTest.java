@@ -2,7 +2,7 @@
  * This file was developed for fun by Michael Burns for a private
  * implementation of the card game Setback, also known as Pitch.
  */
-package setback.networking;
+package setback.networking.command;
 
 import static org.junit.Assert.*;
 
@@ -10,6 +10,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import setback.common.SetbackException;
+import setback.networking.command.Command;
+import setback.networking.command.CommandMessage;
+import setback.networking.command.CommandParser;
 
 /**
  * This class will test the CommandParser class.

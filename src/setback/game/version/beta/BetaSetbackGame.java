@@ -4,9 +4,12 @@
  */
 package setback.game.version.beta;
 
+import java.util.ArrayList;
+
 import setback.game.SetbackGameController;
 import setback.game.version.SetbackGameControllerSkeleton;
 import setback.game.version.alpha.DummyBetController;
+import setback.networking.SetbackObserver;
 
 /**
  * The implementation of SetbackGameController for the Beta version.
@@ -31,5 +34,6 @@ public class BetaSetbackGame extends SetbackGameControllerSkeleton implements
 		dealerController = new BetaCardDealerController();
 		betController = new DummyBetController();
 		discardingIgnored = true;
+		observers = new ArrayList<SetbackObserver>();
 	}
 }

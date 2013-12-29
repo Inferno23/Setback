@@ -35,10 +35,10 @@ public class TestUtilityFunctions {
 	 * @throws SetbackException
 	 */
 	public static void playerOneWinsBet(SetbackGameController game) throws SetbackException {
-		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.TWO);
 		game.placeBet(PlayerNumber.PLAYER_TWO, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_THREE, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_FOUR, Bet.PASS);
+		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.TWO);
 	}
 	
 	/**
@@ -47,10 +47,10 @@ public class TestUtilityFunctions {
 	 * @throws SetbackException
 	 */
 	public static void playerTwoWinsBet(SetbackGameController game) throws SetbackException {
-		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_TWO, Bet.TWO);
 		game.placeBet(PlayerNumber.PLAYER_THREE, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_FOUR, Bet.PASS);
+		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.PASS);
 	}
 	
 	/**
@@ -59,10 +59,10 @@ public class TestUtilityFunctions {
 	 * @throws SetbackException
 	 */
 	public static void playerThreeWinsBet(SetbackGameController game) throws SetbackException {
-		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_TWO, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_THREE, Bet.TWO);
 		game.placeBet(PlayerNumber.PLAYER_FOUR, Bet.PASS);
+		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.PASS);
 	}
 	
 	/**
@@ -88,10 +88,10 @@ public class TestUtilityFunctions {
 	public static RoundResult teamOneWinsRoundOnBet(SetbackGameController game) throws SetbackException {
 		game.startGame();
 		game.startRound();
-		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.TWO);
 		game.placeBet(PlayerNumber.PLAYER_TWO, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_THREE, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_FOUR, Bet.PASS);
+		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.TWO);
 		game.resolveBets();
 		game.selectTrump(PlayerNumber.PLAYER_ONE, CardSuit.SPADES);
 		game.startTrick();
@@ -120,10 +120,10 @@ public class TestUtilityFunctions {
 	public static RoundResult teamOneLosesRoundOnBet(SetbackGameController game) throws SetbackException {
 		game.startGame();
 		game.startRound();
-		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.FIVE);
 		game.placeBet(PlayerNumber.PLAYER_TWO, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_THREE, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_FOUR, Bet.PASS);
+		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.FIVE);
 		game.resolveBets();
 		game.selectTrump(PlayerNumber.PLAYER_ONE, CardSuit.DIAMONDS);
 		game.startTrick();
@@ -152,10 +152,10 @@ public class TestUtilityFunctions {
 	public static RoundResult teamOneWinsRoundOffBet(SetbackGameController game) throws SetbackException {
 		game.startGame();
 		game.startRound();
-		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_TWO, Bet.TWO);
 		game.placeBet(PlayerNumber.PLAYER_THREE, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_FOUR, Bet.PASS);
+		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.PASS);
 		game.resolveBets();
 		game.selectTrump(PlayerNumber.PLAYER_TWO, CardSuit.SPADES);
 		game.startTrick();
@@ -184,10 +184,10 @@ public class TestUtilityFunctions {
 	public static RoundResult teamTwoWinsRoundOnBet(SetbackGameController game) throws SetbackException {
 		game.startGame();
 		game.startRound();
-		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_TWO, Bet.TWO);
 		game.placeBet(PlayerNumber.PLAYER_THREE, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_FOUR, Bet.PASS);
+		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.PASS);
 		game.resolveBets();
 		game.selectTrump(PlayerNumber.PLAYER_TWO, CardSuit.DIAMONDS);
 		game.startTrick();

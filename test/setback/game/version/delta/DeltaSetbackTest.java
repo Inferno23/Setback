@@ -193,10 +193,10 @@ public class DeltaSetbackTest {
 	private void initializeUpToDiscard() throws SetbackException {
 		game.startGame();
 		game.startRound();
-		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.TWO);
 		game.placeBet(PlayerNumber.PLAYER_TWO, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_THREE, Bet.PASS);
 		game.placeBet(PlayerNumber.PLAYER_FOUR, Bet.PASS);
+		game.placeBet(PlayerNumber.PLAYER_ONE, Bet.TWO);
 		game.resolveBets();
 		game.selectTrump(PlayerNumber.PLAYER_ONE, CardSuit.DIAMONDS);
 	}
