@@ -1,0 +1,6 @@
+X Null Input - NO_COMMAND
+X Unknown String - Exception
+X No argument command without argument - Correct command
+X No argument command with argument - Exception
+X Argument command without argument - Exception
+X Argument command with argument - Correct command

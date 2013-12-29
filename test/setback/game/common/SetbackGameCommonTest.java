@@ -1,6 +1,6 @@
 /**
  * This file was developed for fun by Michael Burns for a private
- * implementation of the card game Setback, also known as Pitch.
+ * implementation-of-the card game Setback, also known as Pitch.
  */
 package setback.game.common;
 
@@ -32,7 +32,7 @@ public class SetbackGameCommonTest {
 		assertEquals(CardType.ACE, aceOfSpades.getType());
 		assertEquals(14, aceOfSpades.getType().getStandardValue());
 		assertEquals(4, aceOfSpades.getType().getGameValue());
-		assertEquals("Ace of Spades", aceOfSpades.toString());
+		assertEquals("Ace-of-Spades", aceOfSpades.toString());
 	}
 
 	@Test
@@ -40,7 +40,7 @@ public class SetbackGameCommonTest {
 		assertEquals(CardSuit.SPADES, twoOfSpades.getSuit());
 		assertEquals(CardType.TWO, twoOfSpades.getType());
 		assertEquals(0, twoOfSpades.getType().getGameValue());
-		assertEquals("Two of Spades", twoOfSpades.toString());
+		assertEquals("Two-of-Spades", twoOfSpades.toString());
 	}
 
 
@@ -49,7 +49,7 @@ public class SetbackGameCommonTest {
 		assertEquals(CardSuit.SPADES, threeOfSpades.getSuit());
 		assertEquals(CardType.THREE, threeOfSpades.getType());
 		assertEquals(0, threeOfSpades.getType().getGameValue());
-		assertEquals("Three of Spades", threeOfSpades.toString());
+		assertEquals("Three-of-Spades", threeOfSpades.toString());
 	}
 
 	@Test
@@ -57,7 +57,7 @@ public class SetbackGameCommonTest {
 		assertEquals(CardSuit.SPADES, fourOfSpades.getSuit());
 		assertEquals(CardType.FOUR, fourOfSpades.getType());
 		assertEquals(0, fourOfSpades.getType().getGameValue());
-		assertEquals("Four of Spades", fourOfSpades.toString());
+		assertEquals("Four-of-Spades", fourOfSpades.toString());
 	}
 
 	@Test
@@ -65,7 +65,7 @@ public class SetbackGameCommonTest {
 		assertEquals(CardSuit.SPADES, fiveOfSpades.getSuit());
 		assertEquals(CardType.FIVE, fiveOfSpades.getType());
 		assertEquals(0, fiveOfSpades.getType().getGameValue());
-		assertEquals("Five of Spades", fiveOfSpades.toString());
+		assertEquals("Five-of-Spades", fiveOfSpades.toString());
 	}
 
 	@Test
@@ -73,7 +73,7 @@ public class SetbackGameCommonTest {
 		assertEquals(CardSuit.SPADES, sixOfSpades.getSuit());
 		assertEquals(CardType.SIX, sixOfSpades.getType());
 		assertEquals(0, sixOfSpades.getType().getGameValue());
-		assertEquals("Six of Spades", sixOfSpades.toString());
+		assertEquals("Six-of-Spades", sixOfSpades.toString());
 	}
 
 	@Test
@@ -81,7 +81,7 @@ public class SetbackGameCommonTest {
 		assertEquals(CardSuit.SPADES, sevenOfSpades.getSuit());
 		assertEquals(CardType.SEVEN, sevenOfSpades.getType());
 		assertEquals(0, sevenOfSpades.getType().getGameValue());
-		assertEquals("Seven of Spades", sevenOfSpades.toString());
+		assertEquals("Seven-of-Spades", sevenOfSpades.toString());
 	}
 
 	@Test
@@ -89,7 +89,7 @@ public class SetbackGameCommonTest {
 		assertEquals(CardSuit.SPADES, eightOfSpades.getSuit());
 		assertEquals(CardType.EIGHT, eightOfSpades.getType());
 		assertEquals(0, eightOfSpades.getType().getGameValue());
-		assertEquals("Eight of Spades", eightOfSpades.toString());
+		assertEquals("Eight-of-Spades", eightOfSpades.toString());
 	}
 
 	@Test
@@ -97,7 +97,7 @@ public class SetbackGameCommonTest {
 		assertEquals(CardSuit.SPADES, nineOfSpades.getSuit());
 		assertEquals(CardType.NINE, nineOfSpades.getType());
 		assertEquals(0, nineOfSpades.getType().getGameValue());
-		assertEquals("Nine of Spades", nineOfSpades.toString());
+		assertEquals("Nine-of-Spades", nineOfSpades.toString());
 	}
 
 	@Test
@@ -105,7 +105,7 @@ public class SetbackGameCommonTest {
 		assertEquals(CardSuit.SPADES, tenOfSpades.getSuit());
 		assertEquals(CardType.TEN, tenOfSpades.getType());
 		assertEquals(10, tenOfSpades.getType().getGameValue());
-		assertEquals("Ten of Spades", tenOfSpades.toString());
+		assertEquals("Ten-of-Spades", tenOfSpades.toString());
 	}
 
 	@Test
@@ -113,7 +113,7 @@ public class SetbackGameCommonTest {
 		assertEquals(CardSuit.SPADES, jackOfSpades.getSuit());
 		assertEquals(CardType.JACK, jackOfSpades.getType());
 		assertEquals(1, jackOfSpades.getType().getGameValue());
-		assertEquals("Jack of Spades", jackOfSpades.toString());
+		assertEquals("Jack-of-Spades", jackOfSpades.toString());
 	}
 
 	@Test
@@ -121,7 +121,7 @@ public class SetbackGameCommonTest {
 		assertEquals(CardSuit.SPADES, queenOfSpades.getSuit());
 		assertEquals(CardType.QUEEN, queenOfSpades.getType());
 		assertEquals(2, queenOfSpades.getType().getGameValue());
-		assertEquals("Queen of Spades", queenOfSpades.toString());
+		assertEquals("Queen-of-Spades", queenOfSpades.toString());
 	}
 
 	@Test
@@ -129,7 +129,7 @@ public class SetbackGameCommonTest {
 		assertEquals(CardSuit.SPADES, kingOfSpades.getSuit());
 		assertEquals(CardType.KING, kingOfSpades.getType());
 		assertEquals(3, kingOfSpades.getType().getGameValue());
-		assertEquals("King of Spades", kingOfSpades.toString());
+		assertEquals("King-of-Spades", kingOfSpades.toString());
 	}
 
 	////////////////////
@@ -390,7 +390,7 @@ public class SetbackGameCommonTest {
 		cardList.add(twoOfHearts);
 		hand.setCards(cardList);
 		
-		String equalityString = "PLAYER_ONE'S HAND:\nAce of Clubs\nTwo of Hearts\n";
+		String equalityString = "PLAYER_ONE'S HAND:\nAce-of-Clubs\nTwo-of-Hearts\n";
 		
 		assertEquals(equalityString, hand.toString());
 	}

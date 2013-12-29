@@ -22,6 +22,7 @@ import setback.game.common.RoundResult;
 import setback.game.common.RoundResultStatus;
 import setback.game.common.Trick;
 import setback.game.common.TrickResult;
+import setback.networking.SetbackObservable;
 
 /**
  * This is the abstract class that implements the common features
@@ -29,7 +30,7 @@ import setback.game.common.TrickResult;
  * @author Michael Burns
  * @version Oct 21, 2013
  */
-public abstract class SetbackGameControllerSkeleton implements SetbackGameController {
+public abstract class SetbackGameControllerSkeleton extends SetbackObservable implements SetbackGameController {
 
 	protected boolean gameStarted;
 	protected boolean gameOver;
@@ -45,8 +46,13 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 	protected boolean playerFourDiscarded;
 	protected boolean discardingIgnored;
 	
+	protected boolean playerOneSelected;
+	protected boolean playerTwoSelected;
+	protected boolean playerThreeSelected;
+	protected boolean playerFourSelected;
+
 	protected CardDealerController dealerController;
-	
+
 	protected PlayerNumber dealer;
 	protected PlayerNumber currentPlayer;
 	protected CardSuit trump;
@@ -59,7 +65,7 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 
 	protected BetController betController;
 	protected BetResult winningBet;
-	
+
 	protected int teamOneScore;
 	protected int teamTwoScore;
 
@@ -143,7 +149,7 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		if (bettingResolved) {
 			throw new SetbackException("Betting has already been resolved!");
 		}
-		
+
 		bettingResolved = true;
 		winningBet = betController.determineWinner();
 		currentPlayer = winningBet.getBettor();
@@ -173,7 +179,7 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		trumpSelected = true;
 		this.trump = trump;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see setback.game.SetbackGameController#discardCards(setback.common.PlayerNumber, setback.game.common.Card, setback.game.common.Card, setback.game.common.Card)
@@ -256,7 +262,7 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		discardingResolved = playerOneDiscarded && playerTwoDiscarded &&
 				playerThreeDiscarded && playerFourDiscarded;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see setback.game.SetbackGameController#startTrick()
 	 */
@@ -338,7 +344,7 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		}
 		// If the suit matches, then there is no problem.
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see setback.game.SetbackGameController#playTrick(setback.game.common.CardPlayerDescriptor,
 	 * setback.game.common.CardPlayerDescriptor,
@@ -401,7 +407,7 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		dealer = updatePlayer(dealer);
 		teamOneScore += result.getTeamOneRoundScore();
 		teamTwoScore += result.getTeamTwoRoundScore();
-		
+
 		if (winningBet.getBettor().equals(PlayerNumber.PLAYER_ONE)
 				|| winningBet.getBettor().equals(PlayerNumber.PLAYER_THREE)) {
 			// Team One won the bet, check if they won the game.
@@ -423,7 +429,7 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 				}
 			}
 		}
-		
+
 		if (teamOneScore <= -11) {
 			// Always check if the teams hit -11
 			result = new RoundResult(result.getTeamOneRoundScore(), 
@@ -434,9 +440,50 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 			result = new RoundResult(result.getTeamOneRoundScore(), 
 					result.getTeamTwoRoundScore(), RoundResultStatus.TEAM_ONE_WINS);
 		}
-		
+
 		return result;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see setback.game.SetbackGameController#selectPlayerNumber(setback.common.PlayerNumber)
+	 */
+	public boolean requestPlayerNumber(PlayerNumber requestedNumber) {
+		boolean granted;
+
+		switch(requestedNumber) {
+		case PLAYER_ONE:
+			granted = !playerOneSelected;
+			playerOneSelected = true;
+			break;
+		case PLAYER_TWO:
+			granted = !playerTwoSelected;
+			playerTwoSelected = true;
+			break;
+		case PLAYER_THREE:
+			granted = !playerThreeSelected;
+			playerThreeSelected = true;
+			break;
+		case PLAYER_FOUR:
+			granted = !playerFourSelected;
+			playerFourSelected = true;
+			break;
+		default:
+			granted = false;
+		}
+
+		return granted;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see setback.game.SetbackGameController#checkPlayersReady()
+	 */
+	public boolean checkPlayersReady() {
+		return playerOneSelected && playerTwoSelected
+				&& playerThreeSelected && playerFourSelected;
+	}
+
 
 	/* (non-Javadoc)
 	 * @see setback.game.SetbackGameController#getTeamOneScore()
@@ -459,7 +506,7 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		}
 		return teamTwoScore;
 	}
-	
+
 	/**
 	 * Updates the currentPlayer variable to point to the next person
 	 * that should be playing a card.

@@ -83,6 +83,6 @@ public class Card {
 
 	@Override
 	public String toString() {
-		return type.toString() + " of " + suit.toString();
+		return type.toString() + "-of-" + suit.toString();
 	}
 }

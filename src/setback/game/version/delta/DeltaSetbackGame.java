@@ -35,5 +35,9 @@ public class DeltaSetbackGame extends SetbackGameControllerSkeleton implements
 		dealerController = new DeltaCardDealerController(seed);
 		betController = new GammaBetController();
 		discardingIgnored = false;
+		playerOneSelected = false;
+		playerTwoSelected = false;
+		playerThreeSelected = false;
+		playerFourSelected = false;
 	}
 }

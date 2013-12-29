@@ -126,6 +126,26 @@ public interface SetbackGameController {
 	RoundResult playRound(List<TrickResult> tricks) throws SetbackException;
 
 	//////////////////////////////////////////
+	// Multi-player only functions          //
+	//////////////////////////////////////////
+	/**
+	 * Prior to playing a multiplayer game, players must request
+	 * a PlayerNumber.
+	 * @param requestedNumber The PlayerNumber that is being requested.
+	 * @return True if the number is granted, false if it is
+	 * already taken.
+	 */
+	boolean requestPlayerNumber(PlayerNumber requestedNumber);
+	
+	/**
+	 * Prior to starting a multiplayer game, all players must
+	 * have selected a PlayerNumber.  This function returns
+	 * true if all the players have been selected.
+	 * @return True if four players are connected.
+	 */
+	boolean checkPlayersReady();
+	
+	//////////////////////////////////////////
 	// These functions can happen any time. //
 	//////////////////////////////////////////
 	
