@@ -21,7 +21,8 @@ public enum Command {
 	PLACE_BET(1),
 	SELECT_TRUMP(1),
 	DISCARD_CARDS(3),
-	PLAY_CARD(1);
+	PLAY_CARD(1),
+	SHOW_HAND(0);
 	
 	private final int numberOfArguments;
 

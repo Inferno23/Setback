@@ -21,7 +21,7 @@ import setback.networking.PlayerController;
 public class SetbackServer {
 	
 	private static int DEFAULT_PORT = 2323;
-	private static int MAX_CONNECTIONS = 1;
+	private static int MAX_CONNECTIONS = 4;
 	
 	/**
 	 * This is the executable function that creates the server.
@@ -54,6 +54,7 @@ public class SetbackServer {
 			while (currentConnections < MAX_CONNECTIONS) {
 				new SetbackServerThread(serverSocket.accept(), new PlayerController(game)).start();
 				currentConnections++;
+				System.out.println("currentConnections = " + currentConnections);
 			}
 		} catch (IOException e) {
 			System.err.println("Could not listen on port " + portNumber);

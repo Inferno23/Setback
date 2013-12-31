@@ -4,15 +4,18 @@
  */
 package setback.networking;
 
-import java.util.Observable;
-import java.util.Observer;
+import java.util.List;
 
 import setback.common.PlayerNumber;
 import setback.common.SetbackException;
 import setback.game.SetbackGameController;
 import setback.game.common.Bet;
 import setback.game.common.Card;
+import setback.game.common.CardPlayerDescriptor;
+import setback.game.common.CardSuit;
 import setback.game.common.Hand;
+import setback.game.common.RoundResult;
+import setback.game.common.RoundResultStatus;
 import setback.networking.command.Command;
 import setback.networking.command.CommandMessage;
 
@@ -38,7 +41,7 @@ public class PlayerController implements SetbackObserver {
 	 */
 	public PlayerController(SetbackGameController game) {
 		this.game = game;
-		initializeVariables();
+		game.addObserver(this);
 	}
 
 	/**
@@ -59,6 +62,7 @@ public class PlayerController implements SetbackObserver {
 		}
 		else {
 			try {
+				// Request players
 				if (command.getCommand().equals(Command.REQUEST_PLAYER_ONE)) {
 					if (game.requestPlayerNumber(PlayerNumber.PLAYER_ONE)) {
 						myNumber = PlayerNumber.PLAYER_ONE;
@@ -111,6 +115,7 @@ public class PlayerController implements SetbackObserver {
 						returnString = "Player four rejected";
 					}
 				}
+				// Place bets
 				else if (command.getCommand().equals(Command.PLACE_BET)) {
 					String betString = command.getArguments()[0];
 					game.placeBet(myNumber, Bet.valueOf(betString));
@@ -119,13 +124,66 @@ public class PlayerController implements SetbackObserver {
 						game.resolveBets();
 					}
 				}
-				else if (command.getCommand().equals(Command.PLAY_CARD)) {
-					String cardString = command.getArguments()[0];
-					game.playCard(Card.fromString(cardString), myNumber);
-					returnString = myNumber.toString() + " PLAYED " + cardString;
-					//TODO: Check if all four cards have been played in the trick
+				// Select trump
+				else if (command.getCommand().equals(Command.SELECT_TRUMP)) {
+					String suitString = command.getArguments()[0];
+					game.selectTrump(myNumber, CardSuit.valueOf(suitString));
+					returnString = myNumber.toString() + " SELECTED " + suitString;
 				}
-
+				// Discard cards
+				else if (command.getCommand().equals(Command.DISCARD_CARDS)) {
+					Card cardOne = Card.fromString(command.getArguments()[0]);
+					Card cardTwo = Card.fromString(command.getArguments()[1]);
+					Card cardThree = Card.fromString(command.getArguments()[2]);
+					game.discardCards(myNumber, cardOne, cardTwo, cardThree);
+					// Discard the cards from my hand
+					List<Card> myCards = myHand.getCards(); 
+					myCards.remove(cardOne);
+					myCards.remove(cardTwo);
+					myCards.remove(cardThree);
+					myHand.setCards(myCards);
+					returnString = myNumber.toString() + " DISCARDED "
+							+ cardOne.toString() + " " + cardTwo.toString()
+							+ " " + cardThree.toString();
+					if (game.checkAllDiscarded()) {
+						game.startTrick();
+					}
+				}
+				// Play cards
+				else if (command.getCommand().equals(Command.PLAY_CARD)) {
+					Card card = Card.fromString(command.getArguments()[0]);
+					game.playCard(card, myNumber);
+					// Discard the card from my hand
+					List<Card> myCards = myHand.getCards(); 
+					myCards.remove(card);
+					returnString = myNumber.toString() + " PLAYED " + card.toString();
+					// Check if all four cards have been played
+					if (game.checkFourCardsPlayed()) {
+						List<CardPlayerDescriptor> trickCards = game.getTrickCards();
+						game.playTrick(trickCards.get(0), trickCards.get(1),
+								trickCards.get(2), trickCards.get(3));
+						// Check if there are more cards to play
+						if (myHand.getCards().size() > 0) {
+							game.startTrick();
+						}
+						else {
+							RoundResult result = game.playRound(game.getTrickResults());
+							if (result.getStatus().equals(RoundResultStatus.OK)) {
+								game.startRound();
+							}
+						}
+					}
+				}
+				// Show hands
+				else if (command.getCommand().equals(Command.SHOW_HAND)) {
+					if (myHand == null) {
+						returnString = "You do not have a hand yet!";
+					}
+					else {
+						returnString = myHand.toString();
+					}
+				}
+				// Exit
 				else if (command.getCommand().equals(Command.EXIT)) {
 					returnString = "EXIT";
 				}
@@ -147,29 +205,28 @@ public class PlayerController implements SetbackObserver {
 		return myNumber;
 	}
 
-	/**
-	 * This helper function initializes all of the variables
-	 * needed in the GameController.  These variables need
-	 * to be set to ensure that the correct behavior is
-	 * provided by the processInput function.
-	 */
-	private void initializeVariables() {
-
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see setback.networking.SetbackObserver#update(java.lang.String)
 	 */
 	public void update(String message) {
 		if (message == null) {
-			
+
 		}
 		else {
 			if (message.equals("ROUND BEGIN")) {
 				myHand = game.getPlayerHand(myNumber);
 			}
+			else if (message.equals("ROUND ENDED")) {
+				try {
+					int teamOne = game.getTeamOneScore();
+					int teamTwo = game.getTeamTwoScore();
+					System.out.println("TEAM_ONE: " + teamOne + " TEAM_TWO: " + teamTwo);
+				} catch (SetbackException e) {
+					e.getStackTrace();
+				}
+			}
 		}
-		
 	}
+
 }

@@ -103,6 +103,7 @@ public class AlphaSetbackTest {
 		game.startRound();
 		game.resolveBets();
 		game.selectTrump(PlayerNumber.PLAYER_ONE, CardSuit.SPADES);
+		game.startTrick();
 		CardPlayerDescriptor cpdOne = game.playCard(aceOfSpades, PlayerNumber.PLAYER_ONE);
 		assertEquals(aceOfSpades, cpdOne.getCard());
 		assertEquals(PlayerNumber.PLAYER_ONE, cpdOne.getPlayer());

@@ -109,5 +109,12 @@ public class CommandParserTest {
 	public void extraArgumentWithDiscardCards() throws SetbackException {
 		parser.parseString("DISCARD_CARDS ACE-OF-SPADES TWO-OF-SPADES THREE-OF-SPADES EXTRA_WORDS");
 	}
+	
+	@Test
+	public void showHandProperly() throws SetbackException {
+		final CommandMessage result = parser.parseString("SHOW_HAND");
+		final CommandMessage expected = new CommandMessage(Command.SHOW_HAND);
+		assertEquals(expected, result);
+	}
 
 }

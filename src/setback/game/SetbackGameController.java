@@ -148,6 +148,47 @@ public interface SetbackGameController {
 	 */
 	boolean checkPlayersReady();
 	
+	/**
+	 * This function checks if all four bets have been placed.
+	 * If it returns true, the PlayerController will resolve
+	 * the bets.
+	 * @return True if all four bets have been placed for a round.
+	 */
+	boolean checkAllBetsPlaced();
+	
+	/**
+	 * Prior to starting a trick in a multiplayer game,
+	 * all players must have discarded.  This function
+	 * returns true if all players have discarded.
+	 * @return True if all players have discarded.
+	 */
+	boolean checkAllDiscarded();
+	
+	/**
+	 * Checks if all four players have played cards.
+	 * If it returns true, playTrick can be called.
+	 * @return True if four cards have been played this trick.
+	 */
+	boolean checkFourCardsPlayed();
+	
+	/**
+	 * Getter for the list of cards played in the trick.
+	 * @return The trickCards list.
+	 */
+	List<CardPlayerDescriptor> getTrickCards();
+	
+	/**
+	 * Getter for the list of TrickResults from the round.
+	 * @return The trickResults list.
+	 */
+	List<TrickResult> getTrickResults();
+	
+	/**
+	 * Getter for the dealer field.
+	 * @return The dealer's PlayerNumber.
+	 */
+	PlayerNumber getDealer();
+	
 	//////////////////////////////////////////
 	// These functions are for observers    //
 	//////////////////////////////////////////
@@ -170,14 +211,6 @@ public interface SetbackGameController {
 	 * @return The specified player's hand.
 	 */
 	Hand getPlayerHand(PlayerNumber player);
-	
-	/**
-	 * This function checks if all four bets have been placed.
-	 * If it returns true, the PlayerController will resolve
-	 * the bets.
-	 * @return True if all four bets have been placed for a round.
-	 */
-	boolean checkAllBetsPlaced();
 	
 	//////////////////////////////////////////
 	// These functions can happen any time. //

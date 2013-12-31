@@ -4,9 +4,13 @@
  */
 package setback.game.version.gamma;
 
+import java.util.ArrayList;
+
 import setback.common.PlayerNumber;
 import setback.game.SetbackGameController;
+import setback.game.common.CardPlayerDescriptor;
 import setback.game.common.Hand;
+import setback.game.common.TrickResult;
 
 /**
  * This is a mock of the GammaSetbackGame.
@@ -36,10 +40,13 @@ public class MockGammaSetbackController extends GammaSetbackGame implements
 	protected void initializeGame() {
 		gameStarted = true;
 		dealer = PlayerNumber.PLAYER_ONE;
+		nextBettor = PlayerNumber.PLAYER_TWO;
 		currentPlayer = PlayerNumber.PLAYER_ONE;
 		playerOneHand = new Hand(PlayerNumber.PLAYER_ONE);
 		playerTwoHand = new Hand(PlayerNumber.PLAYER_TWO);
 		playerThreeHand = new Hand(PlayerNumber.PLAYER_THREE);
 		playerFourHand = new Hand(PlayerNumber.PLAYER_FOUR); 
+		trickCards = new ArrayList<CardPlayerDescriptor>();
+		trickResults = new ArrayList<TrickResult>();
 	}
 }

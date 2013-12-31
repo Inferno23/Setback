@@ -20,7 +20,7 @@ import java.net.UnknownHostException;
 public class SetbackClient {
 
 	private static int DEFAULT_PORT = 2323;
-	private static String DEFAULT_HOSTNAME = "localhost";
+	private static String DEFAULT_HOSTNAME = "66.189.40.187";
 
 	/**
 	 * This is the executable function that connects the

@@ -5,14 +5,17 @@
 package setback.networking;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import setback.common.PlayerNumber;
-import setback.common.SetbackException;
 import setback.game.SetbackGameController;
 import setback.game.SetbackGameFactory;
+import setback.game.common.Card;
+import setback.game.common.CardSuit;
+import setback.game.common.CardType;
 import setback.networking.command.Command;
 import setback.networking.command.CommandMessage;
 
@@ -22,14 +25,14 @@ import setback.networking.command.CommandMessage;
  * @version Dec 26, 2013
  */
 public class PlayerControllerTest {
-	
+
 	private SetbackGameFactory factory;
 	private SetbackGameController game;
 	private PlayerController controllerOne;
 	private PlayerController controllerTwo;
 	private PlayerController controllerThree;
 	private PlayerController controllerFour;
-	
+
 	@Before
 	public void setup() {
 		factory = SetbackGameFactory.getInstance();
@@ -46,21 +49,21 @@ public class PlayerControllerTest {
 		final String expected = "No command";
 		assertEquals(expected, result);
 	}
-	
+
 	@Test
 	public void noCommandInput() {
 		final String result = controllerOne.processInput(new CommandMessage(Command.NO_COMMAND));
 		final String expected = "No command";
 		assertEquals(expected, result);
 	}
-	
+
 	@Test
 	public void exitInput() {
 		final String result = controllerOne.processInput(new CommandMessage(Command.EXIT));
 		final String expected = "EXIT";
 		assertEquals(expected, result);
 	}
-	
+
 	@Test
 	public void requestPlayerOneSelected() {
 		final String result = controllerOne.processInput(new CommandMessage(Command.REQUEST_PLAYER_ONE));
@@ -68,7 +71,7 @@ public class PlayerControllerTest {
 		assertEquals(expected, result);
 		assertEquals(PlayerNumber.PLAYER_ONE, controllerOne.getMyNumber());
 	}
-	
+
 	@Test
 	public void requestPlayerOneRejected() {
 		controllerOne.processInput(new CommandMessage(Command.REQUEST_PLAYER_ONE));
@@ -76,7 +79,7 @@ public class PlayerControllerTest {
 		final String expected = "Player one rejected";
 		assertEquals(expected, result);
 	}
-	
+
 	@Test
 	public void requestPlayerTwoSelected() {
 		final String result = controllerOne.processInput(new CommandMessage(Command.REQUEST_PLAYER_TWO));
@@ -84,7 +87,7 @@ public class PlayerControllerTest {
 		assertEquals(expected, result);
 		assertEquals(PlayerNumber.PLAYER_TWO, controllerOne.getMyNumber());
 	}
-	
+
 	@Test
 	public void requestPlayerTwoRejected() {
 		controllerOne.processInput(new CommandMessage(Command.REQUEST_PLAYER_TWO));
@@ -92,7 +95,7 @@ public class PlayerControllerTest {
 		final String expected = "Player two rejected";
 		assertEquals(expected, result);
 	}
-	
+
 	@Test
 	public void requestPlayerThreeSelected() {
 		final String result = controllerOne.processInput(new CommandMessage(Command.REQUEST_PLAYER_THREE));
@@ -100,7 +103,7 @@ public class PlayerControllerTest {
 		assertEquals(expected, result);
 		assertEquals(PlayerNumber.PLAYER_THREE, controllerOne.getMyNumber());
 	}
-	
+
 	@Test
 	public void requestPlayerThreeRejected() {
 		controllerOne.processInput(new CommandMessage(Command.REQUEST_PLAYER_THREE));
@@ -108,7 +111,7 @@ public class PlayerControllerTest {
 		final String expected = "Player three rejected";
 		assertEquals(expected, result);
 	}
-	
+
 	@Test
 	public void requestPlayerFourSelected() {
 		final String result = controllerOne.processInput(new CommandMessage(Command.REQUEST_PLAYER_FOUR));
@@ -116,7 +119,7 @@ public class PlayerControllerTest {
 		assertEquals(expected, result);
 		assertEquals(PlayerNumber.PLAYER_FOUR, controllerOne.getMyNumber());
 	}
-	
+
 	@Test
 	public void requestPlayerFourRejected() {
 		controllerOne.processInput(new CommandMessage(Command.REQUEST_PLAYER_FOUR));
@@ -124,13 +127,30 @@ public class PlayerControllerTest {
 		final String expected = "Player four rejected";
 		assertEquals(expected, result);
 	}
-	
+
 	@Test
 	public void attemptBetWithoutFourPlayers() {
 		final String arguments[] = {"PASS"};
 		controllerOne.processInput(new CommandMessage(Command.REQUEST_PLAYER_ONE));
 		final String result = controllerOne.processInput(new CommandMessage(Command.PLACE_BET, arguments));
 		final String expected = "You must start the game!";
+		assertEquals(expected, result);
+	}
+
+	@Test
+	public void showHandProperly() {
+		initializeFourControllers();
+		final String result = controllerOne.processInput(new CommandMessage(Command.SHOW_HAND));
+		final String expected = "PLAYER_ONE'S HAND:\nSix-of-Clubs\nJack-of-Diamonds\nAce-of-Hearts"
+				+ "\nQueen-of-Diamonds\nSix-of-Spades\nTen-of-Diamonds\nFour-of-Hearts\nSeven-of-Clubs"
+				+ "\nAce-of-Diamonds\nThree-of-Spades\nAce-of-Spades\nSeven-of-Diamonds\n";
+		assertEquals(expected, result);
+	}
+	
+	@Test
+	public void showHandWithoutFourPlayers() {
+		final String result = controllerOne.processInput(new CommandMessage(Command.SHOW_HAND));
+		final String expected = "You do not have a hand yet!";
 		assertEquals(expected, result);
 	}
 	
@@ -142,7 +162,7 @@ public class PlayerControllerTest {
 		final String expected = "PLAYER_TWO BET PASS";
 		assertEquals(expected, result);
 	}
-	
+
 	@Test
 	public void playerOneEarlyBet() {
 		initializeFourControllers();
@@ -151,33 +171,81 @@ public class PlayerControllerTest {
 		final String expected = "It is not your turn to bet!";
 		assertEquals(expected, result);
 	}
-	
+
+	@Test
+	public void playerOneSelectsSpades() {
+		playerOneWinsBet();
+		final String spades[] = {"SPADES"};
+		final String result = controllerOne.processInput(new CommandMessage(Command.SELECT_TRUMP, spades));
+		final String expected = "PLAYER_ONE SELECTED SPADES";
+		assertEquals(expected, result);
+	}
+
+	@Test
+	public void playerTwoTriesToSelectTrump() {
+		playerOneWinsBet();
+		final String spades[] = {"SPADES"};
+		final String result = controllerTwo.processInput(new CommandMessage(Command.SELECT_TRUMP, spades));
+		final String expected = "You did not win the bet, so you do not select trump!";
+		assertEquals(expected, result);
+	}
+
+	@Test
+	public void playerOneDiscardsProperly() {
+		prepareForDiscarding();
+		final String discardOne[] = {"Six-of-Clubs", "Seven-of-Clubs", "Four-of-Hearts"};
+		final String result = controllerOne.processInput(new CommandMessage(Command.DISCARD_CARDS, discardOne));
+		final String expected = "PLAYER_ONE DISCARDED Six-of-Clubs Seven-of-Clubs Four-of-Hearts";
+		assertEquals(expected, result);
+	}
+
 	@Test
 	public void playerOnePlaysValidCard() {
-		playerOneWinsBet();
+		beginFirstTrick();
 		final String card[] = {"Ace-of-Spades"};
 		final String result = controllerOne.processInput(new CommandMessage(Command.PLAY_CARD, card));
 		final String expected = "PLAYER_ONE PLAYED Ace-of-Spades";
 		assertEquals(expected, result);
 	}
-	
+
 	@Test
 	public void playerOnePlaysInvalidCard() {
-		playerOneWinsBet();
+		beginFirstTrick();
 		final String card[] = {"Queen-of-Spades"};
 		final String result = controllerOne.processInput(new CommandMessage(Command.PLAY_CARD, card));
 		final String expected = "You don't have that card!";
 		assertEquals(expected, result);
 	}
-	
+
 	@Test
 	public void playerTwoPlaysCardEarly() {
-		playerOneWinsBet();
+		beginFirstTrick();
 		final String card[] = {"Queen-of-Spades"};
 		final String result = controllerTwo.processInput(new CommandMessage(Command.PLAY_CARD, card));
 		final String expected = "It is not your turn! It is PLAYER_ONE's turn!";
 		assertEquals(expected, result);
 	}
+
+	@Test
+	public void fullTrickPlayed() {
+		beginFirstTrick();
+		final String cardOne[] = {"Ace-of-Spades"};
+		final String cardTwo[] = {"Eight-of-Spades"};
+		final String cardThree[] = {"Jack-of-Spades"};
+		final String cardFour[] = {"Ten-of-Spades"};
+		controllerOne.processInput(new CommandMessage(Command.PLAY_CARD, cardOne));
+		controllerTwo.processInput(new CommandMessage(Command.PLAY_CARD, cardTwo));
+		controllerThree.processInput(new CommandMessage(Command.PLAY_CARD, cardThree));
+		controllerFour.processInput(new CommandMessage(Command.PLAY_CARD, cardFour));
+	}
+
+	@Test
+	public void fullRoundPlayed() {
+		playFullFirstRound();
+		assertTrue(game.getPlayerHand(PlayerNumber.PLAYER_ONE).getCards().contains(new Card(CardType.ACE, CardSuit.CLUBS)));
+	}
+
+
 
 	/**
 	 * Helper function that initializes all four
@@ -203,5 +271,120 @@ public class PlayerControllerTest {
 		controllerThree.processInput(new CommandMessage(Command.PLACE_BET, pass));
 		controllerFour.processInput(new CommandMessage(Command.PLACE_BET, pass));
 		controllerOne.processInput(new CommandMessage(Command.PLACE_BET, two));
+	}
+
+	/**
+	 * Helper function that calls playerOneWinsBets and
+	 * then selects SPADES as trump, leaving the controllers
+	 * ready to discard cards.
+	 */
+	private void prepareForDiscarding() {
+		playerOneWinsBet();
+		final String spades[] = {"SPADES"};
+		controllerOne.processInput(new CommandMessage(Command.SELECT_TRUMP, spades));
+	}
+
+	/**
+	 * Helper function that calls prepareForDiscarding and
+	 * discards cards from each controller, beginning the trick.
+	 */
+	private void beginFirstTrick() {
+		prepareForDiscarding();
+		final String discardOne[] = {"Six-of-Clubs", "Seven-of-Clubs", "Four-of-Hearts"};
+		final String discardTwo[] = {"Two-of-Hearts", "Three-of-Hearts", "Six-of-Hearts"};
+		final String discardThree[] = {"Eight-of-Hearts", "Ten-of-Hearts", "Jack-of-Hearts"};
+		final String discardFour[] = {"Five-of-Hearts", "Queen-of-Hearts", "King-of-Hearts"};
+		controllerOne.processInput(new CommandMessage(Command.DISCARD_CARDS, discardOne));
+		controllerTwo.processInput(new CommandMessage(Command.DISCARD_CARDS, discardTwo));
+		controllerThree.processInput(new CommandMessage(Command.DISCARD_CARDS, discardThree));
+		controllerFour.processInput(new CommandMessage(Command.DISCARD_CARDS, discardFour));
+	}
+	
+	/**
+	 * Helper function that plays a full first round of Setback.
+	 */
+	private void playFullFirstRound() {
+		beginFirstTrick();
+		// Trick one
+		final String cardOneOne[] = {"Ace-of-Spades"};
+		final String cardTwoOne[] = {"Eight-of-Spades"};
+		final String cardThreeOne[] = {"Jack-of-Spades"};
+		final String cardFourOne[] = {"Ten-of-Spades"};
+		controllerOne.processInput(new CommandMessage(Command.PLAY_CARD, cardOneOne));
+		controllerTwo.processInput(new CommandMessage(Command.PLAY_CARD, cardTwoOne));
+		controllerThree.processInput(new CommandMessage(Command.PLAY_CARD, cardThreeOne));
+		controllerFour.processInput(new CommandMessage(Command.PLAY_CARD, cardFourOne));
+		// Trick two
+		final String cardOneTwo[] = {"Three-of-Spades"};
+		final String cardTwoTwo[] = {"Queen-of-Spades"};
+		final String cardThreeTwo[] = {"King-of-Spades"};
+		final String cardFourTwo[] = {"Two-of-Spades"};
+		controllerOne.processInput(new CommandMessage(Command.PLAY_CARD, cardOneTwo));
+		controllerTwo.processInput(new CommandMessage(Command.PLAY_CARD, cardTwoTwo));
+		controllerThree.processInput(new CommandMessage(Command.PLAY_CARD, cardThreeTwo));
+		controllerFour.processInput(new CommandMessage(Command.PLAY_CARD, cardFourTwo));
+		// Trick three
+		final String cardThreeThree[] = {"Ace-of-Clubs"};
+		final String cardFourThree[] = {"Eight-of-Clubs"};
+		final String cardOneThree[] = {"Ten-of-Diamonds"};
+		final String cardTwoThree[] = {"Five-of-Clubs"};
+		controllerThree.processInput(new CommandMessage(Command.PLAY_CARD, cardThreeThree));
+		controllerFour.processInput(new CommandMessage(Command.PLAY_CARD, cardFourThree));
+		controllerOne.processInput(new CommandMessage(Command.PLAY_CARD, cardOneThree));
+		controllerTwo.processInput(new CommandMessage(Command.PLAY_CARD, cardTwoThree));
+		// Trick four
+		final String cardThreeFour[] = {"Two-of-Clubs"};
+		final String cardFourFour[] = {"Jack-of-Clubs"};
+		final String cardOneFour[] = {"Six-of-Spades"};
+		final String cardTwoFour[] = {"King-of-Clubs"};
+		controllerThree.processInput(new CommandMessage(Command.PLAY_CARD, cardThreeFour));
+		controllerFour.processInput(new CommandMessage(Command.PLAY_CARD, cardFourFour));
+		controllerOne.processInput(new CommandMessage(Command.PLAY_CARD, cardOneFour));
+		controllerTwo.processInput(new CommandMessage(Command.PLAY_CARD, cardTwoFour));
+		// Trick five
+		final String cardOneFive[] = {"Ace-of-Hearts"};
+		final String cardTwoFive[] = {"Seven-of-Hearts"};
+		final String cardThreeFive[] = {"Ten-of-Clubs"};
+		final String cardFourFive[] = {"Two-of-Diamonds"};
+		controllerOne.processInput(new CommandMessage(Command.PLAY_CARD, cardOneFive));
+		controllerTwo.processInput(new CommandMessage(Command.PLAY_CARD, cardTwoFive));
+		controllerThree.processInput(new CommandMessage(Command.PLAY_CARD, cardThreeFive));
+		controllerFour.processInput(new CommandMessage(Command.PLAY_CARD, cardFourFive));
+		// Trick six
+		final String cardOneSix[] = {"Ace-of-Diamonds"};
+		final String cardTwoSix[] = {"Four-of-Diamonds"};
+		final String cardThreeSix[] = {"Six-of-Diamonds"};
+		final String cardFourSix[] = {"Three-of-Diamonds"};
+		controllerOne.processInput(new CommandMessage(Command.PLAY_CARD, cardOneSix));
+		controllerTwo.processInput(new CommandMessage(Command.PLAY_CARD, cardTwoSix));
+		controllerThree.processInput(new CommandMessage(Command.PLAY_CARD, cardThreeSix));
+		controllerFour.processInput(new CommandMessage(Command.PLAY_CARD, cardFourSix));
+		// Trick seven
+		final String cardOneSeven[] = {"Queen-of-Diamonds"};
+		final String cardTwoSeven[] = {"Five-of-Diamonds"};
+		final String cardThreeSeven[] = {"Three-of-Clubs"};
+		final String cardFourSeven[] = {"Eight-of-Diamonds"};
+		controllerOne.processInput(new CommandMessage(Command.PLAY_CARD, cardOneSeven));
+		controllerTwo.processInput(new CommandMessage(Command.PLAY_CARD, cardTwoSeven));
+		controllerThree.processInput(new CommandMessage(Command.PLAY_CARD, cardThreeSeven));
+		controllerFour.processInput(new CommandMessage(Command.PLAY_CARD, cardFourSeven));
+		// Trick Eight
+		final String cardOneEight[] = {"Jack-of-Diamonds"};
+		final String cardTwoEight[] = {"Nine-of-Hearts"};
+		final String cardThreeEight[] = {"Four-of-Clubs"};
+		final String cardFourEight[] = {"Nine-of-Diamonds"};
+		controllerOne.processInput(new CommandMessage(Command.PLAY_CARD, cardOneEight));
+		controllerTwo.processInput(new CommandMessage(Command.PLAY_CARD, cardTwoEight));
+		controllerThree.processInput(new CommandMessage(Command.PLAY_CARD, cardThreeEight));
+		controllerFour.processInput(new CommandMessage(Command.PLAY_CARD, cardFourEight));
+		// Trick Nine
+		final String cardOneNine[] = {"Seven-of-Diamonds"};
+		final String cardTwoNine[] = {"Nine-of-Spades"};
+		final String cardThreeNine[] = {"Seven-of-Spades"};
+		final String cardFourNine[] = {"Nine-of-Clubs"};
+		controllerOne.processInput(new CommandMessage(Command.PLAY_CARD, cardOneNine));
+		controllerTwo.processInput(new CommandMessage(Command.PLAY_CARD, cardTwoNine));
+		controllerThree.processInput(new CommandMessage(Command.PLAY_CARD, cardThreeNine));
+		controllerFour.processInput(new CommandMessage(Command.PLAY_CARD, cardFourNine));
 	}
 }

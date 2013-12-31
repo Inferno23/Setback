@@ -4,6 +4,7 @@
  */
 package setback.game.version;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import setback.common.PlayerNumber;
@@ -72,6 +73,9 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 	protected int teamOneScore;
 	protected int teamTwoScore;
 	
+	protected List<CardPlayerDescriptor> trickCards;
+	protected List<TrickResult> trickResults;
+	
 	protected List<SetbackObserver> observers;
 
 	/* (non-Javadoc)
@@ -101,6 +105,8 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		playerFourHand = new Hand(PlayerNumber.PLAYER_FOUR);
 		teamOneScore = 0;
 		teamTwoScore = 0;
+		trickCards = new ArrayList<CardPlayerDescriptor>();
+		trickResults = new ArrayList<TrickResult>();
 	}
 
 	/* (non-Javadoc)
@@ -172,6 +178,8 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		bettingResolved = true;
 		winningBet = betController.determineWinner();
 		currentPlayer = winningBet.getBettor();
+		
+		notifyObservers("BETTING RESOLVED");
 	}
 
 	/*
@@ -197,6 +205,8 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		}
 		trumpSelected = true;
 		this.trump = trump;
+		
+		notifyObservers(leader.toString() + " SELECTED " + trump.toString());
 	}
 
 	/*
@@ -280,6 +290,8 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		// Update the master flag
 		discardingResolved = playerOneDiscarded && playerTwoDiscarded &&
 				playerThreeDiscarded && playerFourDiscarded;
+		
+		notifyObservers(player.toString() + " DISCARDED");
 	}
 
 	/* (non-Javadoc)
@@ -307,6 +319,8 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		}
 		trickStarted = true;
 		leadSuit = null;
+		
+		notifyObservers("TRICK STARTED");
 	}
 
 	/* (non-Javadoc)
@@ -321,6 +335,15 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		if (!roundStarted) {
 			throw new SetbackException("You must start the round!");
 		}
+		if (!bettingResolved) {
+			throw new SetbackException("You must resolve betting!");
+		}
+		if (!trumpSelected) {
+			throw new SetbackException("You must select trump!");
+		}
+		if (!trickStarted) {
+			throw new SetbackException("You must start the trick!");
+		}
 		if (!player.equals(currentPlayer)) {
 			throw new SetbackException("It is not your turn! It is " +
 					currentPlayer.toString() + "'s turn!");
@@ -333,7 +356,12 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		// Update the currentPlayer for the next card. 
 		currentPlayer = updatePlayer(currentPlayer);
 
-		return new CardPlayerDescriptor(card, player);
+		CardPlayerDescriptor result = new CardPlayerDescriptor(card, player); 
+		trickCards.add(result);
+		
+		notifyObservers(player.toString() + " PLAYED " + card.toString());
+		
+		return result;
 	}
 
 	/**
@@ -396,6 +424,12 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		currentPlayer = result.getWinner();
 		trickStarted = false;
 		leadSuit = null;
+		
+		trickCards = new ArrayList<CardPlayerDescriptor>();
+		trickResults.add(result);
+		
+		notifyObservers(currentPlayer.toString() + " WON TRICK");
+		
 		return result;
 	}
 
@@ -459,6 +493,10 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 			result = new RoundResult(result.getTeamOneRoundScore(), 
 					result.getTeamTwoRoundScore(), RoundResultStatus.TEAM_ONE_WINS);
 		}
+		
+		trickResults = new ArrayList<TrickResult>();
+		
+		notifyObservers("ROUND ENDED");
 
 		return result;
 	}
@@ -517,6 +555,46 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 	 */
 	public boolean checkAllBetsPlaced() {
 		return allBetsPlaced;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see setback.game.SetbackGameController#checkAllDiscarded()
+	 */
+	public boolean checkAllDiscarded() {
+		return discardingResolved;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see setback.game.SetbackGameController#checkFourCardsPlayed()
+	 */
+	public boolean checkFourCardsPlayed() {
+		return (trickCards.size() == 4); 
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see setback.game.SetbackGameController#getTrickCards()
+	 */
+	public List<CardPlayerDescriptor> getTrickCards() {
+		return trickCards;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see setback.game.SetbackGameController#getTrickResults()
+	 */
+	public List<TrickResult> getTrickResults() {
+		return trickResults;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see setback.game.SetbackGameController#getDealer()
+	 */
+	public PlayerNumber getDealer() {
+		return dealer;
 	}
 	
 	/*

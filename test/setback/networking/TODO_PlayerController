@@ -13,6 +13,13 @@ X Place bet before game starts - Message from exception about start game
 X Four players join - Game started and round started
 X Place Bet out of turn - Message from exception
 X Place Bet in turn - <PlayerNumber> BET <Bet>
+X Select trump properly - <PlayerNumber> SELECTED <TRUMP>
+X Select trump improperly - Message from exception
+X Discard cards properly - <PlayerNumber> DISCARDED <Card> <Card> <Card>
+X Discard cards improperly - Message from exception
 X Play Card with real card - <PlayerNumber> PLAYED <Card>
-- Play Card with card not in hand - Message from exception
-- Play Card with fake card - That's not a valid card!
+X Play Card with card not in hand - Message from exception
+X Play Card with fake card - That's not a valid card!
+X Play full trick - <PlayerNumber> WON TRICK
+- Play a full round - ROUND_SCORE TEAM_ONE <Score> TEAM_TWO <Score>
+- Play a full round - OVERALL_SCORE TEAM_ONE <Score> TEAM_TWO <Score>
