@@ -65,12 +65,17 @@ public class PlayerController implements SetbackObserver {
 			try {
 				// Request players
 				if (command.getCommand().equals(Command.REQUEST_PLAYER_ONE)) {
-					if (game.requestPlayerNumber(PlayerNumber.PLAYER_ONE)) {
-						myNumber = PlayerNumber.PLAYER_ONE;
-						returnString = "Player one selected";
-						if (game.checkPlayersReady()) {
-							game.startGame();
-							game.startRound();
+					if (myNumber == null) {
+						if (game.requestPlayerNumber(PlayerNumber.PLAYER_ONE)) {
+							myNumber = PlayerNumber.PLAYER_ONE;
+							returnString = "Player one selected";
+							if (game.checkPlayersReady()) {
+								game.startGame();
+								game.startRound();
+							}
+						}
+						else {
+							returnString = "Player one rejected";
 						}
 					}
 					else {
@@ -78,12 +83,17 @@ public class PlayerController implements SetbackObserver {
 					}
 				}
 				else if (command.getCommand().equals(Command.REQUEST_PLAYER_TWO)) {
-					if (game.requestPlayerNumber(PlayerNumber.PLAYER_TWO)) {
-						myNumber = PlayerNumber.PLAYER_TWO;
-						returnString = "Player two selected";
-						if (game.checkPlayersReady()) {
-							game.startGame();
-							game.startRound();
+					if (myNumber == null) {
+						if (game.requestPlayerNumber(PlayerNumber.PLAYER_TWO)) {
+							myNumber = PlayerNumber.PLAYER_TWO;
+							returnString = "Player two selected";
+							if (game.checkPlayersReady()) {
+								game.startGame();
+								game.startRound();
+							}
+						}
+						else {
+							returnString = "Player two rejected";
 						}
 					}
 					else {
@@ -91,12 +101,17 @@ public class PlayerController implements SetbackObserver {
 					}
 				}
 				else if (command.getCommand().equals(Command.REQUEST_PLAYER_THREE)) {
-					if (game.requestPlayerNumber(PlayerNumber.PLAYER_THREE)) {
-						myNumber = PlayerNumber.PLAYER_THREE;
-						returnString = "Player three selected";
-						if (game.checkPlayersReady()) {
-							game.startGame();
-							game.startRound();
+					if (myNumber == null) {
+						if (game.requestPlayerNumber(PlayerNumber.PLAYER_THREE)) {
+							myNumber = PlayerNumber.PLAYER_THREE;
+							returnString = "Player three selected";
+							if (game.checkPlayersReady()) {
+								game.startGame();
+								game.startRound();
+							}
+						}
+						else {
+							returnString = "Player three rejected";
 						}
 					}
 					else {
@@ -104,12 +119,17 @@ public class PlayerController implements SetbackObserver {
 					}
 				}
 				else if (command.getCommand().equals(Command.REQUEST_PLAYER_FOUR)) {
-					if (game.requestPlayerNumber(PlayerNumber.PLAYER_FOUR)) {
-						myNumber = PlayerNumber.PLAYER_FOUR;
-						returnString = "Player four selected";
-						if (game.checkPlayersReady()) {
-							game.startGame();
-							game.startRound();
+					if (myNumber == null) {
+						if (game.requestPlayerNumber(PlayerNumber.PLAYER_FOUR)) {
+							myNumber = PlayerNumber.PLAYER_FOUR;
+							returnString = "Player four selected";
+							if (game.checkPlayersReady()) {
+								game.startGame();
+								game.startRound();
+							}
+						}
+						else {
+							returnString = "Player four rejected";
 						}
 					}
 					else {
@@ -217,15 +237,6 @@ public class PlayerController implements SetbackObserver {
 		else {
 			if (message.equals("ROUND BEGIN")) {
 				myHand = game.getPlayerHand(myNumber);
-			}
-			else if (message.equals("ROUND ENDED")) {
-				try {
-					int teamOne = game.getTeamOneScore();
-					int teamTwo = game.getTeamTwoScore();
-					System.out.println("TEAM_ONE: " + teamOne + " TEAM_TWO: " + teamTwo);
-				} catch (SetbackException e) {
-					e.getStackTrace();
-				}
 			}
 		}
 	}

@@ -11,7 +11,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import setback.common.SetbackException;
+import setback.game.SetbackGameController;
 import setback.networking.PlayerController;
+import setback.networking.SetbackObserver;
 import setback.networking.command.CommandMessage;
 import setback.networking.command.CommandParser;
 
@@ -21,24 +23,29 @@ import setback.networking.command.CommandParser;
  * @author Michael
  * @version Dec 26, 2013
  */
-public class SetbackServerThread extends Thread {
+public class SetbackServerThread extends Thread implements SetbackObserver {
 
 	private final Socket socket;
+	private final SetbackGameController game;
 	private final PlayerController controller;
 	private final CommandParser parser;
+
+	private PrintWriter out;
 
 	/**
 	 * Constructor that is called by the server.  It provides
 	 * the socket that connects to the client, and the shared
 	 * PlayerController which interacts with the SetbackGameController.
 	 * @param socket The connection to the client.
-	 * @param controller The GameController that connects to
-	 * the actual game being shared by the four players.
+	 * @param game The SetbackGameController that is
+	 * being shared by the four players.
 	 */
-	public SetbackServerThread(Socket socket, PlayerController controller) {
+	public SetbackServerThread(Socket socket, SetbackGameController game) {
 		super("SetbackServerThread");
 		this.socket = socket;
-		this.controller = controller;
+		this.game = game;
+		game.addObserver(this);
+		this.controller = new PlayerController(game);
 		parser = new CommandParser();
 	}
 
@@ -48,10 +55,11 @@ public class SetbackServerThread extends Thread {
 	 * and facilitates communication for the duration of the game.
 	 */
 	public void run() {
-		try (PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-				BufferedReader in = new BufferedReader(
-						new InputStreamReader(socket.getInputStream()));
-				) {
+		try {
+			out = new PrintWriter(socket.getOutputStream(), true);
+			BufferedReader in = new BufferedReader(
+					new InputStreamReader(socket.getInputStream()));
+
 			String inputLine, outputLine;
 			CommandMessage inputCommand;
 
@@ -79,4 +87,28 @@ public class SetbackServerThread extends Thread {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see setback.networking.SetbackObserver#update(java.lang.String)
+	 */
+	public void update(String message) {
+		if (message != null) {
+			if (message.equals("ROUND BEGIN")) {
+				out.print("ROUND BEGIN\t");
+			}
+			else if (message.equals("ROUND ENDED")) {
+				try {
+					int teamOne = game.getTeamOneScore();
+					int teamTwo = game.getTeamTwoScore();
+					out.print("ROUND ENDED\t");
+					out.print("TEAM_ONE: " + teamOne + " TEAM_TWO: " + teamTwo + "\t");
+				} catch (SetbackException e) {
+					e.getStackTrace();
+				}
+			}
+			else if (message.startsWith("PLAYER_")) {
+				out.print(message.toUpperCase() + "\t");
+			}
+		}
+	}
 }

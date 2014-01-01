@@ -60,7 +60,11 @@ public class CommandMessage {
 	 */
 	@Override
 	public String toString() {
-		return command.toString() + arguments.toString();
+		String returnString = command.toString();
+		for (String argumentString : arguments) {
+			returnString += " " + argumentString;
+		}
+		return returnString;
 	}
 
 	/* (non-Javadoc)

@@ -117,4 +117,19 @@ public class CommandParserTest {
 		assertEquals(expected, result);
 	}
 
+	@Test
+	public void commandMessageCoverge() throws SetbackException {
+		final CommandMessage message = new CommandMessage(Command.SHOW_HAND);
+		final CommandMessage noArrayMessage = new CommandMessage(Command.REQUEST_PLAYER_ONE);
+		final String arguments[] = {"TEST"};
+		final CommandMessage extraArrayMessage = new CommandMessage(Command.SHOW_HAND, arguments);
+		final String expected = ("SHOW_HAND TEST");
+		
+		assertTrue(message.equals(message));
+		assertTrue(!message.equals(null));
+		assertTrue(!message.equals(5));
+		assertTrue(!message.equals(noArrayMessage));
+		assertTrue(!message.equals(extraArrayMessage));
+		assertEquals(expected, extraArrayMessage.toString());
+	}
 }

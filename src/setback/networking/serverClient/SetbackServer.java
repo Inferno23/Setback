@@ -9,7 +9,6 @@ import java.net.ServerSocket;
 
 import setback.game.SetbackGameController;
 import setback.game.SetbackGameFactory;
-import setback.networking.PlayerController;
 
 /**
  * This class functions as the server that the players' clients
@@ -52,7 +51,7 @@ public class SetbackServer {
 
 		try (ServerSocket serverSocket = new ServerSocket(portNumber)) { 
 			while (currentConnections < MAX_CONNECTIONS) {
-				new SetbackServerThread(serverSocket.accept(), new PlayerController(game)).start();
+				new SetbackServerThread(serverSocket.accept(), game).start();
 				currentConnections++;
 				System.out.println("currentConnections = " + currentConnections);
 			}
