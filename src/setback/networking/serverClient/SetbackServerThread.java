@@ -67,8 +67,9 @@ public class SetbackServerThread extends Thread {
 				}
 				if (outputLine != null) {
 					out.println(outputLine);
-					if (outputLine.equals("EXIT"))
+					if (outputLine.equals("EXIT")) {
 						break;
+					}
 				}
 			}
 			socket.close();

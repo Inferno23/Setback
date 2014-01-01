@@ -42,6 +42,7 @@ public class PlayerController implements SetbackObserver {
 	public PlayerController(SetbackGameController game) {
 		this.game = game;
 		game.addObserver(this);
+		myNumber = null;
 	}
 
 	/**

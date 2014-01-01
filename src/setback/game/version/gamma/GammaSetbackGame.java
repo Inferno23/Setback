@@ -7,8 +7,6 @@ package setback.game.version.gamma;
 import java.util.ArrayList;
 
 import setback.game.SetbackGameController;
-import setback.game.common.CardPlayerDescriptor;
-import setback.game.common.TrickResult;
 import setback.game.version.SetbackGameControllerSkeleton;
 import setback.game.version.beta.BetaCardDealerController;
 import setback.networking.SetbackObserver;

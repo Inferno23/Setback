@@ -61,8 +61,14 @@ public class SetbackClient {
 
 			while ((fromServer = in.readLine()) != null) {
 				System.out.println("Server: " + fromServer);
-				if (fromServer.equals("EXIT"))
+				if (fromServer.equals("EXIT")) {
 					break;
+				}
+				else if (fromServer.endsWith("HAND:")) {
+					while ((fromServer = in.readLine()) != null && fromServer.length() != 0) {
+						System.out.println("Server: " + fromServer);
+					}
+				}
 
 				fromUser = stdIn.readLine();
 				if (fromUser != null) {
