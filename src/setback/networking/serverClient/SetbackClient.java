@@ -15,10 +15,12 @@ import java.net.UnknownHostException;
  * This class functions as the client that a player will run
  * when they want to play a game of Setback.
  * @author Michael
- * @version Dec 26, 2013
+ * @version Jan 1, 2014
  */
 public class SetbackClient {
 
+	private static SetbackClientView view;
+	
 	private static int DEFAULT_PORT = 2323;
 	private static String DEFAULT_HOSTNAME = "66.189.40.187";
 
@@ -34,7 +36,8 @@ public class SetbackClient {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
-
+		
+		view = new SetbackClientView();
 		int portNumber;
 		String hostname;
 
@@ -61,6 +64,7 @@ public class SetbackClient {
 
 			while ((fromServer = in.readLine()) != null) {
 				System.out.println("Server: " + fromServer);
+				view.update(fromServer);
 				if (fromServer.equals("EXIT")) {
 					break;
 				}
