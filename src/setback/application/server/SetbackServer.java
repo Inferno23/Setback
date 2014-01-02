@@ -2,7 +2,7 @@
  * This file was developed for fun by Michael Burns for a private
  * implementation of the card game Setback, also known as Pitch.
  */
-package setback.networking.serverClient;
+package setback.application.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;

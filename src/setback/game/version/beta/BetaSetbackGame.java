@@ -6,10 +6,10 @@ package setback.game.version.beta;
 
 import java.util.ArrayList;
 
+import setback.application.SetbackObserver;
 import setback.game.SetbackGameController;
 import setback.game.version.SetbackGameControllerSkeleton;
 import setback.game.version.alpha.DummyBetController;
-import setback.networking.SetbackObserver;
 
 /**
  * The implementation of SetbackGameController for the Beta version.

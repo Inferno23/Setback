@@ -6,6 +6,7 @@ package setback.game;
 
 import java.util.List;
 
+import setback.application.SetbackObserver;
 import setback.common.PlayerNumber;
 import setback.common.SetbackException;
 import setback.game.common.Bet;
@@ -15,7 +16,6 @@ import setback.game.common.CardSuit;
 import setback.game.common.Hand;
 import setback.game.common.RoundResult;
 import setback.game.common.TrickResult;
-import setback.networking.SetbackObserver;
 
 /**
  * The SetbackGameController is the interface for any version of

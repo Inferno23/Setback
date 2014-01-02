@@ -2,14 +2,13 @@
  * This file was developed for fun by Michael Burns for a private
  * implementation of the card game Setback, also known as Pitch.
  */
-package setback.networking.serverClient;
+package setback.application.client;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
+import setback.application.client.views.PlayerSelectView;
 
 /**
  * This class functions as the client that a player will run
@@ -18,8 +17,6 @@ import java.net.UnknownHostException;
  * @version Jan 1, 2014
  */
 public class SetbackClient {
-
-	private static SetbackClientView view;
 	
 	private static int DEFAULT_PORT = 2323;
 	private static String DEFAULT_HOSTNAME = "66.189.40.187";
@@ -37,7 +34,6 @@ public class SetbackClient {
 	 */
 	public static void main(String[] args) throws IOException {
 		
-		view = new SetbackClientView();
 		int portNumber;
 		String hostname;
 
@@ -51,36 +47,13 @@ public class SetbackClient {
 			hostname = DEFAULT_HOSTNAME;
 		}
 
-		// Make the connection
-		try (
-				Socket socket = new Socket(hostname, portNumber);
-				PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-				BufferedReader in = new BufferedReader(
-						new InputStreamReader(socket.getInputStream()));
-				) {
-			BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-			String fromServer;
-			String fromUser;
-
-			while ((fromServer = in.readLine()) != null) {
-				System.out.println("Server: " + fromServer);
-				view.update(fromServer);
-				if (fromServer.equals("EXIT")) {
-					break;
-				}
-				// Handle multiple lines from server
-				if (fromServer.endsWith("HAND:")) {
-					while ((fromServer = in.readLine()) != null && fromServer.length() != 0) {
-						System.out.println("Server: " + fromServer);
-					}
-				}
-
-				fromUser = stdIn.readLine();
-				if (fromUser != null) {
-					System.out.println("Client: " + fromUser);
-					out.println(fromUser);
-				}
-			}
+		try {
+			// Make the connection
+			Socket socket = new Socket(hostname, portNumber);
+			// Initialize the controller and the view
+			SetbackClientController controller = new SetbackClientController(socket);
+			new PlayerSelectView(controller);
+			
 		} catch (UnknownHostException e) {
 			System.err.println("Don't know about host " + hostname);
 			System.exit(1);

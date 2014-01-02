@@ -2,10 +2,12 @@
  * This file was developed for fun by Michael Burns for a private
  * implementation of the card game Setback, also known as Pitch.
  */
-package setback.networking;
+package setback.application;
 
 import java.util.List;
 
+import setback.application.command.Command;
+import setback.application.command.CommandMessage;
 import setback.common.PlayerNumber;
 import setback.common.SetbackException;
 import setback.game.SetbackGameController;
@@ -16,8 +18,6 @@ import setback.game.common.CardSuit;
 import setback.game.common.Hand;
 import setback.game.common.RoundResult;
 import setback.game.common.RoundResultStatus;
-import setback.networking.command.Command;
-import setback.networking.command.CommandMessage;
 
 /**
  * This class is the controller that a player interacts with.

@@ -2,7 +2,7 @@
  * This file was developed for fun by Michael Burns for a private
  * implementation of the card game Setback(false), also known as Pitch.
  */
-package setback.networking.command;
+package setback.application.command;
 
 /**
  * This enumeration defines the commands that are passed

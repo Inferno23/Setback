@@ -7,6 +7,7 @@ package setback.game.version;
 import java.util.ArrayList;
 import java.util.List;
 
+import setback.application.SetbackObserver;
 import setback.common.PlayerNumber;
 import setback.common.SetbackException;
 import setback.game.BetController;
@@ -23,7 +24,6 @@ import setback.game.common.RoundResult;
 import setback.game.common.RoundResultStatus;
 import setback.game.common.Trick;
 import setback.game.common.TrickResult;
-import setback.networking.SetbackObserver;
 
 /**
  * This is the abstract class that implements the common features

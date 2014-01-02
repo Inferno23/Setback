@@ -6,9 +6,9 @@ package setback.game.version.alpha;
 
 import java.util.ArrayList;
 
+import setback.application.SetbackObserver;
 import setback.game.SetbackGameController;
 import setback.game.version.SetbackGameControllerSkeleton;
-import setback.networking.SetbackObserver;
 
 /**
  * The implementation of SetbackGameController for the Alpha version.
