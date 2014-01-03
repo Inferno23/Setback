@@ -94,6 +94,14 @@ public class Card {
 		}
 		return equality;
 	}
+	
+	/**
+	 * Calculate and return the sorting value of the card.
+	 * @return The sort value of the card.
+	 */
+	public int getSortValue() {
+		return suit.getSortValue() + type.getStandardValue();
+	}
 
 	@Override
 	public String toString() {

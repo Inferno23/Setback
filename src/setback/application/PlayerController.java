@@ -236,7 +236,9 @@ public class PlayerController implements SetbackObserver {
 		}
 		else {
 			if (message.equals("ROUND BEGIN")) {
+				// Get the hand and immediately sort the cards.
 				myHand = game.getPlayerHand(myNumber);
+				myHand.sortCards();
 			}
 		}
 	}

@@ -3,6 +3,10 @@ package setback.application.client;
 import java.awt.Color;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+import setback.application.client.views.PlaceBetsView;
+import setback.application.client.views.PleaseWaitView;
 
 /**
  * This abstract class handles the basic GUI of Setback.
@@ -10,19 +14,20 @@ import javax.swing.JFrame;
  * @author Michael
  * @version Jan 2, 2014
  */
-public abstract class SetbackClientView extends JFrame {
-
-	private static final long serialVersionUID = 1L;
+public abstract class SetbackClientView {
 	
 	protected SetbackClientController controller;
+	protected JFrame frame;
 
 	/**
 	 * Create the GUI that the user will interact with.
 	 * @param controller The SetbackClientController that
 	 * will handle all of the communication with the server.
+	 * @param frame The JFrame that the application runs in.
 	 */
-	public SetbackClientView(SetbackClientController controller) {
+	public SetbackClientView(SetbackClientController controller, JFrame frame) {
 		this.controller = controller;
+		this.frame = frame;
 		initialize();
 	}
 
@@ -32,15 +37,17 @@ public abstract class SetbackClientView extends JFrame {
 	 * of initialize.
 	 */
 	protected void initialize() {
+		// Wipe anything from before
+		frame.getContentPane().removeAll();
 		// Initialize the application frame
-		this.getContentPane().setBackground(new Color(60, 179, 113));
-		this.setResizable(false);
-		this.setTitle("Setback");
-		this.setBounds(100, 100, 900, 600);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.getContentPane().setLayout(null);
+		frame.getContentPane().setBackground(new Color(60, 179, 113));
+		frame.setResizable(false);
+		frame.setTitle("Setback");
+		frame.setBounds(100, 100, 900, 600);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
 		// Make the screen visible
-		this.setVisible(true);
+		frame.setVisible(true);
 	}
 
 	/**
@@ -50,17 +57,11 @@ public abstract class SetbackClientView extends JFrame {
 	 * @param input The String sent from the Server.
 	 */
 	protected void update(String input) {
-		if (input.equals("Player one selected")) {
-			
+		if (input.endsWith(" selected")) {
+			new PleaseWaitView(controller, frame);
 		}
-		else if (input.equals("Player two selected")) {
-			
-		}
-		else if (input.equals("Player three selected")) {
-			
-		}
-		else if (input.equals("Player four selected")) {
-			
+		else if (input.equals("BEGIN GAME")) {
+			new PlaceBetsView(controller, frame);
 		}
 		else if (input.equals("EXIT")) {
 			System.exit(0);

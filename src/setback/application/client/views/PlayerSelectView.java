@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 
 import setback.application.client.SetbackClientController;
 import setback.application.client.SetbackClientView;
@@ -18,8 +19,6 @@ import setback.application.client.SetbackClientView;
  * @version Jan 2, 2014
  */
 public class PlayerSelectView extends SetbackClientView {
-
-	private static final long serialVersionUID = 2L;
 	
 	private JButton playerOneButton;
 	private JButton playerTwoButton;
@@ -31,9 +30,10 @@ public class PlayerSelectView extends SetbackClientView {
 	 * super constructor.
 	 * @param controller The SetbackClientController that
 	 * will handle all of the communication with the server.
+	 * @param frame The JFrame that the application runs in.
 	 */
-	public PlayerSelectView(SetbackClientController controller) {
-		super(controller);
+	public PlayerSelectView(SetbackClientController controller, JFrame frame) {
+		super(controller, frame);
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class PlayerSelectView extends SetbackClientView {
 				update(response);
 			}
 		});
-		this.getContentPane().add(playerOneButton);
+		frame.getContentPane().add(playerOneButton);
 		// Player Two Button
 		playerTwoButton = new JButton("Player Two");
 		playerTwoButton.setBounds(460, 190, 200, 100);
@@ -63,7 +63,7 @@ public class PlayerSelectView extends SetbackClientView {
 				update(response);
 			}
 		});
-		this.getContentPane().add(playerTwoButton);
+		frame.getContentPane().add(playerTwoButton);
 		// Player Three Button
 		playerThreeButton = new JButton("Player Three");
 		playerThreeButton.setBounds(240, 310, 200, 100);
@@ -73,7 +73,7 @@ public class PlayerSelectView extends SetbackClientView {
 				update(response);
 			}
 		});
-		this.getContentPane().add(playerThreeButton);
+		frame.getContentPane().add(playerThreeButton);
 		// Player Four Button
 		playerFourButton = new JButton("Player Four");
 		playerFourButton.setBounds(460, 310, 200, 100);
@@ -83,6 +83,6 @@ public class PlayerSelectView extends SetbackClientView {
 				update(response);
 			}
 		});
-		this.getContentPane().add(playerFourButton);
+		frame.getContentPane().add(playerFourButton);
 	}
 }

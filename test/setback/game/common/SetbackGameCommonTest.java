@@ -394,4 +394,30 @@ public class SetbackGameCommonTest {
 		
 		assertEquals(equalityString, hand.toString());
 	}
+	
+	@Test
+	public void handSortingTest() {
+		Hand hand = new Hand(PlayerNumber.PLAYER_ONE);
+		List<Card> cardList = new ArrayList<Card>();
+		cardList.add(threeOfSpades);
+		cardList.add(sixOfClubs);
+		cardList.add(aceOfHearts);
+		cardList.add(fourOfHearts);
+		cardList.add(tenOfDiamonds);
+		cardList.add(sevenOfDiamonds);
+		cardList.add(aceOfSpades);
+		cardList.add(sixOfSpades);
+		cardList.add(queenOfDiamonds);
+		cardList.add(jackOfDiamonds);
+		cardList.add(aceOfDiamonds);
+		cardList.add(sevenOfClubs);
+		hand.setCards(cardList);
+		hand.sortCards();
+		
+		String equalityString = "PLAYER_ONE'S HAND:\nThree-of-Spades\nSix-of-Spades\nAce-of-Spades\n"
+				+ "Four-of-Hearts\nAce-of-Hearts\nSix-of-Clubs\nSeven-of-Clubs\nSeven-of-Diamonds\n"
+				+ "Ten-of-Diamonds\nJack-of-Diamonds\nQueen-of-Diamonds\nAce-of-Diamonds\n";
+		
+		assertEquals(equalityString, hand.toString());
+	}
 }

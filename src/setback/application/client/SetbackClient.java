@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.swing.JFrame;
+
 import setback.application.client.views.PlayerSelectView;
 
 /**
@@ -52,7 +54,7 @@ public class SetbackClient {
 			Socket socket = new Socket(hostname, portNumber);
 			// Initialize the controller and the view
 			SetbackClientController controller = new SetbackClientController(socket);
-			new PlayerSelectView(controller);
+			new PlayerSelectView(controller, new JFrame());
 			
 		} catch (UnknownHostException e) {
 			System.err.println("Don't know about host " + hostname);

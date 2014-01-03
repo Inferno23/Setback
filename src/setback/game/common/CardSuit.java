@@ -11,19 +11,21 @@ package setback.game.common;
  */
 public enum CardSuit {
 
-	SPADES("Spades"),
-	CLUBS("Clubs"),
-	HEARTS("Hearts"),
-	DIAMONDS("Diamonds");
+	SPADES("Spades", 0),
+	CLUBS("Clubs", 26),
+	HEARTS("Hearts", 13),
+	DIAMONDS("Diamonds", 39);
 	
 	private final String printableName;
+	private final int sortValue;
 	
 	/**
 	 * Constructor for the enumerable item sets up the state.
 	 * @param printableName The name of the suit.
 	 */
-	private CardSuit(String printableName) {
+	private CardSuit(String printableName, int sortValue) {
 		this.printableName = printableName;
+		this.sortValue = sortValue;
 	}
 	
 	/**
@@ -31,6 +33,13 @@ public enum CardSuit {
 	 */
 	public String getPrintableName() {
 		return printableName;
+	}
+	
+	/**
+	 * @return the sortValue.
+	 */
+	public int getSortValue() {
+		return sortValue;
 	}
 	
 	@Override

@@ -15,7 +15,7 @@ import java.net.Socket;
  * When a button is clicked in the GUI, this
  * class handles the response.
  * @author Michael Burns
- * @version Jan 1, 2014
+ * @version Jan 2, 2014
  */
 public class SetbackClientController {
 
@@ -43,9 +43,12 @@ public class SetbackClientController {
 	}
 
 	/**
-	 * 
-	 * @param input
-	 * @return
+	 * This function is called when a button is pressed
+	 * in the GUI.  The button corresponds to a command
+	 * from the user.  This command is sent to the server,
+	 * and the response is returned to the user.
+	 * @param input The string from the button click.
+	 * @return The server's response.
 	 */
 	public String userInput(String input) {
 		String fromServer;
@@ -68,7 +71,6 @@ public class SetbackClientController {
 						returnString += fromServer;
 					}
 				}
-
 			}
 			else {
 				returnString = null;
