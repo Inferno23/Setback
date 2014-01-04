@@ -26,7 +26,7 @@ import setback.game.common.RoundResultStatus;
  * @author Michael
  * @version Dec 27, 2013
  */
-public class PlayerController implements SetbackObserver {
+public class PlayerController {
 
 	private final SetbackGameController game;
 	private PlayerNumber myNumber;
@@ -41,7 +41,6 @@ public class PlayerController implements SetbackObserver {
 	 */
 	public PlayerController(SetbackGameController game) {
 		this.game = game;
-		game.addObserver(this);
 		myNumber = null;
 	}
 
@@ -230,7 +229,7 @@ public class PlayerController implements SetbackObserver {
 	 * (non-Javadoc)
 	 * @see setback.networking.SetbackObserver#update(java.lang.String)
 	 */
-	public void update(String message) {
+	public void handleUpdate(String message) {
 		if (message == null) {
 
 		}

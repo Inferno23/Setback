@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import setback.application.PlayerController;
+import setback.application.SetbackObserver;
 import setback.application.command.CommandMessage;
 import setback.application.command.CommandParser;
 import setback.common.SetbackException;
@@ -22,10 +23,9 @@ import setback.game.SetbackGameController;
  * @author Michael
  * @version Jan 2, 2014
  */
-public class SetbackServerThread extends Thread {// implements SetbackObserver {
+public class SetbackServerThread extends Thread implements SetbackObserver {
 
 	private final Socket socket;
-//	private final SetbackGameController game;
 	private final PlayerController controller;
 	private final CommandParser parser;
 
@@ -43,7 +43,7 @@ public class SetbackServerThread extends Thread {// implements SetbackObserver {
 		super("SetbackServerThread");
 		this.socket = socket;
 //		this.game = game;
-//		game.addObserver(this);
+		game.addObserver(this);
 		this.controller = new PlayerController(game);
 		parser = new CommandParser();
 	}
@@ -86,28 +86,21 @@ public class SetbackServerThread extends Thread {// implements SetbackObserver {
 		}
 	}
 
-//	/*
-//	 * (non-Javadoc)
-//	 * @see setback.networking.SetbackObserver#update(java.lang.String)
-//	 */
-//	public void update(String message) {
-//		if (message != null) {
-//			if (message.equals("ROUND BEGIN")) {
-//				out.print("ROUND BEGIN\t");
-//			}
-//			else if (message.equals("ROUND ENDED")) {
-//				try {
-//					int teamOne = game.getTeamOneScore();
-//					int teamTwo = game.getTeamTwoScore();
-//					out.print("ROUND ENDED\t");
-//					out.print("TEAM_ONE: " + teamOne + " TEAM_TWO: " + teamTwo + "\t");
-//				} catch (SetbackException e) {
-//					e.getStackTrace();
-//				}
-//			}
-//			else if (message.startsWith("PLAYER_")) {
-//				out.print(message.toUpperCase() + "\t");
-//			}
-//		}
-//	}
+	/*
+	 * (non-Javadoc)
+	 * @see setback.networking.SetbackObserver#update(java.lang.String)
+	 */
+	public void update(String message) {
+		if (message != null) {
+			if (message.equals("ROUND BEGIN")) {
+				controller.handleUpdate("ROUND BEGIN");
+			}
+			else if (message.equals("ROUND ENDED")) {
+				
+			}
+			else if (message.startsWith("PLAYER_")) {
+				out.print(message.toUpperCase() + "\t");
+			}
+		}
+	}
 }

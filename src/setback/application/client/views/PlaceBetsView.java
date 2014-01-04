@@ -4,8 +4,12 @@
  */
 package setback.application.client.views;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.Timer;
 
 import setback.application.client.SetbackClientController;
 import setback.application.client.SetbackClientView;
@@ -18,7 +22,8 @@ import setback.application.client.SetbackClientView;
 public class PlaceBetsView extends SetbackClientView {
 
 	private JLabel pleaseWait;
-	
+	private Timer updateTimer;
+
 	/**
 	 * Create the GUI for placing bets.  Just call the
 	 * super constructor.
@@ -39,34 +44,24 @@ public class PlaceBetsView extends SetbackClientView {
 		// Background and visibility
 		super.initialize();
 		// Please wait message
-		pleaseWait = new JLabel("THE GAME HAS BEGUN!!!");
+		pleaseWait = new JLabel("Please Wait for other players");
 		pleaseWait.setBounds(350, 300, 300, 20);
 		frame.getContentPane().add(pleaseWait);
-
-	}
-	
-	/**
-	 * This helper function busy waits while displaying the
-	 * please wait message until all four players have connected,
-	 * then it terminates, allowing the bettingInitialization
-	 * function to execute.
-	 * @return The contents of the player's hand
-	 */
-	private String busyWait() {
-		String handContents = controller.userInput("SHOW_HAND");
-		while (handContents.equals("You do not have a hand yet!")) {
-			pleaseWait.setVisible(true);
-			try {
-				Thread.sleep(2000);
-				handContents = controller.userInput("SHOW_HAND");
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+		// Update timer
+		int delay = 2000;
+		ActionListener taskPerformer = new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				String handContents = controller.userInput("SHOW_HAND");
+				if (!handContents.equals("You do not have a hand yet!")) {
+					updateTimer.stop();
+					bettingInitialization(handContents);
+				}
 			}
-		}
-		pleaseWait.setVisible(false);
-		return handContents;
+		};
+		updateTimer = new Timer(delay, taskPerformer);
+		updateTimer.start();
 	}
-	
+
 	/**
 	 * Helper function that initializes the displaying of the hand
 	 * and the betting buttons.

@@ -8,10 +8,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import javax.swing.JFrame;
-
-import setback.application.client.views.PlayerSelectView;
-
 /**
  * This class functions as the client that a player will run
  * when they want to play a game of Setback.
@@ -53,8 +49,7 @@ public class SetbackClient {
 			// Make the connection
 			Socket socket = new Socket(hostname, portNumber);
 			// Initialize the controller and the view
-			SetbackClientController controller = new SetbackClientController(socket);
-			new PlayerSelectView(controller, new JFrame());
+			new SetbackClientController(socket);
 			
 		} catch (UnknownHostException e) {
 			System.err.println("Don't know about host " + hostname);

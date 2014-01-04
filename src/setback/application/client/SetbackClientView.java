@@ -3,10 +3,8 @@ package setback.application.client;
 import java.awt.Color;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 import setback.application.client.views.PlaceBetsView;
-import setback.application.client.views.PleaseWaitView;
 
 /**
  * This abstract class handles the basic GUI of Setback.
@@ -58,13 +56,21 @@ public abstract class SetbackClientView {
 	 */
 	protected void update(String input) {
 		if (input.endsWith(" selected")) {
-			new PleaseWaitView(controller, frame);
+			new PlaceBetsView(controller, frame);
 		}
 		else if (input.equals("BEGIN GAME")) {
-			new PlaceBetsView(controller, frame);
+			System.out.println("We made it!");
+			//new PlaceBetsView(controller, frame);
 		}
 		else if (input.equals("EXIT")) {
 			System.exit(0);
 		}
 	}
+
+	/**
+	 * By default this method does nothing, but many
+	 * subclasses will sit here and poll the server
+	 * for changes.
+	 */
+	protected void waitForUpdate() {	}
 }

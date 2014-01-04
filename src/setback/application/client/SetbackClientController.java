@@ -10,6 +10,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import javax.swing.JFrame;
+
+import setback.application.client.views.PlayerSelectView;
+
 /**
  * This is the brain of the SetbackClient.
  * When a button is clicked in the GUI, this
@@ -40,6 +44,9 @@ public class SetbackClientController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		// Create the GUI
+		new PlayerSelectView(this, new JFrame());
 	}
 
 	/**
@@ -53,13 +60,13 @@ public class SetbackClientController {
 	public String userInput(String input) {
 		String fromServer;
 		String returnString = null;
-		
+
 		out.println(input);
-		
+
 		try {
 			if ((fromServer = in.readLine()) != null) {
 				returnString = fromServer;
-				
+
 				System.out.println("Server: " + fromServer);
 				if (fromServer.equals("EXIT")) {
 					System.exit(0);
@@ -78,9 +85,7 @@ public class SetbackClientController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		return returnString;
 	}
-
-
 }
