@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import setback.application.client.SetbackClientController;
 import setback.application.client.SetbackClientView;
@@ -24,6 +25,9 @@ public class PlayerSelectView extends SetbackClientView {
 	private JButton playerTwoButton;
 	private JButton playerThreeButton;
 	private JButton playerFourButton;
+	
+	private JLabel teamOneLabel;
+	private JLabel teamTwoLabel;
 
 	/**
 	 * Create the GUI for player selection.  Just call the
@@ -84,5 +88,13 @@ public class PlayerSelectView extends SetbackClientView {
 			}
 		});
 		frame.getContentPane().add(playerFourButton);
+		// Team One Label
+		teamOneLabel = new JLabel("Team One");
+		teamOneLabel.setBounds(240, 170, 100, 20);
+		frame.getContentPane().add(teamOneLabel);
+		// Team Two Label
+		teamTwoLabel = new JLabel("Team Two");
+		teamTwoLabel.setBounds(460, 170, 100, 20);
+		frame.getContentPane().add(teamTwoLabel);
 	}
 }

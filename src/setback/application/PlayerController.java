@@ -203,6 +203,15 @@ public class PlayerController {
 						returnString = myHand.toString();
 					}
 				}
+				// Get current player
+				else if (command.getCommand().equals(Command.GET_CURRENT_PLAYER)) {
+					if (myHand == null) {
+						returnString = "There is no current player yet!";
+					}
+					else {
+						returnString = game.getCurrentPlayer().toString();
+					}
+				}
 				// Exit
 				else if (command.getCommand().equals(Command.EXIT)) {
 					returnString = "EXIT";
@@ -238,6 +247,9 @@ public class PlayerController {
 				// Get the hand and immediately sort the cards.
 				myHand = game.getPlayerHand(myNumber);
 				myHand.sortCards();
+			}
+			else if (message.equals("BETTING RESOLVED")) {
+				
 			}
 		}
 	}

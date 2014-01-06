@@ -142,16 +142,31 @@ public class PlayerControllerTest {
 	public void showHandProperly() {
 		initializeFourControllers();
 		final String result = controllerOne.processInput(new CommandMessage(Command.SHOW_HAND));
-		final String expected = "PLAYER_ONE'S HAND:\nSix-of-Clubs\nJack-of-Diamonds\nAce-of-Hearts"
-				+ "\nQueen-of-Diamonds\nSix-of-Spades\nTen-of-Diamonds\nFour-of-Hearts\nSeven-of-Clubs"
-				+ "\nAce-of-Diamonds\nThree-of-Spades\nAce-of-Spades\nSeven-of-Diamonds\n";
+		final String expected = "PLAYER_ONE'S HAND:\nThree-of-Spades\nSix-of-Spades\nAce-of-Spades"
+				+ "\nFour-of-Hearts\nAce-of-Hearts\nSix-of-Clubs\nSeven-of-Clubs\nSeven-of-Diamonds"
+				+ "\nTen-of-Diamonds\nJack-of-Diamonds\nQueen-of-Diamonds\nAce-of-Diamonds\n";
 		assertEquals(expected, result);
 	}
-	
+
 	@Test
 	public void showHandWithoutFourPlayers() {
 		final String result = controllerOne.processInput(new CommandMessage(Command.SHOW_HAND));
 		final String expected = "You do not have a hand yet!";
+		assertEquals(expected, result);
+	}
+
+	@Test
+	public void getCurrentPlayerWithoutFourPlayers() {
+		final String result = controllerOne.processInput(new CommandMessage(Command.GET_CURRENT_PLAYER));
+		final String expected = "There is no current player yet!";
+		assertEquals(expected, result);
+	}
+	
+	@Test
+	public void getCurrentPlayerProperly() {
+		initializeFourControllers();
+		final String result = controllerOne.processInput(new CommandMessage(Command.GET_CURRENT_PLAYER));
+		final String expected = "PLAYER_TWO";
 		assertEquals(expected, result);
 	}
 	
@@ -257,6 +272,10 @@ public class PlayerControllerTest {
 		controllerTwo.processInput(new CommandMessage(Command.REQUEST_PLAYER_TWO));
 		controllerThree.processInput(new CommandMessage(Command.REQUEST_PLAYER_THREE));
 		controllerFour.processInput(new CommandMessage(Command.REQUEST_PLAYER_FOUR));
+		controllerOne.handleUpdate("ROUND BEGIN");
+		controllerTwo.handleUpdate("ROUND BEGIN");
+		controllerThree.handleUpdate("ROUND BEGIN");
+		controllerFour.handleUpdate("ROUND BEGIN");
 	}
 
 	/**
@@ -300,7 +319,7 @@ public class PlayerControllerTest {
 		controllerThree.processInput(new CommandMessage(Command.DISCARD_CARDS, discardThree));
 		controllerFour.processInput(new CommandMessage(Command.DISCARD_CARDS, discardFour));
 	}
-	
+
 	/**
 	 * Helper function that plays a full first round of Setback.
 	 */

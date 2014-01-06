@@ -13,6 +13,7 @@ import java.net.Socket;
 import javax.swing.JFrame;
 
 import setback.application.client.views.PlayerSelectView;
+import setback.common.PlayerNumber;
 
 /**
  * This is the brain of the SetbackClient.
@@ -25,6 +26,11 @@ public class SetbackClientController {
 
 	private PrintWriter out;
 	private BufferedReader in;
+	// Setback variables
+	protected PlayerNumber myNumber;
+	protected PlayerNumber left;
+	protected PlayerNumber center;
+	protected PlayerNumber right;
 
 	/**
 	 * Constructor for a SetbackClientController that takes
@@ -75,7 +81,7 @@ public class SetbackClientController {
 				else if (fromServer.endsWith("HAND:")) {
 					while ((fromServer = in.readLine()) != null && fromServer.length() != 0) {
 						System.out.println("Server: " + fromServer);
-						returnString += fromServer;
+						returnString += "\t" + fromServer;
 					}
 				}
 			}
@@ -87,5 +93,70 @@ public class SetbackClientController {
 		}
 
 		return returnString;
+	}
+	
+	/**
+	 * This function sets the appropriate
+	 * PlayerNumbers for the controller, and
+	 * the left, center, and right.
+	 * @input The string containing this client's
+	 * player number.
+	 */
+	public void setPlayerNumbers(String input) {
+		String array[] = input.split(" ");
+		String playerString = array[0] + "_" + array[1];
+		myNumber = PlayerNumber.valueOf(playerString.toUpperCase());
+		
+		switch (myNumber) {
+		case PLAYER_ONE:
+			left = PlayerNumber.PLAYER_TWO;
+			center = PlayerNumber.PLAYER_THREE;
+			right = PlayerNumber.PLAYER_FOUR;
+			break;
+		case PLAYER_TWO:
+			left = PlayerNumber.PLAYER_THREE;
+			center = PlayerNumber.PLAYER_FOUR;
+			right = PlayerNumber.PLAYER_ONE;
+			break;
+		case PLAYER_THREE:
+			left = PlayerNumber.PLAYER_FOUR;
+			center = PlayerNumber.PLAYER_ONE;
+			right = PlayerNumber.PLAYER_TWO;
+			break;
+		case PLAYER_FOUR:
+		default:
+			left = PlayerNumber.PLAYER_ONE;
+			center = PlayerNumber.PLAYER_TWO;
+			right = PlayerNumber.PLAYER_THREE;
+			break;
+		}
+	}
+
+	/**
+	 * @return the myNumber.
+	 */
+	public PlayerNumber getMyNumber() {
+		return myNumber;
+	}
+
+	/**
+	 * @return the left.
+	 */
+	public PlayerNumber getLeft() {
+		return left;
+	}
+
+	/**
+	 * @return the center.
+	 */
+	public PlayerNumber getCenter() {
+		return center;
+	}
+
+	/**
+	 * @return the right.
+	 */
+	public PlayerNumber getRight() {
+		return right;
 	}
 }

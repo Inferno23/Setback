@@ -189,6 +189,12 @@ public interface SetbackGameController {
 	 */
 	PlayerNumber getDealer();
 	
+	/**
+	 * Getter for the currentPlayer field.
+	 * @return The current player's PlayerNumber.
+	 */
+	PlayerNumber getCurrentPlayer();
+	
 	//////////////////////////////////////////
 	// These functions are for observers    //
 	//////////////////////////////////////////

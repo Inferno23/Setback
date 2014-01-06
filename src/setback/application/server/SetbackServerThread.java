@@ -42,7 +42,6 @@ public class SetbackServerThread extends Thread implements SetbackObserver {
 	public SetbackServerThread(Socket socket, SetbackGameController game) {
 		super("SetbackServerThread");
 		this.socket = socket;
-//		this.game = game;
 		game.addObserver(this);
 		this.controller = new PlayerController(game);
 		parser = new CommandParser();
@@ -94,6 +93,9 @@ public class SetbackServerThread extends Thread implements SetbackObserver {
 		if (message != null) {
 			if (message.equals("ROUND BEGIN")) {
 				controller.handleUpdate("ROUND BEGIN");
+			}
+			else if (message.equals("BETTING RESOLVED")) {
+				controller.handleUpdate("BETTING_RESOLVED");
 			}
 			else if (message.equals("ROUND ENDED")) {
 				

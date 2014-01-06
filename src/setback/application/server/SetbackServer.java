@@ -15,7 +15,7 @@ import setback.game.SetbackGameFactory;
  * will connect to when they want to play a game of Setback.
  * When a client connects to this server, a new thread is created.
  * @author Michael
- * @version Dec 26, 2013
+ * @version Jan 5, 2014
  */
 public class SetbackServer {
 	
@@ -42,7 +42,7 @@ public class SetbackServer {
 		final SetbackGameFactory factory = SetbackGameFactory.getInstance();
 		final SetbackGameController game = factory.makeDeltaSetbackGame(0);
 		
-		if (args.length == 1) {
+		if (args != null && args.length == 1) {
 			portNumber = Integer.parseInt(args[0]);
 		}
 		else {

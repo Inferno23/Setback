@@ -3,6 +3,7 @@ package setback.application.client;
 import java.awt.Color;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import setback.application.client.views.PlaceBetsView;
 
@@ -13,9 +14,15 @@ import setback.application.client.views.PlaceBetsView;
  * @version Jan 2, 2014
  */
 public abstract class SetbackClientView {
-	
+
+	// High level variables
 	protected SetbackClientController controller;
+	protected CardImageFactory factory;
+	// Random variables
+	protected int DELAY;
+	// GUI variables
 	protected JFrame frame;
+	private JLabel cardImage;
 
 	/**
 	 * Create the GUI that the user will interact with.
@@ -26,6 +33,8 @@ public abstract class SetbackClientView {
 	public SetbackClientView(SetbackClientController controller, JFrame frame) {
 		this.controller = controller;
 		this.frame = frame;
+		factory = CardImageFactory.getInstance();
+		DELAY = 2000;
 		initialize();
 	}
 
@@ -56,21 +65,35 @@ public abstract class SetbackClientView {
 	 */
 	protected void update(String input) {
 		if (input.endsWith(" selected")) {
+			controller.setPlayerNumbers(input);
 			new PlaceBetsView(controller, frame);
+		}
+		else if (input.contains("BETTING_RESOLVED")) {
+			//new SelectTrumpView(controller, frame);
 		}
 		else if (input.equals("BEGIN GAME")) {
 			System.out.println("We made it!");
-			//new PlaceBetsView(controller, frame);
 		}
 		else if (input.equals("EXIT")) {
 			System.exit(0);
 		}
 	}
+	
 
 	/**
-	 * By default this method does nothing, but many
-	 * subclasses will sit here and poll the server
-	 * for changes.
+	 * Helper function that initializes the displaying of a hand.
+	 * @param handContents The contents of the player's hand.
 	 */
-	protected void waitForUpdate() {	}
+	protected void displayHand(String handContents) {
+		// Wipe anything from before
+		frame.getContentPane().removeAll();
+		// Parse the cards
+		String cards[] = handContents.split("\t");
+		for (int index = 12; index > 0; index--) {
+			cardImage = new JLabel(factory.createCard(cards[index]));
+			cardImage.setBounds(230 + (20 * index), 350, 100, 125);
+			frame.getContentPane().add(cardImage);
+		}
+		frame.repaint();
+	}
 }

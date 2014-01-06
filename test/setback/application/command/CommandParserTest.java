@@ -118,6 +118,13 @@ public class CommandParserTest {
 	}
 
 	@Test
+	public void getCurrentPlayer() throws SetbackException {
+		final CommandMessage result = parser.parseString("GET_CURRENT_PLAYER");
+		final CommandMessage expected = new CommandMessage(Command.GET_CURRENT_PLAYER);
+		assertEquals(expected, result);
+	}	
+	
+	@Test
 	public void commandMessageCoverge() throws SetbackException {
 		final CommandMessage message = new CommandMessage(Command.SHOW_HAND);
 		final CommandMessage noArrayMessage = new CommandMessage(Command.REQUEST_PLAYER_ONE);

@@ -22,7 +22,8 @@ public enum Command {
 	SELECT_TRUMP(1),
 	DISCARD_CARDS(3),
 	PLAY_CARD(1),
-	SHOW_HAND(0);
+	SHOW_HAND(0),
+	GET_CURRENT_PLAYER(0);
 	
 	private final int numberOfArguments;
 
