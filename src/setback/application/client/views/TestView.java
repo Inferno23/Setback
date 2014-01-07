@@ -7,12 +7,10 @@ package setback.application.client.views;
 import java.awt.Color;
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 /**
@@ -91,7 +89,7 @@ public class TestView extends JFrame {
 		contentPane.add(button);
 		
 		JButton button_1 = new JButton("Cards go here");
-		button_1.setBounds(255, 50, 340, 100);
+		button_1.setBounds(255, 30, 340, 125);
 		contentPane.add(button_1);
 		
 		JButton button_2 = new JButton("Cards go here");

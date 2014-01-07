@@ -26,7 +26,6 @@ public class PlaceBetsView extends SetbackClientView {
 
 	private Timer connectionTimer;
 	private Timer neighborBetTimer;
-	private Timer bettingResolvedTimer;
 
 	private JLabel pleaseWait;
 	private JLabel myBet;
@@ -70,8 +69,10 @@ public class PlaceBetsView extends SetbackClientView {
 				String handContents = controller.userInput("SHOW_HAND");
 				if (!handContents.equals("You do not have a hand yet!")) {
 					connectionTimer.stop();
+					// Wipe anything from before
+					frame.getContentPane().removeAll();
 					displayHand(handContents);
-					//displayNeighborHands(); TODO: ENABLE THIS
+					displayNeighborHands();
 					bettingInitialization();
 					PlayerNumber currentPlayer = PlayerNumber.valueOf(controller.userInput("GET_CURRENT_PLAYER").toUpperCase());
 					if (currentPlayer.equals(controller.getLeft())) {
@@ -85,7 +86,7 @@ public class PlaceBetsView extends SetbackClientView {
 					}
 					else {
 						// I am the current player
-						toggleButtons(true);
+						toggleButtons(buttonList, true);
 					}
 				}
 			}
@@ -108,8 +109,10 @@ public class PlaceBetsView extends SetbackClientView {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("PLACE_BET PASS");
 				if (response.startsWith(betString + "PASS")) {
-					toggleButtons(false);
+					toggleButtons(buttonList, false);
 					myBet.setText("YOU PASSED");
+					// Check for BETTING RESOLVED
+					update(response);
 					waitOnPlayer(controller.getLeft());
 				}
 			}
@@ -122,8 +125,10 @@ public class PlaceBetsView extends SetbackClientView {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("PLACE_BET TWO");
 				if (response.startsWith(betString + "TWO")) {
-					toggleButtons(false);
+					toggleButtons(buttonList, false);
 					myBet.setText("YOU BET TWO");
+					// Check for BETTING RESOLVED
+					update(response);
 					waitOnPlayer(controller.getLeft());
 				}
 			}
@@ -136,8 +141,10 @@ public class PlaceBetsView extends SetbackClientView {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("PLACE_BET THREE");
 				if (response.startsWith(betString + "THREE")) {
-					toggleButtons(false);
+					toggleButtons(buttonList, false);
 					myBet.setText("YOU BET THREE");
+					// Check for BETTING RESOLVED
+					update(response);
 					waitOnPlayer(controller.getLeft());
 				}
 			}
@@ -150,8 +157,10 @@ public class PlaceBetsView extends SetbackClientView {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("PLACE_BET FOUR");
 				if (response.startsWith(betString + "FOUR")) {
-					toggleButtons(false);
+					toggleButtons(buttonList, false);
 					myBet.setText("YOU BET FOUR");
+					// Check for BETTING RESOLVED
+					update(response);
 					waitOnPlayer(controller.getLeft());
 				}
 			}
@@ -164,8 +173,10 @@ public class PlaceBetsView extends SetbackClientView {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("PLACE_BET FIVE");
 				if (response.startsWith(betString + "FIVE")) {
-					toggleButtons(false);
+					toggleButtons(buttonList, false);
 					myBet.setText("YOU BET FIVE");
+					// Check for BETTING RESOLVED
+					update(response);
 					waitOnPlayer(controller.getLeft());
 				}
 			}
@@ -177,28 +188,25 @@ public class PlaceBetsView extends SetbackClientView {
 		takeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("PLACE_BET TAKE");
-				if (response.equals(betString + "TAKE")) {
-					toggleButtons(false);
+				if (response.startsWith(betString + "TAKE")) {
+					toggleButtons(buttonList, false);
 					myBet.setText("YOU TOOK THE BET");
+					// Check for BETTING RESOLVED
+					update(response);
 					waitOnPlayer(controller.getLeft());
 				}
 			}
 		});
 		frame.getContentPane().add(takeButton);
+		// Add the buttons to the list
+		buttonList.add(passButton);
+		buttonList.add(twoButton);
+		buttonList.add(threeButton);
+		buttonList.add(fourButton);
+		buttonList.add(fiveButton);
+		buttonList.add(takeButton);
 		// Disable all of the buttons
-		toggleButtons(false);
-		// Betting resolved timer
-		ActionListener bettingResolvedAction = new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				String response = controller.userInput("NO_COMMAND");
-				if (response.contains("BETTING_RESOLVED")) {
-					update(response);
-					bettingResolvedTimer.stop();
-				}
-			}
-		};
-		bettingResolvedTimer = new Timer(DELAY, bettingResolvedAction);
-		//bettingResolvedTimer.start();
+		toggleButtons(buttonList, false);
 		// My bet label
 		myBet = new JLabel();
 		myBet.setHorizontalAlignment(SwingConstants.CENTER);
@@ -207,35 +215,17 @@ public class PlaceBetsView extends SetbackClientView {
 	}
 
 	/**
-	 * This helper function enables or disables
-	 * all of the betting buttons based on the input.
-	 * @param toggle The boolean flag that determines
-	 * if the buttons should be enabled or disabled.
-	 */
-	private void toggleButtons(boolean toggle) {
-		passButton.setEnabled(toggle);
-		twoButton.setEnabled(toggle);
-		threeButton.setEnabled(toggle);
-		fourButton.setEnabled(toggle);
-		fiveButton.setEnabled(toggle);
-		takeButton.setEnabled(toggle);
-	}
-
-	/**
 	 * This helper function handles waiting for other
 	 * people to place their bets.
 	 * @param playerToWaitOn
 	 */
 	private void waitOnPlayer(final PlayerNumber playerToWaitOn) {
-		toggleButtons(false);
+		toggleButtons(buttonList, false);
 		ActionListener singleBetAction = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				String response = controller.userInput("NO_COMMAND");
 				if (!response.equals("No command")) {
 					neighborBetTimer.stop();
-					if (response.contains("BETTING_RESOLVED")) {
-						System.out.println("Betting has been resolved");
-					}
 					if (playerToWaitOn == controller.getLeft()) {
 						// Left label
 						String array[] = response.split(" ");
@@ -264,8 +254,10 @@ public class PlaceBetsView extends SetbackClientView {
 						frame.getContentPane().add(rightBet);
 						frame.repaint();
 						// It's my turn to bet.
-						toggleButtons(true);
+						toggleButtons(buttonList, true);
 					}
+					// Check for BETTING RESOLVED
+					update(response);
 				}
 			}
 		};

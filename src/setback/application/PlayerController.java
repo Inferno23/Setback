@@ -212,6 +212,19 @@ public class PlayerController {
 						returnString = game.getCurrentPlayer().toString();
 					}
 				}
+//				// Get dealer
+//				else if (command.getCommand().equals(Command.GET_DEALER)) {
+//					if (myHand == null) {
+//						returnString = "There is no dealer yet!";
+//					}
+//					else {
+//						returnString = game.getDealer().toString();
+//					}
+//				}
+				// Get winning bet
+				else if (command.getCommand().equals(Command.GET_WINNING_BET)) {
+					returnString = game.getWinningBet().toString();
+				}
 				// Exit
 				else if (command.getCommand().equals(Command.EXIT)) {
 					returnString = "EXIT";

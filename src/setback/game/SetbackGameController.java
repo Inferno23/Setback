@@ -10,6 +10,7 @@ import setback.application.SetbackObserver;
 import setback.common.PlayerNumber;
 import setback.common.SetbackException;
 import setback.game.common.Bet;
+import setback.game.common.BetResult;
 import setback.game.common.Card;
 import setback.game.common.CardPlayerDescriptor;
 import setback.game.common.CardSuit;
@@ -194,6 +195,12 @@ public interface SetbackGameController {
 	 * @return The current player's PlayerNumber.
 	 */
 	PlayerNumber getCurrentPlayer();
+	
+	/**
+	 * Getter for the winningBet field.
+	 * @return The winning bettor and bet.
+	 */
+	BetResult getWinningBet();
 	
 	//////////////////////////////////////////
 	// These functions are for observers    //

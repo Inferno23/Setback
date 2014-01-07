@@ -48,4 +48,20 @@ public class CardImageFactory {
 		graphic.drawImage(originalIcon.getImage(), 0, 0, 100, 125, null);
 		return new ImageIcon(resizedImage);
 	}
+	
+	/**
+	 * This function takes in the name of a card,
+	 * and produces an appropriately sized version of it
+	 * that is horizontal, for the left and right players.
+	 * @param cardName The name of the card whose
+	 * image we want.
+	 * @return The image of the card.
+	 */
+	public ImageIcon createHorizontalCard(String cardName) {
+		ImageIcon originalIcon = new ImageIcon("lib/cards/" + cardName + ".png");
+		BufferedImage resizedImage = new BufferedImage(125, 100, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D graphic = resizedImage.createGraphics();
+		graphic.drawImage(originalIcon.getImage(), 0, 0, 125, 100, null);
+		return new ImageIcon(resizedImage);
+	}
 }

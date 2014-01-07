@@ -125,6 +125,7 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		bettingResolved = false;
 		allBetsPlaced = false;
 		nextBettor = updatePlayer(dealer);
+		winningBet = null;
 
 		notifyObservers("ROUND BEGIN");
 	}
@@ -601,6 +602,14 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 	 */
 	public PlayerNumber getCurrentPlayer() {
 		return currentPlayer;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see setback.game.SetbackGameController#getWinningBet()
+	 */
+	public BetResult getWinningBet() {
+		return winningBet;
 	}
 
 	/*

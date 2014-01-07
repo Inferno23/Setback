@@ -8,7 +8,7 @@ package setback.application.command;
  * This enumeration defines the commands that are passed
  * back and forth between the server and client.
  * @author Michael
- * @version Dec 27, 2013
+ * @version Jan 7, 2014
  */
 public enum Command {
 
@@ -23,7 +23,9 @@ public enum Command {
 	DISCARD_CARDS(3),
 	PLAY_CARD(1),
 	SHOW_HAND(0),
-	GET_CURRENT_PLAYER(0);
+	GET_CURRENT_PLAYER(0),
+//	GET_DEALER(0),
+	GET_WINNING_BET(0);
 	
 	private final int numberOfArguments;
 

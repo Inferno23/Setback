@@ -27,10 +27,10 @@ public class SetbackClientController {
 	private PrintWriter out;
 	private BufferedReader in;
 	// Setback variables
-	protected PlayerNumber myNumber;
-	protected PlayerNumber left;
-	protected PlayerNumber center;
-	protected PlayerNumber right;
+	private PlayerNumber myNumber;
+	private PlayerNumber left;
+	private PlayerNumber center;
+	private PlayerNumber right;
 
 	/**
 	 * Constructor for a SetbackClientController that takes

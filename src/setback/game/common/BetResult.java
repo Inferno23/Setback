@@ -40,4 +40,12 @@ public class BetResult {
 	public Bet getBet() {
 		return bet;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		return bettor.toString() + " WON WITH A BET OF  " + bet.toString().toUpperCase();
+	}
 }
