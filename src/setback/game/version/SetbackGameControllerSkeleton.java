@@ -156,7 +156,7 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 			allBetsPlaced = true;
 		}
 
-		notifyObservers(bettor.toString() + " BET " + bet.toString());
+		notifyObservers(bettor.toString() + " BET " + bet.toString().toUpperCase());
 	}
 
 	/*

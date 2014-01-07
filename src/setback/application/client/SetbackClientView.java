@@ -20,6 +20,7 @@ public abstract class SetbackClientView {
 	protected CardImageFactory factory;
 	// Random variables
 	protected int DELAY;
+	protected int CARD_OFFSET;
 	// GUI variables
 	protected JFrame frame;
 	private JLabel cardImage;
@@ -35,6 +36,7 @@ public abstract class SetbackClientView {
 		this.frame = frame;
 		factory = CardImageFactory.getInstance();
 		DELAY = 2000;
+		CARD_OFFSET = 20;
 		initialize();
 	}
 
@@ -78,7 +80,7 @@ public abstract class SetbackClientView {
 			System.exit(0);
 		}
 	}
-	
+
 
 	/**
 	 * Helper function that initializes the displaying of a hand.
@@ -91,9 +93,32 @@ public abstract class SetbackClientView {
 		String cards[] = handContents.split("\t");
 		for (int index = 12; index > 0; index--) {
 			cardImage = new JLabel(factory.createCard(cards[index]));
-			cardImage.setBounds(230 + (20 * index), 350, 100, 125);
+			cardImage.setBounds(230 + (CARD_OFFSET * index), 400, 100, 125);
 			frame.getContentPane().add(cardImage);
 		}
 		frame.repaint();
+	}
+
+	/**
+	 * Helper function that displays the neighbors hands.
+	 * All of the cards appear the same, as you only see the backs.
+	 */
+	protected void displayNeighborHands() {
+		int index;
+		// Left neighbor
+		for (index = 12; index > 0; index--) {
+			cardImage = new JLabel(factory.createCard("Back"));
+			cardImage.setBounds(35, 60 + (CARD_OFFSET * index), 100, 125);
+		}
+		// Center neighbor
+		for (index = 1; index < 13; index++) {
+			cardImage = new JLabel(factory.createCard("Back"));
+			cardImage.setBounds(235 + (CARD_OFFSET * index), 50, 100, 125);
+		}
+		// Right neighbor
+		for (index = 1; index < 13; index++) {
+			cardImage = new JLabel(factory.createCard("Back"));
+			cardImage.setBounds(710, 40 + (CARD_OFFSET * index), 100, 125);
+		}
 	}
 }

@@ -248,6 +248,9 @@ public class PlayerController {
 				myHand = game.getPlayerHand(myNumber);
 				myHand.sortCards();
 			}
+			else if (message.startsWith("PLAYER_") && message.contains(" BET ")) {
+				// Do nothing
+			}
 			else if (message.equals("BETTING RESOLVED")) {
 				
 			}

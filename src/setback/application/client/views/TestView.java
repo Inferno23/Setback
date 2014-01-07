@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 /**
  * 
@@ -79,5 +81,40 @@ public class TestView extends JFrame {
 		takeButton.setEnabled(false);
 		takeButton.setBounds(595, 250, 75, 75);
 		contentPane.add(takeButton);
+		
+		JButton cardsButton = new JButton("Cards go here");
+		cardsButton.setBounds(250, 400, 340, 100);
+		contentPane.add(cardsButton);
+		
+		JButton button = new JButton("Cards go here");
+		button.setBounds(35, 80, 100, 340);
+		contentPane.add(button);
+		
+		JButton button_1 = new JButton("Cards go here");
+		button_1.setBounds(255, 50, 340, 100);
+		contentPane.add(button_1);
+		
+		JButton button_2 = new JButton("Cards go here");
+		button_2.setBounds(710, 60, 100, 340);
+		contentPane.add(button_2);
+		
+		JLabel lblPlayeroneBetTwo = new JLabel("PLAYER_ONE BET TWO");
+		lblPlayeroneBetTwo.setBounds(170, 185, 160, 40);
+		contentPane.add(lblPlayeroneBetTwo);
+		
+		JLabel lblPlayerthreeBetFive = new JLabel("PLAYER_THREE BET FIVE");
+		lblPlayerthreeBetFive.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPlayerthreeBetFive.setBounds(340, 160, 160, 40);
+		contentPane.add(lblPlayerthreeBetFive);
+		
+		JLabel label_1 = new JLabel("PLAYER_ONE BET TWO");
+		label_1.setHorizontalAlignment(SwingConstants.RIGHT);
+		label_1.setBounds(510, 185, 160, 40);
+		contentPane.add(label_1);
+		
+		JLabel label = new JLabel("PLAYER_THREE BET FIVE");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setBounds(340, 350, 160, 40);
+		contentPane.add(label);
 	}
 }

@@ -94,15 +94,17 @@ public class SetbackServerThread extends Thread implements SetbackObserver {
 			if (message.equals("ROUND BEGIN")) {
 				controller.handleUpdate("ROUND BEGIN");
 			}
+			else if (message.startsWith("PLAYER_") && message.contains(" BET ")) {
+				// The PlayerController does not care, but we need to tell the client
+				out.print(message + " ");
+			}
 			else if (message.equals("BETTING RESOLVED")) {
 				controller.handleUpdate("BETTING_RESOLVED");
 			}
 			else if (message.equals("ROUND ENDED")) {
 				
 			}
-			else if (message.startsWith("PLAYER_")) {
-				out.print(message.toUpperCase() + "\t");
-			}
+			
 		}
 	}
 }

@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 import setback.application.client.SetbackClientController;
@@ -28,6 +29,10 @@ public class PlaceBetsView extends SetbackClientView {
 	private Timer bettingResolvedTimer;
 
 	private JLabel pleaseWait;
+	private JLabel myBet;
+	private JLabel leftBet;
+	private JLabel centerBet;
+	private JLabel rightBet;
 
 	private JButton passButton;
 	private JButton twoButton;
@@ -66,16 +71,16 @@ public class PlaceBetsView extends SetbackClientView {
 				if (!handContents.equals("You do not have a hand yet!")) {
 					connectionTimer.stop();
 					displayHand(handContents);
+					//displayNeighborHands(); TODO: ENABLE THIS
 					bettingInitialization();
-
 					PlayerNumber currentPlayer = PlayerNumber.valueOf(controller.userInput("GET_CURRENT_PLAYER").toUpperCase());
-					if (currentPlayer == controller.getLeft()) {
+					if (currentPlayer.equals(controller.getLeft())) {
 						waitOnPlayer(controller.getLeft());
 					}
-					else if (currentPlayer == controller.getCenter()) {
+					else if (currentPlayer.equals(controller.getCenter())) {
 						waitOnPlayer(controller.getCenter());
 					}
-					else if (currentPlayer == controller.getRight()) {
+					else if (currentPlayer.equals(controller.getRight())) {
 						waitOnPlayer(controller.getRight());
 					}
 					else {
@@ -102,8 +107,9 @@ public class PlaceBetsView extends SetbackClientView {
 		passButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("PLACE_BET PASS");
-				if (response.equals(betString + "PASS")) {
+				if (response.startsWith(betString + "PASS")) {
 					toggleButtons(false);
+					myBet.setText("YOU PASSED");
 					waitOnPlayer(controller.getLeft());
 				}
 			}
@@ -117,6 +123,7 @@ public class PlaceBetsView extends SetbackClientView {
 				String response = controller.userInput("PLACE_BET TWO");
 				if (response.startsWith(betString + "TWO")) {
 					toggleButtons(false);
+					myBet.setText("YOU BET TWO");
 					waitOnPlayer(controller.getLeft());
 				}
 			}
@@ -128,8 +135,9 @@ public class PlaceBetsView extends SetbackClientView {
 		threeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("PLACE_BET THREE");
-				if (response.equals(betString + "THREE")) {
+				if (response.startsWith(betString + "THREE")) {
 					toggleButtons(false);
+					myBet.setText("YOU BET THREE");
 					waitOnPlayer(controller.getLeft());
 				}
 			}
@@ -141,8 +149,9 @@ public class PlaceBetsView extends SetbackClientView {
 		fourButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("PLACE_BET FOUR");
-				if (response.equals(betString + "FOUR")) {
+				if (response.startsWith(betString + "FOUR")) {
 					toggleButtons(false);
+					myBet.setText("YOU BET FOUR");
 					waitOnPlayer(controller.getLeft());
 				}
 			}
@@ -154,8 +163,9 @@ public class PlaceBetsView extends SetbackClientView {
 		fiveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("PLACE_BET FIVE");
-				if (response.equals(betString + "FIVE")) {
+				if (response.startsWith(betString + "FIVE")) {
 					toggleButtons(false);
+					myBet.setText("YOU BET FIVE");
 					waitOnPlayer(controller.getLeft());
 				}
 			}
@@ -169,6 +179,7 @@ public class PlaceBetsView extends SetbackClientView {
 				String response = controller.userInput("PLACE_BET TAKE");
 				if (response.equals(betString + "TAKE")) {
 					toggleButtons(false);
+					myBet.setText("YOU TOOK THE BET");
 					waitOnPlayer(controller.getLeft());
 				}
 			}
@@ -187,7 +198,12 @@ public class PlaceBetsView extends SetbackClientView {
 			}
 		};
 		bettingResolvedTimer = new Timer(DELAY, bettingResolvedAction);
-		bettingResolvedTimer.start();
+		//bettingResolvedTimer.start();
+		// My bet label
+		myBet = new JLabel();
+		myBet.setHorizontalAlignment(SwingConstants.CENTER);
+		myBet.setBounds(340, 350, 160, 40);
+		frame.getContentPane().add(myBet);
 	}
 
 	/**
@@ -197,12 +213,12 @@ public class PlaceBetsView extends SetbackClientView {
 	 * if the buttons should be enabled or disabled.
 	 */
 	private void toggleButtons(boolean toggle) {
-//		passButton.setEnabled(toggle);
-//		twoButton.setEnabled(toggle);
-//		threeButton.setEnabled(toggle);
-//		fourButton.setEnabled(toggle);
-//		fiveButton.setEnabled(toggle);
-//		takeButton.setEnabled(toggle);
+		passButton.setEnabled(toggle);
+		twoButton.setEnabled(toggle);
+		threeButton.setEnabled(toggle);
+		fourButton.setEnabled(toggle);
+		fiveButton.setEnabled(toggle);
+		takeButton.setEnabled(toggle);
 	}
 
 	/**
@@ -211,19 +227,42 @@ public class PlaceBetsView extends SetbackClientView {
 	 * @param playerToWaitOn
 	 */
 	private void waitOnPlayer(final PlayerNumber playerToWaitOn) {
-		final String waitingString = playerToWaitOn.toString().toUpperCase() + " BET";
-		System.out.println(waitingString);
+		toggleButtons(false);
 		ActionListener singleBetAction = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				String response = controller.userInput("NO_COMMAND");
-				if (response.startsWith(waitingString)) {
+				if (!response.equals("No command")) {
 					neighborBetTimer.stop();
+					if (response.contains("BETTING_RESOLVED")) {
+						System.out.println("Betting has been resolved");
+					}
 					if (playerToWaitOn == controller.getLeft()) {
+						// Left label
+						String array[] = response.split(" ");
+						leftBet = new JLabel(array[0] + " " + array[1] + " " + array[2]);
+						leftBet.setBounds(170, 185, 160, 40);
+						frame.getContentPane().add(leftBet);
+						frame.getContentPane().add(leftBet);
+						frame.repaint();
 						waitOnPlayer(controller.getCenter());
 					} else if (playerToWaitOn == controller.getCenter()) {
+						// Center label
+						String array[] = response.split(" ");
+						centerBet = new JLabel(array[0] + " " + array[1] + " " + array[2]);
+						centerBet.setHorizontalAlignment(SwingConstants.CENTER);
+						centerBet.setBounds(340, 160, 160, 40);
+						frame.getContentPane().add(centerBet);
+						frame.repaint();
 						waitOnPlayer(controller.getRight());
 					}
 					else {
+						// Right label
+						String array[] = response.split(" ");
+						rightBet = new JLabel(array[0] + " " + array[1] + " " + array[2]);
+						rightBet.setHorizontalAlignment(SwingConstants.RIGHT);
+						rightBet.setBounds(510, 185, 160, 40);
+						frame.getContentPane().add(rightBet);
+						frame.repaint();
 						// It's my turn to bet.
 						toggleButtons(true);
 					}

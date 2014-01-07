@@ -85,16 +85,13 @@ public class SetbackClientController {
 					}
 				}
 			}
-			else {
-				returnString = null;
-			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		return returnString;
 	}
-	
+		
 	/**
 	 * This function sets the appropriate
 	 * PlayerNumbers for the controller, and
