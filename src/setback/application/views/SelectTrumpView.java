@@ -2,7 +2,7 @@
  * This file was developed for fun by Michael Burns for a private
  * implementation of the card game Setback, also known as Pitch.
  */
-package setback.application.client;
+package setback.application.views;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
+import setback.application.client.ListenerEnum;
+import setback.application.client.SetbackClientController;
+import setback.application.client.SetbackClientView;
 import setback.common.PlayerNumber;
 
 /**
@@ -55,13 +58,13 @@ public class SelectTrumpView extends SetbackClientView {
 		super.initialize();
 		// Winning bet label
 		winningBet = new JLabel(controller.userInput("GET_WINNING_BET"));
-		winningBet.setBounds(340, 275, 250, 40);
+		winningBet.setBounds(340, 200, 250, 40);
 		winningBet.setHorizontalAlignment(SwingConstants.CENTER);
 		frame.getContentPane().add(winningBet);
 		// Hands
 		String handContents = controller.userInput("SHOW_HAND");
-		displayHand(handContents);
-		displayNeighborHands();
+		displayHand(handContents, ListenerEnum.NONE);
+		displayNeighborHands(12);
 		// Set up the buttons
 		final String trumpString = controller.getMyNumber().toString() + " SELECTED ";
 		// Spades button
@@ -69,9 +72,10 @@ public class SelectTrumpView extends SetbackClientView {
 		spadesButton.setBounds(170, 250, 125, 75);
 		spadesButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String response = controller.userInput("SELECT_TRUMP SPADES");
+				String response = controller.userInput("SELECT_TRUMP SPADES").toUpperCase();
 				if (response.startsWith(trumpString + "SPADES")) {
 					toggleButtons(buttonList, false);
+					initializeTimer();
 					// Check for TRUMP SELECTED
 					update(response);
 				}
@@ -83,9 +87,10 @@ public class SelectTrumpView extends SetbackClientView {
 		heartsButton.setBounds(300, 250, 125, 75);
 		heartsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String response = controller.userInput("SELECT_TRUMP HEARTS");
+				String response = controller.userInput("SELECT_TRUMP HEARTS").toUpperCase();
 				if (response.startsWith(trumpString + "HEARTS")) {
 					toggleButtons(buttonList, false);
+					initializeTimer();
 					// Check for TRUMP SELECTED
 					update(response);
 				}
@@ -97,9 +102,10 @@ public class SelectTrumpView extends SetbackClientView {
 		clubsButton.setBounds(430, 250, 125, 75);
 		clubsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String response = controller.userInput("SELECT_TRUMP CLUBS");
+				String response = controller.userInput("SELECT_TRUMP CLUBS").toUpperCase();
 				if (response.startsWith(trumpString + "CLUBS")) {
 					toggleButtons(buttonList, false);
+					initializeTimer();
 					// Check for TRUMP SELECTED
 					update(response);
 				}
@@ -111,9 +117,10 @@ public class SelectTrumpView extends SetbackClientView {
 		diamondsButton.setBounds(560, 250, 125, 75);
 		diamondsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String response = controller.userInput("SELECT_TRUMP DIAMONDS");
+				String response = controller.userInput("SELECT_TRUMP DIAMONDS").toUpperCase();
 				if (response.startsWith(trumpString + "DIAMONDS")) {
 					toggleButtons(buttonList, false);
+					initializeTimer();
 					// Check for TRUMP SELECTED
 					update(response);
 				}
@@ -134,19 +141,26 @@ public class SelectTrumpView extends SetbackClientView {
 		// This is not the current player, enable the timer
 		else {
 			toggleButtons(buttonList, false);
-			ActionListener updateAction = new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					String response = controller.userInput("NO_COMMAND");
-					if (!response.equals("NO_COMMAND")) {
-						trumpSelectionTimer.stop();
-						// Just move along to the discarding screen, trump
-						// will be displayed there as well.
-						update(response);
-					}
-				}
-			};
-			trumpSelectionTimer = new Timer(DELAY, updateAction);
-			trumpSelectionTimer.start();
+			initializeTimer();
 		}
+	}
+
+	/**
+	 * This helper function sets up the timer.
+	 */
+	private void initializeTimer() {
+		ActionListener updateAction = new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				String response = controller.userInput("NO_COMMAND");
+				if (!response.equals("No command")) {
+					trumpSelectionTimer.stop();
+					// Just move along to the discarding screen, trump
+					// will be displayed there as well.
+					update(response);
+				}
+			}
+		};
+		trumpSelectionTimer = new Timer(DELAY, updateAction);
+		trumpSelectionTimer.start();
 	}
 }

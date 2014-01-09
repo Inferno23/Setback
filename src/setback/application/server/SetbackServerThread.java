@@ -102,6 +102,14 @@ public class SetbackServerThread extends Thread implements SetbackObserver {
 				// The PlayerController does not care, but we need to tell the client
 				out.print(message + " ");
 			}
+			else if (message.startsWith("PLAYER_") && message.contains(" DISCARDED")) {
+				// The PlayerController does not care, but we need to tell the client
+				out.print(message + " ");
+			}
+			else if (message.contains("TRICK STARTED")) {
+				// The PlayerController does not care, but we need to tell the client
+				out.print(message + " ");
+			}
 			else if (message.equals("BETTING RESOLVED")) {
 				// The PlayerController does not care, but we need to tell the client
 				out.print(message + " ");

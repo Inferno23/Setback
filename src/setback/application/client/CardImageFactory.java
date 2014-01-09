@@ -24,7 +24,7 @@ public class CardImageFactory {
 	 * This is deliberately left empty.
 	 */
 	private CardImageFactory() {
-		// Intentionally Left empty.
+		// Intentionally left empty.
 	}
 	
 	/**

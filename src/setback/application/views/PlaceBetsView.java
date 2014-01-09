@@ -2,7 +2,7 @@
  * This file was developed for fun by Michael Burns for a private
  * implementation of the card game Setback, also known as Pitch.
  */
-package setback.application.client.views;
+package setback.application.views;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
+import setback.application.client.ListenerEnum;
 import setback.application.client.SetbackClientController;
 import setback.application.client.SetbackClientView;
 import setback.common.PlayerNumber;
@@ -71,8 +72,8 @@ public class PlaceBetsView extends SetbackClientView {
 					connectionTimer.stop();
 					// Wipe anything from before
 					frame.getContentPane().removeAll();
-					displayHand(handContents);
-					displayNeighborHands();
+					displayHand(handContents, ListenerEnum.NONE);
+					displayNeighborHands(12);
 					bettingInitialization();
 					PlayerNumber currentPlayer = PlayerNumber.valueOf(controller.userInput("GET_CURRENT_PLAYER").toUpperCase());
 					if (currentPlayer.equals(controller.getLeft())) {

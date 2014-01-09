@@ -202,6 +202,12 @@ public interface SetbackGameController {
 	 */
 	BetResult getWinningBet();
 	
+	/**
+	 * Getter for the trump field.
+	 * @return The trump suit.
+	 */
+	CardSuit getTrump();
+	
 	//////////////////////////////////////////
 	// These functions are for observers    //
 	//////////////////////////////////////////

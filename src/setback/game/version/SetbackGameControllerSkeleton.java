@@ -611,6 +611,14 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 	public BetResult getWinningBet() {
 		return winningBet;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see setback.game.SetbackGameController#getTrump()
+	 */
+	public CardSuit getTrump() {
+		return trump;
+	}
 
 	/*
 	 * (non-Javadoc)

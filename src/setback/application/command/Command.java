@@ -24,8 +24,8 @@ public enum Command {
 	PLAY_CARD(1),
 	SHOW_HAND(0),
 	GET_CURRENT_PLAYER(0),
-//	GET_DEALER(0),
-	GET_WINNING_BET(0);
+	GET_WINNING_BET(0),
+	GET_TRUMP(0);
 	
 	private final int numberOfArguments;
 

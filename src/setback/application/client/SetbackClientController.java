@@ -12,7 +12,7 @@ import java.net.Socket;
 
 import javax.swing.JFrame;
 
-import setback.application.client.views.PlayerSelectView;
+import setback.application.views.PlayerSelectView;
 import setback.common.PlayerNumber;
 
 /**

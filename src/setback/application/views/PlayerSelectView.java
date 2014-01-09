@@ -2,7 +2,7 @@
  * This file was developed for fun by Michael Burns for a private
  * implementation of the card game Setback, also known as Pitch.
  */
-package setback.application.client.views;
+package setback.application.views;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

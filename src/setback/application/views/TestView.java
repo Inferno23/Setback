@@ -2,7 +2,7 @@
  * This file was developed for fun by Michael Burns for a private
  * implementation of the card game Setback, also known as Pitch.
  */
-package setback.application.client.views;
+package setback.application.views;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -12,6 +12,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * 
@@ -114,5 +117,15 @@ public class TestView extends JFrame {
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setBounds(340, 350, 160, 40);
 		contentPane.add(label);
+		
+		JLabel lblClickMe = new JLabel("Click me");
+		lblClickMe.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+			}
+		});
+		lblClickMe.setIcon(new ImageIcon("C:\\Users\\Michael\\Desktop\\Card Images\\Ace-of-Clubs.png"));
+		lblClickMe.setBounds(624, 443, 148, 75);
+		contentPane.add(lblClickMe);
 	}
 }
