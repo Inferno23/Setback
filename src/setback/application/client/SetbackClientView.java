@@ -151,148 +151,88 @@ public abstract class SetbackClientView {
 		if (cards.length > 12) {
 			cardTwelve = new JLabel(factory.createCard(cards[12]));
 			cardTwelve.setBounds(470, 400, CARD_WIDTH, CARD_HEIGHT);
-		}
-		if (cards.length > 11) {
-			cardEleven = new JLabel(factory.createCard(cards[11]));
-			cardEleven.setBounds(450, 400, CARD_WIDTH, CARD_HEIGHT);
-		}
-		if (cards.length > 10) {
-			cardTen = new JLabel(factory.createCard(cards[10]));
-			cardTen.setBounds(430, 400, CARD_WIDTH, CARD_HEIGHT);
-		}
-		if (cards.length > 9) {
-			cardNine = new JLabel(factory.createCard(cards[9]));
-			cardNine.setBounds(410, 400, CARD_WIDTH, CARD_HEIGHT);
-		}
-		if (cards.length > 8) {
-			cardEight = new JLabel(factory.createCard(cards[8]));
-			cardEight.setBounds(390, 400, CARD_WIDTH, CARD_HEIGHT);
-		}
-		if (cards.length > 7) {
-			cardSeven = new JLabel(factory.createCard(cards[7]));
-			cardSeven.setBounds(370, 400, CARD_WIDTH, CARD_HEIGHT);
-		}
-		if (cards.length > 6) {
-			cardSix = new JLabel(factory.createCard(cards[6]));
-			cardSix.setBounds(350, 400, CARD_WIDTH, CARD_HEIGHT);
-		}
-		if (cards.length > 5) {
-			cardFive = new JLabel(factory.createCard(cards[5]));
-			cardFive.setBounds(330, 400, CARD_WIDTH, CARD_HEIGHT);
-		}
-		if (cards.length > 4) {
-			cardFour = new JLabel(factory.createCard(cards[4]));
-			cardFour.setBounds(310, 400, CARD_WIDTH, CARD_HEIGHT);
-		}
-		if (cards.length > 3) {
-			cardThree = new JLabel(factory.createCard(cards[3]));
-			cardThree.setBounds(290, 400, CARD_WIDTH, CARD_HEIGHT);
-		}
-		if (cards.length > 2) {
-			cardTwo = new JLabel(factory.createCard(cards[2]));
-			cardTwo.setBounds(270, 400, CARD_WIDTH, CARD_HEIGHT);
-		}
-		if (cards.length > 1) {
-			cardOne = new JLabel(factory.createCard(cards[1]));
-			cardOne.setBounds(250, 400, CARD_WIDTH, CARD_HEIGHT);
-		}
-		// Card listeners
-		switch(listener) {
-		case SHIFT_UP:
-			if (cards.length > 12) {
-				addListener(ListenerEnum.SHIFT_UP, cardTwelve, cards[12]);
-			}
-			if (cards.length > 11) {
-				addListener(ListenerEnum.SHIFT_UP, cardEleven, cards[11]);
-			}
-			if (cards.length > 10) {
-				addListener(ListenerEnum.SHIFT_UP, cardTen, cards[10]);
-			}
-			if (cards.length > 9) {
-				addListener(ListenerEnum.SHIFT_UP, cardNine, cards[9]);
-			}
-			if (cards.length > 8) {
-				addListener(ListenerEnum.SHIFT_UP, cardEight, cards[8]);
-			}
-			if (cards.length > 7) {
-				addListener(ListenerEnum.SHIFT_UP, cardSeven, cards[7]);
-			}
-			if (cards.length > 6) {
-				addListener(ListenerEnum.SHIFT_UP, cardSix, cards[6]);
-			}
-			if (cards.length > 5) {
-				addListener(ListenerEnum.SHIFT_UP, cardFive, cards[5]);
-			}
-			if (cards.length > 4) {
-				addListener(ListenerEnum.SHIFT_UP, cardFour, cards[4]);
-			}
-			if (cards.length > 3) {
-				addListener(ListenerEnum.SHIFT_UP, cardThree, cards[3]);
-			}
-			if (cards.length > 2) {
-				addListener(ListenerEnum.SHIFT_UP, cardTwo, cards[2]);
-			}
-			if (cards.length > 1) {
-				addListener(ListenerEnum.SHIFT_UP, cardOne, cards[1]);
-			}
-			break;
-		case PLAY:
-			break;
-		default:
-			break;
-		}
-		// Add the cards
-		if (cards.length > 12) {
+			addListener(listener, cardTwelve, cards[12]);
 			frame.getContentPane().add(cardTwelve);
 			cardList.add(cardTwelve);
 		}
 		if (cards.length > 11) {
+			cardEleven = new JLabel(factory.createCard(cards[11]));
+			cardEleven.setBounds(450, 400, CARD_WIDTH, CARD_HEIGHT);
+			addListener(listener, cardEleven, cards[11]);
 			frame.getContentPane().add(cardEleven);
 			cardList.add(cardEleven);
 		}
 		if (cards.length > 10) {
+			cardTen = new JLabel(factory.createCard(cards[10]));
+			cardTen.setBounds(430, 400, CARD_WIDTH, CARD_HEIGHT);
+			addListener(listener, cardTen, cards[10]);
 			frame.getContentPane().add(cardTen);
 			cardList.add(cardTen);
 		}
 		if (cards.length > 9) {
+			cardNine = new JLabel(factory.createCard(cards[9]));
+			cardNine.setBounds(410, 400, CARD_WIDTH, CARD_HEIGHT);
+			addListener(listener, cardNine, cards[9]);
 			frame.getContentPane().add(cardNine);
 			cardList.add(cardNine);
 		}
-		if (cards.length > 9) {
+		if (cards.length > 8) {
+			cardEight = new JLabel(factory.createCard(cards[8]));
+			cardEight.setBounds(390, 400, CARD_WIDTH, CARD_HEIGHT);
+			addListener(listener, cardEight, cards[8]);
 			frame.getContentPane().add(cardEight);
 			cardList.add(cardEight);
 		}
-		if (cards.length > 8) {
+		if (cards.length > 7) {
+			cardSeven = new JLabel(factory.createCard(cards[7]));
+			cardSeven.setBounds(370, 400, CARD_WIDTH, CARD_HEIGHT);
+			addListener(listener, cardSeven, cards[7]);
 			frame.getContentPane().add(cardSeven);
 			cardList.add(cardSeven);
 		}
-		if (cards.length > 7) {
+		if (cards.length > 6) {
+			cardSix = new JLabel(factory.createCard(cards[6]));
+			cardSix.setBounds(350, 400, CARD_WIDTH, CARD_HEIGHT);
+			addListener(listener, cardSix, cards[6]);
 			frame.getContentPane().add(cardSix);
 			cardList.add(cardSix);
 		}
-		if (cards.length > 6) {
+		if (cards.length > 5) {
+			cardFive = new JLabel(factory.createCard(cards[5]));
+			cardFive.setBounds(330, 400, CARD_WIDTH, CARD_HEIGHT);
+			addListener(listener, cardFive, cards[5]);
 			frame.getContentPane().add(cardFive);
 			cardList.add(cardFive);
 		}
-		if (cards.length > 5) {
+		if (cards.length > 4) {
+			cardFour = new JLabel(factory.createCard(cards[4]));
+			cardFour.setBounds(310, 400, CARD_WIDTH, CARD_HEIGHT);
+			addListener(listener, cardFour, cards[4]);
 			frame.getContentPane().add(cardFour);
 			cardList.add(cardFour);
 		}
-		if (cards.length > 4) {
+		if (cards.length > 3) {
+			cardThree = new JLabel(factory.createCard(cards[3]));
+			cardThree.setBounds(290, 400, CARD_WIDTH, CARD_HEIGHT);
+			addListener(listener, cardThree, cards[3]);
 			frame.getContentPane().add(cardThree);
 			cardList.add(cardThree);
 		}
-		if (cards.length > 3) {
+		if (cards.length > 2) {
+			cardTwo = new JLabel(factory.createCard(cards[2]));
+			cardTwo.setBounds(270, 400, CARD_WIDTH, CARD_HEIGHT);
+			addListener(listener, cardTwo, cards[2]);
 			frame.getContentPane().add(cardTwo);
 			cardList.add(cardTwo);
 		}
-		if (cards.length > 2) {
+		if (cards.length > 1) {
+			cardOne = new JLabel(factory.createCard(cards[1]));
+			cardOne.setBounds(250, 400, CARD_WIDTH, CARD_HEIGHT);
+			addListener(listener, cardOne, cards[1]);
 			frame.getContentPane().add(cardOne);
 			cardList.add(cardOne);
 		}
-		if (cards.length > 1) {
-			frame.repaint();
-		}
+		frame.repaint();
 	}
 
 	/**
@@ -353,6 +293,11 @@ public abstract class SetbackClientView {
 			});
 			break;
 		case PLAY:
+			card.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent arg0) {
+					//card.setBounds(x, y, width, height);
+				}
+			});
 			break;
 		default:
 			break;

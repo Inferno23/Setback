@@ -6,6 +6,7 @@ package setback.application.views;
 
 import javax.swing.JFrame;
 
+import setback.application.client.ListenerEnum;
 import setback.application.client.SetbackClientController;
 import setback.application.client.SetbackClientView;
 
@@ -32,7 +33,7 @@ public class PlayCardsView extends SetbackClientView {
 	public PlayCardsView(SetbackClientController controller, JFrame frame) {
 		super(controller, frame);
 	}
-	
+
 	/**
 	 * This function initializes the Playing Cards screen.
 	 * The background and visibility is handled by calling
@@ -41,5 +42,9 @@ public class PlayCardsView extends SetbackClientView {
 	public void initialize() {
 		// Background and visibility
 		super.initialize();
+		// Hands
+		String handContents = controller.userInput("SHOW_HAND");
+		displayHand(handContents, ListenerEnum.PLAY);
+		displayNeighborHands(9);
 	}
 }
