@@ -10,9 +10,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import setback.application.PlayerController;
 import setback.application.command.Command;
 import setback.application.command.CommandMessage;
+import setback.application.server.PlayerController;
 import setback.common.PlayerNumber;
 import setback.game.SetbackGameController;
 import setback.game.SetbackGameFactory;

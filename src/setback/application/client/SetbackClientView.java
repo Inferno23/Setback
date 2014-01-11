@@ -54,6 +54,11 @@ public abstract class SetbackClientView {
 	protected JLabel[] leftCards;
 	protected JLabel[] centerCards;
 	protected JLabel[] rightCards;
+	// Played cards
+	protected JLabel myCard;
+	protected JLabel leftCard;
+	protected JLabel centerCard;
+	protected JLabel rightCard;
 
 	/**
 	 * Create the GUI that the user will interact with.
@@ -295,7 +300,25 @@ public abstract class SetbackClientView {
 		case PLAY:
 			card.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent arg0) {
-					//card.setBounds(x, y, width, height);
+					String response = controller.userInput("PLAY_CARD " + cardName);
+					String desired = controller.getMyNumber() + " PLAYED " + cardName;
+					if (response == desired) {
+						myCard = card;
+						myCard.setBounds(400, 300, CARD_WIDTH, CARD_HEIGHT);
+						for (JLabel innerCard : cardList) {
+							if (!innerCard.equals(myCard)) {
+								// Remove the other cards
+								frame.getContentPane().remove(innerCard);
+							}
+						}
+						cardList.clear();
+						// Remove the old variable and add the myCard variable
+						frame.getContentPane().remove(card);
+						frame.getContentPane().add(myCard);
+						// Add all of the other cards back in
+						String handContents = controller.userInput("SHOW_HAND");
+						displayHand(handContents, ListenerEnum.PLAY);
+					}
 				}
 			});
 			break;

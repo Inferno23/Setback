@@ -233,7 +233,6 @@ public class PlaceBetsView extends SetbackClientView {
 						leftBet = new JLabel(array[0] + " " + array[1] + " " + array[2]);
 						leftBet.setBounds(170, 185, 160, 40);
 						frame.getContentPane().add(leftBet);
-						frame.getContentPane().add(leftBet);
 						frame.repaint();
 						waitOnPlayer(controller.getCenter());
 					} else if (playerToWaitOn == controller.getCenter()) {

@@ -10,7 +10,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import setback.application.PlayerController;
 import setback.application.SetbackObserver;
 import setback.application.command.CommandMessage;
 import setback.application.command.CommandParser;
