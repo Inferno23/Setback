@@ -74,6 +74,7 @@ public class DiscardCardsView extends SetbackClientView {
 							+ discardList.get(0) + " " + discardList.get(1) + " " + discardList.get(2));
 					// Double check that we discarded properly
 					if (response.contains(controller.getMyNumber().toString() + " DISCARDED")) {
+						discardButton.setEnabled(false);
 						update(response);
 						for (JLabel card : cardList) {
 							frame.getContentPane().remove(card);

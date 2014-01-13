@@ -1,19 +1,24 @@
 package setback.application.client;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.Timer;
 
 import setback.application.views.DiscardCardsView;
 import setback.application.views.PlaceBetsView;
 import setback.application.views.PlayCardsView;
 import setback.application.views.SelectTrumpView;
+import setback.common.PlayerNumber;
 import setback.game.common.Card;
 
 /**
@@ -59,6 +64,11 @@ public abstract class SetbackClientView {
 	protected JLabel leftCard;
 	protected JLabel centerCard;
 	protected JLabel rightCard;
+	// Playing card variables
+	protected Timer cardTimer;
+	protected Timer pauseTimer;
+	protected boolean unpauseToggle;
+	protected JLabel currentPlayerLabel;
 
 	/**
 	 * Create the GUI that the user will interact with.
@@ -267,7 +277,7 @@ public abstract class SetbackClientView {
 		}
 		frame.repaint();
 	}
-
+	
 	/**
 	 * This helper function adds a listener of the specified type
 	 * to the specified card.
@@ -302,7 +312,7 @@ public abstract class SetbackClientView {
 				public void mouseClicked(MouseEvent arg0) {
 					String response = controller.userInput("PLAY_CARD " + cardName);
 					String desired = controller.getMyNumber() + " PLAYED " + cardName;
-					if (response == desired) {
+					if (response.startsWith(desired)) {
 						myCard = card;
 						myCard.setBounds(400, 300, CARD_WIDTH, CARD_HEIGHT);
 						for (JLabel innerCard : cardList) {
@@ -318,6 +328,9 @@ public abstract class SetbackClientView {
 						// Add all of the other cards back in
 						String handContents = controller.userInput("SHOW_HAND");
 						displayHand(handContents, ListenerEnum.PLAY);
+						// I played that card!
+						currentPlayerLabel.setText("Current Player: Left");
+						waitForAnyCard();
 					}
 				}
 			});
@@ -325,5 +338,82 @@ public abstract class SetbackClientView {
 		default:
 			break;
 		}
+	}
+	
+
+	/**
+	 * This helper function handles waiting for
+	 * cards to be played.
+	 */
+	protected void waitForAnyCard() {
+		ActionListener cardPlayedAction = new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				String response = controller.userInput("NO_COMMAND");
+				if (response.contains("TRICK STARTED")) {
+					// It is a new trick, determine whose turn it is
+					cardTimer.stop();
+					pause();
+				}
+				else if (!response.equals("No command")) {
+					// Still in the middle of a trick, wait for cards
+					cardTimer.stop();
+					String array[] = response.split(" ");
+					PlayerNumber cardPlayer = PlayerNumber.valueOf(array[0]);
+					ImageIcon cardIcon = factory.createCard(array[2]);
+					if (cardPlayer.equals(controller.getLeft())) {
+						leftCard = new JLabel(cardIcon);
+						leftCard.setBounds(170, 185, CARD_WIDTH, CARD_HEIGHT);
+						frame.getContentPane().add(leftCard);
+						currentPlayerLabel.setText("Current Player: Center");
+					}
+					else if (cardPlayer.equals(controller.getCenter())) {
+						centerCard = new JLabel(cardIcon);
+						centerCard.setBounds(340, 160, CARD_WIDTH, CARD_HEIGHT);
+						frame.getContentPane().add(centerCard);
+						currentPlayerLabel.setText("Current Player: Right");
+					}
+					else if (cardPlayer.equals(controller.getRight())) {
+						rightCard = new JLabel(cardIcon);
+						rightCard.setBounds(510, 185, CARD_WIDTH, CARD_HEIGHT);
+						frame.getContentPane().add(rightCard);
+						currentPlayerLabel.setText("Current Player: Me");
+					}
+					else {
+						// I played that card!
+						currentPlayerLabel.setText("Current Player: Left");
+					}
+					frame.repaint();
+					waitForAnyCard();
+				}
+			}
+		};
+		cardTimer = new Timer(DELAY, cardPlayedAction);
+		cardTimer.start();
+	}	
+	
+	/**
+	 * Helper function that waits for two seconds, then
+	 * clears the played cards.
+	 */
+	protected void pause() {
+		ActionListener pauseAction = new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				if (unpauseToggle) {
+					pauseTimer.stop();
+					unpauseToggle = false;
+					frame.getContentPane().remove(myCard);
+					frame.getContentPane().remove(leftCard);
+					frame.getContentPane().remove(centerCard);
+					frame.getContentPane().remove(rightCard);
+					frame.repaint();
+					waitForAnyCard();
+				}
+				else {
+					unpauseToggle = true;
+				}
+			}
+		};
+		pauseTimer = new Timer(DELAY, pauseAction);
+		pauseTimer.start();
 	}
 }

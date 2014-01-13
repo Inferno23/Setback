@@ -90,18 +90,11 @@ public class SetbackServerThread extends Thread implements SetbackObserver {
 	 */
 	public void update(String message) {
 		if (message != null) {
+			// Game inputs
 			if (message.equals("ROUND BEGIN")) {
 				controller.handleUpdate("ROUND BEGIN");
 			}
-			else if (message.startsWith("PLAYER_") && message.contains(" BET ")) {
-				// The PlayerController does not care, but we need to tell the client
-				out.print(message + " ");
-			}
-			else if (message.startsWith("PLAYER_") && message.contains(" SELECTED ")) {
-				// The PlayerController does not care, but we need to tell the client
-				out.print(message + " ");
-			}
-			else if (message.startsWith("PLAYER_") && message.contains(" DISCARDED")) {
+			else if (message.equals("BETTING RESOLVED")) {
 				// The PlayerController does not care, but we need to tell the client
 				out.print(message + " ");
 			}
@@ -109,14 +102,32 @@ public class SetbackServerThread extends Thread implements SetbackObserver {
 				// The PlayerController does not care, but we need to tell the client
 				out.print(message + " ");
 			}
-			else if (message.equals("BETTING RESOLVED")) {
-				// The PlayerController does not care, but we need to tell the client
-				out.print(message + " ");
+			else if (message.contains("ROUND ENDED")) {
+
 			}
-			else if (message.equals("ROUND ENDED")) {
-				
+			// Player inputs
+			else if (message.startsWith("PLAYER_")) {
+				// Placing a bet
+				if (message.contains(" BET ")) {
+					// The PlayerController does not care, but we need to tell the client
+					out.print(message + " ");
+				}
+				// Selecting trump
+				else if (message.contains(" SELECTED ")) {
+					// The PlayerController does not care, but we need to tell the client
+					out.print(message + " ");					
+				}
+				// Discarding cards
+				else if (message.contains(" DISCARDED")) {
+					// The PlayerController does not care, but we need to tell the client
+					out.print(message + " ");
+				}
+				// Playing cards
+				else if (message.contains(" PLAYED ")) {
+					// The PlayerController does not care, but we need to tell the client
+					out.print(message + " ");
+				}
 			}
-			
 		}
 	}
 }
