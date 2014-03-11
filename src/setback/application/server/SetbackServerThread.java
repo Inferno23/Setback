@@ -33,7 +33,7 @@ public class SetbackServerThread extends Thread implements SetbackObserver {
 	/**
 	 * Constructor that is called by the server.  It provides
 	 * the socket that connects to the client, and the shared
-	 * PlayerController which interacts with the SetbackGameController.
+	 * SetbackServerController which interacts with the SetbackGameController.
 	 * @param socket The connection to the client.
 	 * @param game The SetbackGameController that is
 	 * being shared by the four players.

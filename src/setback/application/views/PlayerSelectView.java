@@ -25,7 +25,7 @@ public class PlayerSelectView extends SetbackClientView {
 	private JButton playerTwoButton;
 	private JButton playerThreeButton;
 	private JButton playerFourButton;
-	
+
 	private JLabel teamOneLabel;
 	private JLabel teamTwoLabel;
 
@@ -50,7 +50,7 @@ public class PlayerSelectView extends SetbackClientView {
 		super.initialize();
 		// Player One Button
 		playerOneButton = new JButton("Player One");
-		playerOneButton.setBounds(240, 190, 200, 100);
+		playerOneButton.setBounds(GUI_PLAYER_SELECT_LEFT_COLUMN_X, GUI_PLAYER_SELECT_TOP_ROW_Y, GUI_PLAYER_SELECT_BUTTON_WIDTH, GUI_PLAYER_SELECT_BUTTON_HEIGHT);
 		playerOneButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("REQUEST_PLAYER_ONE");
@@ -60,7 +60,7 @@ public class PlayerSelectView extends SetbackClientView {
 		frame.getContentPane().add(playerOneButton);
 		// Player Two Button
 		playerTwoButton = new JButton("Player Two");
-		playerTwoButton.setBounds(460, 190, 200, 100);
+		playerTwoButton.setBounds(GUI_PLAYER_SELECT_RIGHT_COLUMN_X, GUI_PLAYER_SELECT_TOP_ROW_Y, GUI_PLAYER_SELECT_BUTTON_WIDTH, GUI_PLAYER_SELECT_BUTTON_HEIGHT);
 		playerTwoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("REQUEST_PLAYER_TWO");
@@ -70,7 +70,7 @@ public class PlayerSelectView extends SetbackClientView {
 		frame.getContentPane().add(playerTwoButton);
 		// Player Three Button
 		playerThreeButton = new JButton("Player Three");
-		playerThreeButton.setBounds(240, 310, 200, 100);
+		playerThreeButton.setBounds(GUI_PLAYER_SELECT_LEFT_COLUMN_X, GUI_PLAYER_SELECT_BOTTOM_ROW_Y, GUI_PLAYER_SELECT_BUTTON_WIDTH, GUI_PLAYER_SELECT_BUTTON_HEIGHT);
 		playerThreeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("REQUEST_PLAYER_THREE");
@@ -80,7 +80,7 @@ public class PlayerSelectView extends SetbackClientView {
 		frame.getContentPane().add(playerThreeButton);
 		// Player Four Button
 		playerFourButton = new JButton("Player Four");
-		playerFourButton.setBounds(460, 310, 200, 100);
+		playerFourButton.setBounds(GUI_PLAYER_SELECT_RIGHT_COLUMN_X, GUI_PLAYER_SELECT_BOTTOM_ROW_Y, GUI_PLAYER_SELECT_BUTTON_WIDTH, GUI_PLAYER_SELECT_BUTTON_HEIGHT);
 		playerFourButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("REQUEST_PLAYER_FOUR");
@@ -89,12 +89,16 @@ public class PlayerSelectView extends SetbackClientView {
 		});
 		frame.getContentPane().add(playerFourButton);
 		// Team One Label
-		teamOneLabel = new JLabel("Team One");
-		teamOneLabel.setBounds(240, 170, 100, 20);
+		String teamOneString = "Team One";
+		int teamOneSize = teamOneString.length() * UNICODE_SIZE_CONSTANT;
+		teamOneLabel = new JLabel(teamOneString);
+		teamOneLabel.setBounds(GUI_PLAYER_SELECT_LEFT_COLUMN_X, GUI_PLAYER_SELECT_TOP_ROW_Y - GUI_SPACING_CONSTANT, teamOneSize, GUI_TEXT_HEIGHT);
 		frame.getContentPane().add(teamOneLabel);
 		// Team Two Label
-		teamTwoLabel = new JLabel("Team Two");
-		teamTwoLabel.setBounds(460, 170, 100, 20);
+		String teamTwoString = "Team Two";
+		int teamTwoSize = teamTwoString.length() * UNICODE_SIZE_CONSTANT;
+		teamTwoLabel = new JLabel(teamTwoString);
+		teamTwoLabel.setBounds(GUI_PLAYER_SELECT_RIGHT_COLUMN_X, GUI_PLAYER_SELECT_TOP_ROW_Y - GUI_SPACING_CONSTANT, teamTwoSize, GUI_TEXT_HEIGHT);
 		frame.getContentPane().add(teamTwoLabel);
 	}
 }

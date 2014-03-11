@@ -13,7 +13,7 @@ package setback.application;
  * @author Michael
  * @version Dec 29, 2013
  */
-public interface SetbackObserver { //extends Observer {
+public interface SetbackObserver {
 	
 	/**
 	 * This method is called whenever the observed object

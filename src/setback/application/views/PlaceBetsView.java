@@ -24,7 +24,7 @@ import setback.common.PlayerNumber;
  * @version Jan 2, 2014
  */
 public class PlaceBetsView extends SetbackClientView {
-
+	
 	private Timer connectionTimer;
 	private Timer neighborBetTimer;
 
@@ -57,12 +57,14 @@ public class PlaceBetsView extends SetbackClientView {
 	 * The background and visibility is handled by calling
 	 * the super version of initialize.
 	 */
-	public void initialize() {
+	protected void initialize() {
 		// Background and visibility
 		super.initialize();
 		// Please wait message
-		pleaseWait = new JLabel("Please Wait for other players");
-		pleaseWait.setBounds(350, 300, 300, 20);
+		String pleaseWaitString = "Please wait for other players";
+		int pleaseWaitSize = pleaseWaitString.length() * UNICODE_SIZE_CONSTANT;
+		pleaseWait = new JLabel(pleaseWaitString);
+		pleaseWait.setBounds(GUI_WIDTH_CENTER - (pleaseWaitSize / 2), GUI_HEIGHT_CENTER, pleaseWaitSize, GUI_TEXT_HEIGHT);
 		frame.getContentPane().add(pleaseWait);
 		// Update timer
 		ActionListener updateAction = new ActionListener() {
@@ -105,7 +107,8 @@ public class PlaceBetsView extends SetbackClientView {
 		final String betString = controller.getMyNumber().toString() + " BET ";
 		// Pass button
 		passButton = new JButton("Pass");
-		passButton.setBounds(170, 250, 75, 75);
+		passButton.setBounds(GUI_WIDTH_CENTER - ((3 * GUI_PLACE_BET_BUTTON_WIDTH) + (2 * GUI_SPACING_CONSTANT) + GUI_SPACING_CONSTANT_HALF),
+				GUI_PLACE_BET_BUTTON_Y, GUI_PLACE_BET_BUTTON_HEIGHT, GUI_PLACE_BET_BUTTON_WIDTH);
 		passButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("PLACE_BET PASS");
@@ -121,7 +124,8 @@ public class PlaceBetsView extends SetbackClientView {
 		frame.getContentPane().add(passButton);
 		// Two button
 		twoButton = new JButton("Two");
-		twoButton.setBounds(255, 250, 75, 75);
+		twoButton.setBounds(GUI_WIDTH_CENTER - ((2 * GUI_PLACE_BET_BUTTON_WIDTH) + (1 * GUI_SPACING_CONSTANT) + GUI_SPACING_CONSTANT_HALF),
+				GUI_PLACE_BET_BUTTON_Y, GUI_PLACE_BET_BUTTON_HEIGHT, GUI_PLACE_BET_BUTTON_WIDTH);
 		twoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("PLACE_BET TWO");
@@ -137,7 +141,8 @@ public class PlaceBetsView extends SetbackClientView {
 		frame.getContentPane().add(twoButton);
 		// Three button
 		threeButton = new JButton("Three");
-		threeButton.setBounds(340, 250, 75, 75);
+		threeButton.setBounds(GUI_WIDTH_CENTER - ((1 * GUI_PLACE_BET_BUTTON_WIDTH) + (0 * GUI_SPACING_CONSTANT) + GUI_SPACING_CONSTANT_HALF),
+				GUI_PLACE_BET_BUTTON_Y, GUI_PLACE_BET_BUTTON_HEIGHT, GUI_PLACE_BET_BUTTON_WIDTH);
 		threeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("PLACE_BET THREE");
@@ -153,7 +158,8 @@ public class PlaceBetsView extends SetbackClientView {
 		frame.getContentPane().add(threeButton);
 		// Four button
 		fourButton = new JButton("Four");
-		fourButton.setBounds(425, 250, 75, 75);
+		fourButton.setBounds(GUI_WIDTH_CENTER + ((0 * GUI_PLACE_BET_BUTTON_WIDTH) + (0 * GUI_SPACING_CONSTANT) + GUI_SPACING_CONSTANT_HALF),
+				GUI_PLACE_BET_BUTTON_Y, GUI_PLACE_BET_BUTTON_HEIGHT, GUI_PLACE_BET_BUTTON_WIDTH);
 		fourButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("PLACE_BET FOUR");
@@ -169,7 +175,8 @@ public class PlaceBetsView extends SetbackClientView {
 		frame.getContentPane().add(fourButton);
 		// Five button
 		fiveButton = new JButton("Five");
-		fiveButton.setBounds(510, 250, 75, 75);
+		fiveButton.setBounds(GUI_WIDTH_CENTER + ((1 * GUI_PLACE_BET_BUTTON_WIDTH) + (1 * GUI_SPACING_CONSTANT) + GUI_SPACING_CONSTANT_HALF),
+				GUI_PLACE_BET_BUTTON_Y, GUI_PLACE_BET_BUTTON_HEIGHT, GUI_PLACE_BET_BUTTON_WIDTH);
 		fiveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("PLACE_BET FIVE");
@@ -185,7 +192,8 @@ public class PlaceBetsView extends SetbackClientView {
 		frame.getContentPane().add(fiveButton);
 		// Take button
 		takeButton = new JButton("Take");
-		takeButton.setBounds(595, 250, 75, 75);
+		takeButton.setBounds(GUI_WIDTH_CENTER + ((2 * GUI_PLACE_BET_BUTTON_WIDTH) + (2 * GUI_SPACING_CONSTANT) + GUI_SPACING_CONSTANT_HALF),
+				GUI_PLACE_BET_BUTTON_Y, GUI_PLACE_BET_BUTTON_HEIGHT, GUI_PLACE_BET_BUTTON_WIDTH);
 		takeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("PLACE_BET TAKE");
