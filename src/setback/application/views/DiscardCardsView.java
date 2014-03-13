@@ -56,7 +56,8 @@ public class DiscardCardsView extends SetbackClientView {
 		super.initialize();
 		// Trump label
 		trumpLabel = new JLabel("TRUMP IS " + controller.userInput("GET_TRUMP"));
-		trumpLabel.setBounds(300, 175, 250, 40);
+		trumpLabel.setBounds(GUI_WIDTH_CENTER, GUI_HEIGHT_CENTER - (3 * GUI_SPACING_CONSTANT),
+				GUI_DISCARD_CARDS_STRING_LENGTH, GUI_TEXT_HEIGHT);
 		trumpLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		frame.getContentPane().add(trumpLabel);
 		// Hands
@@ -65,7 +66,8 @@ public class DiscardCardsView extends SetbackClientView {
 		displayNeighborHands(12);
 		// Discard button
 		discardButton = new JButton("Discard");
-		discardButton.setBounds(350, 250, 125, 75);
+		discardButton.setBounds(GUI_WIDTH_CENTER - (GUI_DISCARD_CARDS_BUTTON_WIDTH / 2), GUI_DISCARD_CARDS_BUTTON_Y,
+				GUI_DISCARD_CARDS_BUTTON_WIDTH, GUI_DISCARD_CARDS_BUTTON_HEIGHT);
 		discardButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (discardList.size() == 3) {

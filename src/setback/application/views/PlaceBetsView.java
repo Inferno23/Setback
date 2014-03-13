@@ -219,7 +219,9 @@ public class PlaceBetsView extends SetbackClientView {
 		// My bet label
 		myBet = new JLabel();
 		myBet.setHorizontalAlignment(SwingConstants.CENTER);
-		myBet.setBounds(340, 350, 160, 40);
+		myBet.setBounds(GUI_WIDTH_CENTER,
+				GUI_CARD_BOTTOM_Y - 3 * GUI_SPACING_CONSTANT, 
+				GUI_PLACE_BET_STRING_LENGTH, GUI_TEXT_HEIGHT);
 		frame.getContentPane().add(myBet);
 	}
 
@@ -239,7 +241,9 @@ public class PlaceBetsView extends SetbackClientView {
 						// Left label
 						String array[] = response.split(" ");
 						leftBet = new JLabel(array[0] + " " + array[1] + " " + array[2]);
-						leftBet.setBounds(170, 185, 160, 40);
+						leftBet.setBounds(GUI_CARD_LEFT_X + GUI_CARD_WIDTH + 3 * GUI_SPACING_CONSTANT,
+								GUI_HEIGHT_CENTER + 3 * GUI_SPACING_CONSTANT, 
+								GUI_PLACE_BET_STRING_LENGTH, GUI_TEXT_HEIGHT);
 						frame.getContentPane().add(leftBet);
 						frame.repaint();
 						waitOnPlayer(controller.getCenter());
@@ -248,7 +252,9 @@ public class PlaceBetsView extends SetbackClientView {
 						String array[] = response.split(" ");
 						centerBet = new JLabel(array[0] + " " + array[1] + " " + array[2]);
 						centerBet.setHorizontalAlignment(SwingConstants.CENTER);
-						centerBet.setBounds(340, 160, 160, 40);
+						centerBet.setBounds(GUI_WIDTH_CENTER,
+								GUI_CARD_TOP_Y + GUI_CARD_HEIGHT + 3 * GUI_SPACING_CONSTANT, 
+								GUI_PLACE_BET_STRING_LENGTH, GUI_TEXT_HEIGHT);
 						frame.getContentPane().add(centerBet);
 						frame.repaint();
 						waitOnPlayer(controller.getRight());
@@ -258,7 +264,9 @@ public class PlaceBetsView extends SetbackClientView {
 						String array[] = response.split(" ");
 						rightBet = new JLabel(array[0] + " " + array[1] + " " + array[2]);
 						rightBet.setHorizontalAlignment(SwingConstants.RIGHT);
-						rightBet.setBounds(510, 185, 160, 40);
+						rightBet.setBounds(GUI_WIDTH_CENTER + 3 * GUI_SPACING_CONSTANT,
+								GUI_HEIGHT_CENTER + 3 * GUI_SPACING_CONSTANT, 
+								GUI_PLACE_BET_STRING_LENGTH, GUI_TEXT_HEIGHT);
 						frame.getContentPane().add(rightBet);
 						frame.repaint();
 						// It's my turn to bet.

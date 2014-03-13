@@ -1,14 +1,11 @@
 package setback.application.client;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,7 +15,6 @@ import setback.application.views.DiscardCardsView;
 import setback.application.views.PlaceBetsView;
 import setback.application.views.PlayCardsView;
 import setback.application.views.SelectTrumpView;
-import setback.common.PlayerNumber;
 import setback.game.common.Card;
 
 /**
@@ -48,6 +44,8 @@ public abstract class SetbackClientView {
 	protected int GUI_CARD_LEFT_X = GUI_WIDTH / 8 - GUI_CARD_HEIGHT;
 	protected int GUI_CARD_TOP_Y = GUI_HEIGHT / 8;
 	protected int GUI_CARD_RIGHT_X = GUI_WIDTH * 7 / 8;
+	protected int GUI_CARD_DISCARD_SHIFT = 25;
+	protected int GUI_CARD_PLAYED_SHIFT = GUI_CARD_HEIGHT + GUI_CARD_DISCARD_SHIFT;
 	
 	// PlayerSelectView
 	protected int GUI_PLAYER_SELECT_BUTTON_WIDTH = 200;
@@ -60,13 +58,27 @@ public abstract class SetbackClientView {
 	protected int GUI_PLACE_BET_BUTTON_WIDTH = 75;
 	protected int GUI_PLACE_BET_BUTTON_HEIGHT = 75;
 	protected int GUI_PLACE_BET_BUTTON_Y = GUI_HEIGHT_CENTER - (GUI_PLACE_BET_BUTTON_HEIGHT / 2);
-	
+	protected int GUI_PLACE_BET_STRING_LENGTH = 160;
+	// SelectTrumpView
+	protected int GUI_SELECT_TRUMP_BUTTON_WIDTH = 125;
+	protected int GUI_SELECT_TRUMP_BUTTON_HEIGHT = 75;
+	protected int GUI_SELECT_TRUMP_BUTTON_Y = GUI_HEIGHT_CENTER - (GUI_SELECT_TRUMP_BUTTON_HEIGHT / 2);
+	protected int GUI_SELECT_TRUMP_STRING_LENGTH = 250;
+	// DiscardCardsView
+	protected int GUI_DISCARD_CARDS_BUTTON_WIDTH = 125;
+	protected int GUI_DISCARD_CARDS_BUTTON_HEIGHT = 75;
+	protected int GUI_DISCARD_CARDS_BUTTON_Y = GUI_HEIGHT_CENTER - (GUI_DISCARD_CARDS_BUTTON_HEIGHT / 2);
+	protected int GUI_DISCARD_CARDS_STRING_LENGTH = 250;
+	// PlayCardsView
+	protected int GUI_PLAY_CARDS_STRING_Y = GUI_CARD_TOP_Y - GUI_SPACING_CONSTANT;
+	protected int GUI_PLAY_CARDS_STRING_LENGTH = 200;
 	
 	// High level variables
 	protected SetbackClientController controller;
 	protected CardImageFactory factory;
 	// Random variables
-	protected int DELAY;
+	protected int DELAY = 2000;
+//	protected int DELAY = 5000;
 	// GUI variables
 	protected JFrame frame;
 	protected List<JButton> buttonList;
@@ -110,7 +122,6 @@ public abstract class SetbackClientView {
 		this.controller = controller;
 		this.frame = frame;
 		factory = CardImageFactory.getInstance();
-		DELAY = 2000;
 		leftCards = new JLabel[13];
 		centerCards = new JLabel[13];
 		rightCards = new JLabel[13];
@@ -295,23 +306,54 @@ public abstract class SetbackClientView {
 	 * @param numCards The number of cards in the hands to display.
 	 */
 	protected void displayNeighborHands(int numCards) {
+		// Left neighbor
+		displayLeftHand(numCards);
+		// Center neighbor
+		displayCenterHand(numCards);
+		// Right neighbor
+		displayRightHand(numCards);
+	}
+	
+	/**
+	 * Helper function that displays the left neighbor's hand.
+	 * @param numCards The number of cards in the left hand.
+	 */
+	protected void displayLeftHand(int numCards) {
 		int index;
 		int offsetY = GUI_HEIGHT_CENTER - (numCards * GUI_CARD_SPACING);
-		int offsetX = GUI_WIDTH_CENTER - (numCards * GUI_CARD_SPACING);
 		
-		// Left neighbor
 		for (index = numCards; index > 0; index--) {
 			leftCards[index] = new JLabel(factory.createHorizontalCard("Back-Left"));
 			leftCards[index].setBounds(GUI_CARD_LEFT_X, offsetY + (GUI_CARD_SPACING * index), GUI_CARD_HEIGHT, GUI_CARD_WIDTH);
 			frame.getContentPane().add(leftCards[index]);
 		}
-		// Center neighbor
+		frame.repaint();
+	}
+	
+	/**
+	 * Helper function that displays the center neighbor's hand.
+	 * @param numCards The number of cards in the center hand.
+	 */
+	protected void displayCenterHand(int numCards) {
+		int index;
+		int offsetX = GUI_WIDTH_CENTER - (numCards * GUI_CARD_SPACING);
+		
 		for (index = 1; index <= numCards; index++) {
 			centerCards[index] = new JLabel(factory.createCard("Back-Center"));
 			centerCards[index].setBounds(offsetX + (GUI_CARD_SPACING * index), GUI_CARD_TOP_Y, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
 			frame.getContentPane().add(centerCards[index]);
 		}
-		// Right neighbor
+		frame.repaint();
+	}
+	
+	/**
+	 * Helper function that displays the right neighbor's hand.
+	 * @param numCards The number of cards in the right hand.
+	 */
+	protected void displayRightHand(int numCards) {
+		int index;
+		int offsetY = GUI_HEIGHT_CENTER - (numCards * GUI_CARD_SPACING);
+		
 		for (index = 1; index <= numCards; index++) {
 			rightCards[index] = new JLabel(factory.createHorizontalCard("Back-Right"));
 			rightCards[index].setBounds(GUI_CARD_RIGHT_X, offsetY + (GUI_CARD_SPACING * index), GUI_CARD_HEIGHT, GUI_CARD_WIDTH);
@@ -327,14 +369,14 @@ public abstract class SetbackClientView {
 	 * @param card The card to attach the listener to.
 	 * @param cardName The string name of the card.
 	 */
-	private void addListener(ListenerEnum type, final JLabel card, final String cardName) {
+	protected void addListener(ListenerEnum type, final JLabel card, final String cardName) {
 		switch(type) {
 		case SHIFT_UP:
 			card.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent arg0) {
 					if (discardList.size() < 3) {
 						discardList.add(Card.fromString(cardName));
-						card.setBounds(card.getX(), 375, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
+						card.setBounds(card.getX(), card.getY() - GUI_CARD_DISCARD_SHIFT, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
 						addListener(ListenerEnum.SHIFT_DOWN, card, cardName);
 					}
 				}
@@ -344,22 +386,8 @@ public abstract class SetbackClientView {
 			card.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent arg0) {
 					discardList.remove(Card.fromString(cardName));
-					card.setBounds(card.getX(), 400, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
+					card.setBounds(card.getX(), card.getY() + GUI_CARD_DISCARD_SHIFT, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
 					addListener(ListenerEnum.SHIFT_UP, card, cardName);
-				}
-			});
-			break;
-		case PLAY:
-			card.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent arg0) {
-					String response = controller.userInput("PLAY_CARD " + cardName);
-					String desired = controller.getMyNumber() + " PLAYED " + cardName;
-					if (response.startsWith(desired)) {
-						card.setBounds(400, 300, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
-						// I played that card!
-						currentPlayerLabel.setText("Current Player: Left");
-						waitForAnyCard();
-					}
 				}
 			});
 			break;
@@ -368,80 +396,4 @@ public abstract class SetbackClientView {
 		}
 	}
 	
-
-	/**
-	 * This helper function handles waiting for
-	 * cards to be played.
-	 */
-	protected void waitForAnyCard() {
-		ActionListener cardPlayedAction = new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				String response = controller.userInput("NO_COMMAND");
-				if (response.contains("TRICK STARTED")) {
-					// It is a new trick, determine whose turn it is
-					cardTimer.stop();
-					pause();
-				}
-				else if (!response.equals("No command")) {
-					// Still in the middle of a trick, wait for cards
-					cardTimer.stop();
-					String array[] = response.split(" ");
-					PlayerNumber cardPlayer = PlayerNumber.valueOf(array[0]);
-					ImageIcon cardIcon = factory.createCard(array[2]);
-					if (cardPlayer.equals(controller.getLeft())) {
-						leftCard = new JLabel(cardIcon);
-						leftCard.setBounds(170, 185, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
-						frame.getContentPane().add(leftCard);
-						currentPlayerLabel.setText("Current Player: Center");
-					}
-					else if (cardPlayer.equals(controller.getCenter())) {
-						centerCard = new JLabel(cardIcon);
-						centerCard.setBounds(340, 160, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
-						frame.getContentPane().add(centerCard);
-						currentPlayerLabel.setText("Current Player: Right");
-					}
-					else if (cardPlayer.equals(controller.getRight())) {
-						rightCard = new JLabel(cardIcon);
-						rightCard.setBounds(510, 185, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
-						frame.getContentPane().add(rightCard);
-						currentPlayerLabel.setText("Current Player: Me");
-					}
-					else {
-						// I played that card!
-						currentPlayerLabel.setText("Current Player: Left");
-					}
-					frame.repaint();
-					waitForAnyCard();
-				}
-			}
-		};
-		cardTimer = new Timer(DELAY, cardPlayedAction);
-		cardTimer.start();
-	}	
-	
-	/**
-	 * Helper function that waits for two seconds, then
-	 * clears the played cards.
-	 */
-	protected void pause() {
-		ActionListener pauseAction = new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				if (unpauseToggle) {
-					pauseTimer.stop();
-					unpauseToggle = false;
-					frame.getContentPane().remove(myCard);
-					frame.getContentPane().remove(leftCard);
-					frame.getContentPane().remove(centerCard);
-					frame.getContentPane().remove(rightCard);
-					frame.repaint();
-					waitForAnyCard();
-				}
-				else {
-					unpauseToggle = true;
-				}
-			}
-		};
-		pauseTimer = new Timer(DELAY, pauseAction);
-		pauseTimer.start();
-	}
 }

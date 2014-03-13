@@ -58,7 +58,8 @@ public class SelectTrumpView extends SetbackClientView {
 		super.initialize();
 		// Winning bet label
 		winningBet = new JLabel(controller.userInput("GET_WINNING_BET"));
-		winningBet.setBounds(340, 200, 250, 40);
+		winningBet.setBounds(GUI_WIDTH_CENTER, GUI_HEIGHT_CENTER - (3 * GUI_SPACING_CONSTANT), 
+				GUI_SELECT_TRUMP_STRING_LENGTH, GUI_TEXT_HEIGHT);
 		winningBet.setHorizontalAlignment(SwingConstants.CENTER);
 		frame.getContentPane().add(winningBet);
 		// Hands
@@ -69,7 +70,8 @@ public class SelectTrumpView extends SetbackClientView {
 		final String trumpString = controller.getMyNumber().toString() + " SELECTED ";
 		// Spades button
 		spadesButton = new JButton("Spades");
-		spadesButton.setBounds(170, 250, 125, 75);
+		spadesButton.setBounds(GUI_WIDTH_CENTER - ((2 * GUI_SELECT_TRUMP_BUTTON_WIDTH) + GUI_SPACING_CONSTANT + GUI_SPACING_CONSTANT_HALF),
+				GUI_SELECT_TRUMP_BUTTON_Y, GUI_SELECT_TRUMP_BUTTON_WIDTH, GUI_SELECT_TRUMP_BUTTON_HEIGHT);
 		spadesButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("SELECT_TRUMP SPADES").toUpperCase();
@@ -84,7 +86,8 @@ public class SelectTrumpView extends SetbackClientView {
 		frame.getContentPane().add(spadesButton);
 		// Hearts button
 		heartsButton = new JButton("Hearts");
-		heartsButton.setBounds(300, 250, 125, 75);
+		heartsButton.setBounds(GUI_WIDTH_CENTER - (GUI_SELECT_TRUMP_BUTTON_WIDTH + GUI_SPACING_CONSTANT_HALF),
+				GUI_SELECT_TRUMP_BUTTON_Y, GUI_SELECT_TRUMP_BUTTON_WIDTH, GUI_SELECT_TRUMP_BUTTON_HEIGHT);
 		heartsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("SELECT_TRUMP HEARTS").toUpperCase();
@@ -99,7 +102,8 @@ public class SelectTrumpView extends SetbackClientView {
 		frame.getContentPane().add(heartsButton);
 		// Clubs button
 		clubsButton = new JButton("Clubs");
-		clubsButton.setBounds(430, 250, 125, 75);
+		clubsButton.setBounds(GUI_WIDTH_CENTER + GUI_SPACING_CONSTANT_HALF,
+				GUI_SELECT_TRUMP_BUTTON_Y, GUI_SELECT_TRUMP_BUTTON_WIDTH, GUI_SELECT_TRUMP_BUTTON_HEIGHT);
 		clubsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("SELECT_TRUMP CLUBS").toUpperCase();
@@ -114,7 +118,8 @@ public class SelectTrumpView extends SetbackClientView {
 		frame.getContentPane().add(clubsButton);
 		// Diamonds button
 		diamondsButton = new JButton("Diamonds");
-		diamondsButton.setBounds(560, 250, 125, 75);
+		diamondsButton.setBounds(GUI_WIDTH_CENTER + GUI_SELECT_TRUMP_BUTTON_WIDTH + GUI_SPACING_CONSTANT + GUI_SPACING_CONSTANT_HALF,
+				GUI_SELECT_TRUMP_BUTTON_Y, GUI_SELECT_TRUMP_BUTTON_WIDTH, GUI_SELECT_TRUMP_BUTTON_HEIGHT);
 		diamondsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String response = controller.userInput("SELECT_TRUMP DIAMONDS").toUpperCase();
