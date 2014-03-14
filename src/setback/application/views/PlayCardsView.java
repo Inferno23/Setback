@@ -33,26 +33,32 @@ import setback.common.PlayerNumber;
 public class PlayCardsView extends SetbackClientView {
 
 	int numCards;
-	
+	String myCardName;
+	String leftCardName;
+	String centerCardName;
+	String rightCardName;
+
 	/**
-	 * Create the GUI for playing cards.  Just call the
-	 * super constructor.
+	 * Create the GUI for playing cards, call the super constructor.
+	 * Initialization must be done in the constructor, because it requires knowledge of the
+	 * previously played cards, which won't get passed to initialize().
 	 * @param controller  The SetbackClientController that
 	 * will handle all of the communication with the server.
 	 * @param frame The JFrame that the application runs in.
+	 * @param myCardName The name of the card that I have played in this trick.
+	 * @param leftCardName The name of the card that left has played in this trick.
+	 * @param centerCardName The name of the card that center has played in this trick.
+	 * @param rightCardName The name of the card that right has played in this trick.
 	 */
-	public PlayCardsView(SetbackClientController controller, JFrame frame) {
+	public PlayCardsView(SetbackClientController controller, JFrame frame, String myCardName, String leftCardName, String centerCardName, String rightCardName) {
+		// Call the super constructor to get basic initialization
 		super(controller, frame);
-	}
-
-	/**
-	 * This function initializes the Playing Cards screen.
-	 * The background and visibility is handled by calling
-	 * the super version of initialize.
-	 */
-	public void initialize() {
-		// Background and visibility
-		super.initialize();
+		// Set some fields
+		this.myCardName = myCardName;
+		this.leftCardName = leftCardName;
+		this.centerCardName = centerCardName;
+		this.rightCardName = rightCardName;
+		unpauseToggle = false;
 		// Set up the current player label
 		currentPlayerLabel = new JLabel();
 		currentPlayerLabel.setBounds(GUI_WIDTH_CENTER, GUI_PLAY_CARDS_STRING_Y, 
@@ -62,10 +68,13 @@ public class PlayCardsView extends SetbackClientView {
 		String handContents = controller.userInput("SHOW_HAND");
 		displayHand(handContents, ListenerEnum.PLAY);
 		// Find the number of cards that are in the hand
-		numCards = handContents.split("\t").length - 1;
-		// Show my neighbors with the same number of cards
-		displayNeighborHands(numCards);
-		unpauseToggle = false;
+		this.numCards = handContents.split("\t").length - 1;
+		displayPlayedCards();
+		displayCorrectedNeighborHands();
+		
+		// Check if the all four cards have been played
+		checkForEndOfTrick();
+		
 		// Find the current player
 		PlayerNumber currentPlayer = PlayerNumber.valueOf(controller.userInput("GET_CURRENT_PLAYER").toUpperCase());
 		// If I am the current player we won't call waitForAnyCard.
@@ -89,6 +98,96 @@ public class PlayCardsView extends SetbackClientView {
 	}
 
 	/**
+	 * Helper function that displays the previously played cards.
+	 */
+	private void displayPlayedCards() {
+		if (myCardName != null) {
+			ImageIcon cardIcon = factory.createCard(myCardName);
+			myCard = new JLabel(cardIcon);
+			myCard.setBounds(GUI_WIDTH_CENTER, GUI_CARD_BOTTOM_Y - GUI_CARD_PLAYED_SHIFT, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
+			frame.getContentPane().add(myCard);
+		}
+		if (leftCardName != null) {
+			ImageIcon cardIcon = factory.createCard(leftCardName);
+			leftCard = new JLabel(cardIcon);
+			leftCard.setBounds(GUI_CARD_LEFT_X + GUI_CARD_PLAYED_SHIFT, GUI_HEIGHT_CENTER, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
+			frame.getContentPane().add(leftCard);
+		}
+		if (centerCardName != null) {
+			ImageIcon cardIcon = factory.createCard(centerCardName);
+			centerCard = new JLabel(cardIcon);
+			centerCard.setBounds(GUI_WIDTH_CENTER, GUI_CARD_TOP_Y + GUI_CARD_PLAYED_SHIFT, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
+			frame.getContentPane().add(centerCard);
+		}
+		if (rightCardName != null) {
+			ImageIcon cardIcon = factory.createCard(rightCardName);
+			rightCard = new JLabel(cardIcon);
+			rightCard.setBounds(GUI_CARD_RIGHT_X - GUI_CARD_PLAYED_SHIFT, GUI_HEIGHT_CENTER, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
+			frame.getContentPane().add(rightCard);
+		}
+	}
+
+	/**
+	 * Helper function that displays the correct number of cards in the neighbors' hands.
+	 */
+	private void displayCorrectedNeighborHands() {
+		// I haven't played yet, so numCards is for hands that haven't played
+		if (myCardName == null) {
+			// Left hasn't played yet
+			if (leftCardName == null) {
+				displayLeftHand(numCards);
+			}
+			// Left has played
+			else {
+				displayLeftHand(numCards - 1);
+			}
+			// Center hasn't played yet
+			if (centerCardName == null) {
+				displayCenterHand(numCards);
+			}
+			// Center has played
+			else {
+				displayCenterHand(numCards - 1);
+			}
+			// Right hasn't played yet
+			if (rightCardName == null) {
+				displayRightHand(numCards);
+			}
+			// Right has played
+			else {
+				displayRightHand(numCards - 1);
+			}
+		}
+		// I have already played a card, so numCards is for hands that have played
+		else {
+			// Left hasn't played yet
+			if (leftCardName == null) {
+				displayLeftHand(numCards + 1);
+			}
+			// Left has played
+			else {
+				displayLeftHand(numCards);
+			}
+			// Center hasn't played yet
+			if (centerCardName == null) {
+				displayCenterHand(numCards + 1);
+			}
+			// Center has played
+			else {
+				displayCenterHand(numCards);
+			}
+			// Right hasn't played yet
+			if (rightCardName == null) {
+				displayRightHand(numCards + 1);
+			}
+			// Right has played
+			else {
+				displayRightHand(numCards);
+			}
+		}
+	}
+
+	/**
 	 * Override of the addListener function from SetbackClientView.  This copy
 	 * defaults to using the original function except in the case of PLAY cards,
 	 * which is explicitly controlled here because this is the GUI that involves
@@ -105,10 +204,7 @@ public class PlayCardsView extends SetbackClientView {
 					String desired = controller.getMyNumber() + " PLAYED " + cardName;
 					// If we played the card properly
 					if (response.startsWith(desired)) {
-						card.setBounds(GUI_WIDTH_CENTER, GUI_CARD_BOTTOM_Y - GUI_CARD_PLAYED_SHIFT, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
-						// I played that card!
-						currentPlayerLabel.setText("Current Player: Left");
-						waitForAnyCard();
+						new PlayCardsView(controller, frame, cardName, leftCardName, centerCardName, rightCardName);
 					}
 					else {
 						// TODO: Show error below my cards
@@ -138,55 +234,16 @@ public class PlayCardsView extends SetbackClientView {
 					// Split the response
 					String array[] = response.split(" ");
 					PlayerNumber cardPlayer = PlayerNumber.valueOf(array[0]);
-					ImageIcon cardIcon = factory.createCard(array[2]);
+					String cardName = array[2];
 					if (cardPlayer.equals(controller.getLeft())) {
-						leftCard = new JLabel(cardIcon);
-						leftCard.setBounds(GUI_CARD_LEFT_X + GUI_CARD_PLAYED_SHIFT, GUI_HEIGHT_CENTER, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
-						frame.getContentPane().add(leftCard);
-						currentPlayerLabel.setText("Current Player: Center");
-						// Remove the old left cards
-						for (int index = 0; index < numCards; index++) {
-							frame.getContentPane().remove(leftCards[index]);
-						}
-						// Redraw the correct number of cards
-						displayLeftHand(numCards - 1);
-						// Repaint the frame
-						frame.repaint();
-						checkForEndOfTrick(response);
-						waitForAnyCard();
+						new PlayCardsView(controller, frame, myCardName, cardName, centerCardName, rightCardName);
 					}
 					else if (cardPlayer.equals(controller.getCenter())) {
-						centerCard = new JLabel(cardIcon);
-						centerCard.setBounds(GUI_WIDTH_CENTER, GUI_CARD_TOP_Y + GUI_CARD_PLAYED_SHIFT, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
-						frame.getContentPane().add(centerCard);
-						currentPlayerLabel.setText("Current Player: Right");
-						// Remove the old center cards
-						for (int index = 0; index < numCards; index++) {
-							frame.getContentPane().remove(centerCards[index]);
-						}
-						// Redraw the correct number of cards
-						displayCenterHand(numCards - 1);
-						// Repaint the frame
-						frame.repaint();
-						checkForEndOfTrick(response);
-						waitForAnyCard();
+						new PlayCardsView(controller, frame, myCardName, leftCardName, cardName, rightCardName);
 					}
 					else {
-						rightCard = new JLabel(cardIcon);
-						rightCard.setBounds(GUI_CARD_RIGHT_X - GUI_CARD_PLAYED_SHIFT, GUI_HEIGHT_CENTER, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
-						frame.getContentPane().add(rightCard);
-						currentPlayerLabel.setText("Current Player: Me");
-						// Remove the old right cards
-						for (int index = 0; index < numCards; index++) {
-							frame.getContentPane().remove(rightCards[index]);
-						}
-						// Redraw the correct number of cards
-						displayRightHand(numCards - 1);
-						// Repaint the frame
-						frame.repaint();
-						checkForEndOfTrick(response);
+						new PlayCardsView(controller, frame, myCardName, leftCardName, centerCardName, cardName);
 					}
-
 				}
 			}
 		};
@@ -202,14 +259,14 @@ public class PlayCardsView extends SetbackClientView {
 	 * @param serverResponse The response from the server the last
 	 * time that a card was played.
 	 */
-	private void checkForEndOfTrick(String serverResponse) {
+	private void checkForEndOfTrick() {
 		// If the trick is over, wait for DELAY then make a new GUI
-		if (serverResponse.contains("WON TRICK")) {
+		if (myCardName != null && leftCardName != null && centerCardName != null && rightCardName != null) {
 			ActionListener pauseAction = new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					if (unpauseToggle) {
 						pauseTimer.stop();
-						new PlayCardsView(controller, frame);
+						new PlayCardsView(controller, frame, null, null, null, null);
 					}
 					else {
 						unpauseToggle = true;

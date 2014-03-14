@@ -168,7 +168,7 @@ public abstract class SetbackClientView {
 			new DiscardCardsView(controller, frame);
 		}
 		else if (input.contains("TRICK STARTED")) {
-			new PlayCardsView(controller, frame);
+			new PlayCardsView(controller, frame, null, null, null, null);
 		}
 		else if (input.equals("BEGIN GAME")) {
 			System.out.println("We made it!");
