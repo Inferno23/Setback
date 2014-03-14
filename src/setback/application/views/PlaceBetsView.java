@@ -116,8 +116,12 @@ public class PlaceBetsView extends SetbackClientView {
 					toggleButtons(buttonList, false);
 					myBet.setText("YOU PASSED");
 					// Check for BETTING RESOLVED
-					update(response);
-					waitOnPlayer(controller.getLeft());
+					if (response.contains("BETTING RESOLVED")) {
+						update(response);
+					}
+					else {
+						waitOnPlayer(controller.getLeft());
+					}
 				}
 			}
 		});
@@ -133,8 +137,12 @@ public class PlaceBetsView extends SetbackClientView {
 					toggleButtons(buttonList, false);
 					myBet.setText("YOU BET TWO");
 					// Check for BETTING RESOLVED
-					update(response);
-					waitOnPlayer(controller.getLeft());
+					if (response.contains("BETTING RESOLVED")) {
+						update(response);
+					}
+					else {
+						waitOnPlayer(controller.getLeft());
+					}
 				}
 			}
 		});
@@ -150,8 +158,12 @@ public class PlaceBetsView extends SetbackClientView {
 					toggleButtons(buttonList, false);
 					myBet.setText("YOU BET THREE");
 					// Check for BETTING RESOLVED
-					update(response);
-					waitOnPlayer(controller.getLeft());
+					if (response.contains("BETTING RESOLVED")) {
+						update(response);
+					}
+					else {
+						waitOnPlayer(controller.getLeft());
+					}
 				}
 			}
 		});
@@ -167,8 +179,12 @@ public class PlaceBetsView extends SetbackClientView {
 					toggleButtons(buttonList, false);
 					myBet.setText("YOU BET FOUR");
 					// Check for BETTING RESOLVED
-					update(response);
-					waitOnPlayer(controller.getLeft());
+					if (response.contains("BETTING RESOLVED")) {
+						update(response);
+					}
+					else {
+						waitOnPlayer(controller.getLeft());
+					}
 				}
 			}
 		});
@@ -184,8 +200,12 @@ public class PlaceBetsView extends SetbackClientView {
 					toggleButtons(buttonList, false);
 					myBet.setText("YOU BET FIVE");
 					// Check for BETTING RESOLVED
-					update(response);
-					waitOnPlayer(controller.getLeft());
+					if (response.contains("BETTING RESOLVED")) {
+						update(response);
+					}
+					else {
+						waitOnPlayer(controller.getLeft());
+					}
 				}
 			}
 		});
@@ -201,8 +221,12 @@ public class PlaceBetsView extends SetbackClientView {
 					toggleButtons(buttonList, false);
 					myBet.setText("YOU TOOK THE BET");
 					// Check for BETTING RESOLVED
-					update(response);
-					waitOnPlayer(controller.getLeft());
+					if (response.contains("BETTING RESOLVED")) {
+						update(response);
+					}
+					else {
+						waitOnPlayer(controller.getLeft());
+					}
 				}
 			}
 		});
@@ -242,7 +266,7 @@ public class PlaceBetsView extends SetbackClientView {
 						String array[] = response.split(" ");
 						leftBet = new JLabel(array[0] + " " + array[1] + " " + array[2]);
 						leftBet.setBounds(GUI_CARD_LEFT_X + GUI_CARD_WIDTH + 3 * GUI_SPACING_CONSTANT,
-								GUI_HEIGHT_CENTER + 3 * GUI_SPACING_CONSTANT, 
+								GUI_HEIGHT_CENTER - 3 * GUI_SPACING_CONSTANT, 
 								GUI_PLACE_BET_STRING_LENGTH, GUI_TEXT_HEIGHT);
 						frame.getContentPane().add(leftBet);
 						frame.repaint();
@@ -265,7 +289,7 @@ public class PlaceBetsView extends SetbackClientView {
 						rightBet = new JLabel(array[0] + " " + array[1] + " " + array[2]);
 						rightBet.setHorizontalAlignment(SwingConstants.RIGHT);
 						rightBet.setBounds(GUI_WIDTH_CENTER + 3 * GUI_SPACING_CONSTANT,
-								GUI_HEIGHT_CENTER + 3 * GUI_SPACING_CONSTANT, 
+								GUI_HEIGHT_CENTER - 3 * GUI_SPACING_CONSTANT, 
 								GUI_PLACE_BET_STRING_LENGTH, GUI_TEXT_HEIGHT);
 						frame.getContentPane().add(rightBet);
 						frame.repaint();

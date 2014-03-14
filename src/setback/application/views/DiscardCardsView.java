@@ -87,7 +87,11 @@ public class DiscardCardsView extends SetbackClientView {
 						// Check that everyone has discarded
 						ActionListener allDiscardAction = new ActionListener() {
 							public void actionPerformed(ActionEvent evt) {
-								update(controller.userInput("NO_COMMAND"));
+								String response = controller.userInput("NO_COMMAND");
+								if (response.contains("TRICK STARTED")) {
+									allDiscardTimer.stop();
+									update(response);
+								}
 							}
 						};
 						allDiscardTimer = new Timer(DELAY, allDiscardAction);

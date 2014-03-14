@@ -77,7 +77,6 @@ public class SelectTrumpView extends SetbackClientView {
 				String response = controller.userInput("SELECT_TRUMP SPADES").toUpperCase();
 				if (response.startsWith(trumpString + "SPADES")) {
 					toggleButtons(buttonList, false);
-					initializeTimer();
 					// Check for TRUMP SELECTED
 					update(response);
 				}
@@ -93,7 +92,6 @@ public class SelectTrumpView extends SetbackClientView {
 				String response = controller.userInput("SELECT_TRUMP HEARTS").toUpperCase();
 				if (response.startsWith(trumpString + "HEARTS")) {
 					toggleButtons(buttonList, false);
-					initializeTimer();
 					// Check for TRUMP SELECTED
 					update(response);
 				}
@@ -109,7 +107,6 @@ public class SelectTrumpView extends SetbackClientView {
 				String response = controller.userInput("SELECT_TRUMP CLUBS").toUpperCase();
 				if (response.startsWith(trumpString + "CLUBS")) {
 					toggleButtons(buttonList, false);
-					initializeTimer();
 					// Check for TRUMP SELECTED
 					update(response);
 				}
@@ -125,7 +122,6 @@ public class SelectTrumpView extends SetbackClientView {
 				String response = controller.userInput("SELECT_TRUMP DIAMONDS").toUpperCase();
 				if (response.startsWith(trumpString + "DIAMONDS")) {
 					toggleButtons(buttonList, false);
-					initializeTimer();
 					// Check for TRUMP SELECTED
 					update(response);
 				}
@@ -138,7 +134,7 @@ public class SelectTrumpView extends SetbackClientView {
 		buttonList.add(clubsButton);
 		buttonList.add(diamondsButton);
 		// Get the current player
-		PlayerNumber currentPlayer = PlayerNumber.valueOf(controller.userInput("GET_CURRENT_PLAYER"));
+		PlayerNumber currentPlayer = PlayerNumber.valueOf(controller.userInput("GET_CURRENT_PLAYER").toUpperCase());
 		// This is the current player, enable the buttons
 		if (currentPlayer.equals(controller.getMyNumber())) {
 			toggleButtons(buttonList, true);
