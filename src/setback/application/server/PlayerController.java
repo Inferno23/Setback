@@ -220,6 +220,13 @@ public class PlayerController {
 				else if (command.getCommand().equals(Command.GET_TRUMP)) {
 					returnString = game.getTrump().toString();
 				}
+				// Get Team one score
+				else if (command.getCommand().equals(Command.GET_TEAM_ONE_SCORE)) {
+					returnString = Integer.toString(game.getTeamOneScore());
+				}
+				else if (command.getCommand().equals(Command.GET_TEAM_TWO_SCORE)) {
+					returnString = Integer.toString(game.getTeamTwoScore());
+				}
 				// Exit
 				else if (command.getCommand().equals(Command.EXIT)) {
 					returnString = "EXIT";

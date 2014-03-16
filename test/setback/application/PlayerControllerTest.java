@@ -260,7 +260,22 @@ public class PlayerControllerTest {
 		playFullFirstRound();
 		assertTrue(game.getPlayerHand(PlayerNumber.PLAYER_ONE).getCards().contains(new Card(CardType.ACE, CardSuit.CLUBS)));
 	}
+	
+	@Test
+	public void teamOneScore() {
+		initializeFourControllers();
+		final String result = controllerOne.processInput(new CommandMessage(Command.GET_TEAM_ONE_SCORE));
+		final String expected = "0";
+		assertEquals(expected, result);
+	}
 
+	@Test
+	public void teamTwoScore() {
+		initializeFourControllers();
+		final String result = controllerOne.processInput(new CommandMessage(Command.GET_TEAM_TWO_SCORE));
+		final String expected = "0";
+		assertEquals(expected, result);
+	}
 
 
 	/**
