@@ -32,11 +32,14 @@ import setback.common.PlayerNumber;
  */
 public class PlayCardsView extends SetbackClientView {
 
-	int numCards;
-	String myCardName;
-	String leftCardName;
-	String centerCardName;
-	String rightCardName;
+	protected Timer cardTimer;
+	protected Timer pauseTimer;
+
+	protected int numCards;
+	protected String myCardName;
+	protected String leftCardName;
+	protected String centerCardName;
+	protected String rightCardName;
 
 	/**
 	 * Create the GUI for playing cards, call the super constructor.
@@ -71,29 +74,30 @@ public class PlayCardsView extends SetbackClientView {
 		this.numCards = handContents.split("\t").length - 1;
 		displayPlayedCards();
 		displayCorrectedNeighborHands();
-		
+
 		// Check if the all four cards have been played
-		checkForEndOfTrick();
-		
-		// Find the current player
-		PlayerNumber currentPlayer = PlayerNumber.valueOf(controller.userInput("GET_CURRENT_PLAYER").toUpperCase());
-		// If I am the current player we won't call waitForAnyCard.
-		if (currentPlayer.equals(controller.getMyNumber())) {
-			currentPlayerLabel.setText("Current Player: Me");
-		}
-		// If I am not the current player we will call waitForAnyCard
-		else {
-			if (currentPlayer.equals(controller.getLeft())) {
-				currentPlayerLabel.setText("Current Player: Left");
+		if (!checkForEndOfTrick()) {
+
+			// Find the current player
+			PlayerNumber currentPlayer = PlayerNumber.valueOf(controller.userInput("GET_CURRENT_PLAYER").toUpperCase());
+			// If I am the current player we won't call waitForAnyCard.
+			if (currentPlayer.equals(controller.getMyNumber())) {
+				currentPlayerLabel.setText("Current Player: Me");
 			}
-			else if (currentPlayer.equals(controller.getCenter())) {
-				currentPlayerLabel.setText("Current Player: Center");
-			}
+			// If I am not the current player we will call waitForAnyCard
 			else {
-				currentPlayerLabel.setText("Current Player: Right");
+				if (currentPlayer.equals(controller.getLeft())) {
+					currentPlayerLabel.setText("Current Player: Left");
+				}
+				else if (currentPlayer.equals(controller.getCenter())) {
+					currentPlayerLabel.setText("Current Player: Center");
+				}
+				else {
+					currentPlayerLabel.setText("Current Player: Right");
+				}
+				// Now wait for a card to be played
+				waitForAnyCard();
 			}
-			// Now wait for a card to be played
-			waitForAnyCard();
 		}
 	}
 
@@ -204,7 +208,14 @@ public class PlayCardsView extends SetbackClientView {
 					String desired = controller.getMyNumber() + " PLAYED " + cardName;
 					// If we played the card properly
 					if (response.startsWith(desired)) {
-						new PlayCardsView(controller, frame, cardName, leftCardName, centerCardName, rightCardName);
+						// We have more cards to play
+						if (numCards > 1) {
+							new PlayCardsView(controller, frame, cardName, leftCardName, centerCardName, rightCardName);
+						}
+						// This is our last card, so go the subclass that handles the end of the round
+						else {
+							new PlayCardsFinalTrickView(controller, frame, cardName, leftCardName, centerCardName, rightCardName);
+						}
 					}
 					else {
 						// TODO: Show error below my cards
@@ -248,6 +259,7 @@ public class PlayCardsView extends SetbackClientView {
 			}
 		};
 		cardTimer = new Timer(DELAY, cardPlayedAction);
+		timerList.add(cardTimer);
 		cardTimer.start();
 	}	
 
@@ -258,8 +270,9 @@ public class PlayCardsView extends SetbackClientView {
 	 * on to the next trick.
 	 * @param serverResponse The response from the server the last
 	 * time that a card was played.
+	 * @return True if the trick is ending, else false.
 	 */
-	private void checkForEndOfTrick() {
+	protected boolean checkForEndOfTrick() {
 		// If the trick is over, wait for DELAY then make a new GUI
 		if (myCardName != null && leftCardName != null && centerCardName != null && rightCardName != null) {
 			ActionListener pauseAction = new ActionListener() {
@@ -274,7 +287,12 @@ public class PlayCardsView extends SetbackClientView {
 				}
 			};
 			pauseTimer = new Timer(DELAY, pauseAction);
+			timerList.add(pauseTimer);
 			pauseTimer.start();
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 }

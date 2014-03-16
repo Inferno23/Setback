@@ -125,7 +125,7 @@ public class CommandParserTest {
 	}	
 	
 	@Test
-	public void commandMessageCoverge() throws SetbackException {
+	public void commandMessageCoverage() throws SetbackException {
 		final CommandMessage message = new CommandMessage(Command.SHOW_HAND);
 		final CommandMessage noArrayMessage = new CommandMessage(Command.REQUEST_PLAYER_ONE);
 		final String arguments[] = {"TEST"};
@@ -138,5 +138,19 @@ public class CommandParserTest {
 		assertTrue(!message.equals(noArrayMessage));
 		assertTrue(!message.equals(extraArrayMessage));
 		assertEquals(expected, extraArrayMessage.toString());
+	}
+	
+	@Test
+	public void getTeamOneScore() throws SetbackException {
+		final CommandMessage result = parser.parseString("GET_TEAM_ONE_SCORE");
+		final CommandMessage expected = new CommandMessage(Command.GET_TEAM_ONE_SCORE);
+		assertEquals(expected, result);
+	}
+	
+	@Test
+	public void getTeamTwoScore() throws SetbackException {
+		final CommandMessage result = parser.parseString("GET_TEAM_TWO_SCORE");
+		final CommandMessage expected = new CommandMessage(Command.GET_TEAM_TWO_SCORE);
+		assertEquals(expected, result);
 	}
 }

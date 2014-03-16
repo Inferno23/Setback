@@ -25,7 +25,9 @@ public enum Command {
 	SHOW_HAND(0),
 	GET_CURRENT_PLAYER(0),
 	GET_WINNING_BET(0),
-	GET_TRUMP(0);
+	GET_TRUMP(0),
+	GET_TEAM_ONE_SCORE(0),
+	GET_TEAM_TWO_SCORE(0);
 	
 	private final int numberOfArguments;
 

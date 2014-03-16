@@ -28,7 +28,7 @@ import setback.common.PlayerNumber;
  */
 public class SelectTrumpView extends SetbackClientView {
 
-	private Timer trumpSelectionTimer;
+	protected Timer trumpSelectionTimer;
 
 	private JLabel winningBet;
 
@@ -162,6 +162,7 @@ public class SelectTrumpView extends SetbackClientView {
 			}
 		};
 		trumpSelectionTimer = new Timer(DELAY, updateAction);
+		timerList.add(trumpSelectionTimer);
 		trumpSelectionTimer.start();
 	}
 }

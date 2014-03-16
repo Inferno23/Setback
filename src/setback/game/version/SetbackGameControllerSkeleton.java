@@ -53,6 +53,8 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 	protected boolean playerFourSelected;
 
 	protected boolean allBetsPlaced;
+	
+	protected boolean firstTrick;
 
 	protected CardDealerController dealerController;
 
@@ -126,6 +128,7 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		allBetsPlaced = false;
 		nextBettor = updatePlayer(dealer);
 		winningBet = null;
+		firstTrick = true;
 
 		notifyObservers("ROUND BEGIN");
 	}
@@ -377,6 +380,14 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 			throw new SetbackException("You don't have that card!");
 		}
 
+		// The first trick must begin with trump
+		if (firstTrick) {
+			leadSuit = trump;
+			/* This leaves the edge case of a player selecting a trump that
+			they have no cards in.  This would result in trump being the
+			lead suit, even though the first card is not trump */
+		}
+		
 		// Check that the card is a legal choice.
 		if (leadSuit == null) {
 			leadSuit = card.getSuit();
@@ -425,6 +436,7 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		currentPlayer = result.getWinner();
 		trickStarted = false;
 		leadSuit = null;
+		firstTrick = false;
 
 		trickCards = new ArrayList<CardPlayerDescriptor>();
 		trickResults.add(result);

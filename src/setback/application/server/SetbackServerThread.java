@@ -103,7 +103,8 @@ public class SetbackServerThread extends Thread implements SetbackObserver {
 				out.print(message + " ");
 			}
 			else if (message.contains("ROUND ENDED")) {
-
+				// The PlayerController does not care, but we need to tell the client
+				out.print(message + " ");
 			}
 			// Player inputs
 			else if (message.startsWith("PLAYER_")) {

@@ -25,8 +25,8 @@ import setback.common.PlayerNumber;
  */
 public class PlaceBetsView extends SetbackClientView {
 	
-	private Timer connectionTimer;
-	private Timer neighborBetTimer;
+	protected Timer connectionTimer;
+	protected Timer neighborBetTimer;
 
 	private JLabel pleaseWait;
 	private JLabel myBet;
@@ -95,6 +95,7 @@ public class PlaceBetsView extends SetbackClientView {
 			}
 		};
 		connectionTimer = new Timer(DELAY, updateAction);
+		timerList.add(connectionTimer);
 		connectionTimer.start();
 	}
 
@@ -302,6 +303,7 @@ public class PlaceBetsView extends SetbackClientView {
 			}
 		};
 		neighborBetTimer = new Timer(DELAY, singleBetAction);
+		timerList.add(neighborBetTimer);
 		neighborBetTimer.start();
 	}
 }

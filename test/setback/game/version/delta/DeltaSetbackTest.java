@@ -14,6 +14,7 @@ import static setback.utilities.TestCard.jackOfSpades;
 import static setback.utilities.TestCard.kingOfSpades;
 import static setback.utilities.TestCard.nineOfSpades;
 import static setback.utilities.TestCard.queenOfSpades;
+import static setback.utilities.TestCard.sevenOfClubs;
 import static setback.utilities.TestCard.sevenOfSpades;
 import static setback.utilities.TestCard.sixOfDiamonds;
 import static setback.utilities.TestCard.sixOfSpades;
@@ -183,6 +184,19 @@ public class DeltaSetbackTest {
 		game.playRound(trickResults);
 		game.startRound();
 	}
+	
+	@Test(expected=SetbackException.class)
+	public void leadWithNonTrump() throws SetbackException {
+		initializeUpToDiscard();
+		game.discardCards(PlayerNumber.PLAYER_ONE, threeOfSpades, sixOfSpades, aceOfSpades);
+		game.discardCards(PlayerNumber.PLAYER_TWO, eightOfSpades, nineOfSpades, queenOfSpades);
+		game.discardCards(PlayerNumber.PLAYER_THREE, sevenOfSpades, jackOfSpades, kingOfSpades);
+		game.discardCards(PlayerNumber.PLAYER_FOUR, twoOfSpades, tenOfSpades, eightOfClubs);
+		game.startTrick();
+		// Not trump, so it should throw the exception
+		game.playCard(sevenOfClubs, PlayerNumber.PLAYER_ONE);
+	}
+	
 	
 	/**
 	 * Helper function that calls all of the correct functions up

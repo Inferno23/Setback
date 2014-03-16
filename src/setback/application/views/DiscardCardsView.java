@@ -28,8 +28,8 @@ import setback.application.client.SetbackClientView;
  */
 public class DiscardCardsView extends SetbackClientView {
 
-	private Timer discardTimer;
-	private Timer allDiscardTimer;
+	protected Timer discardTimer;
+	protected Timer allDiscardTimer;
 
 	private JLabel trumpLabel;
 
@@ -77,25 +77,33 @@ public class DiscardCardsView extends SetbackClientView {
 					// Double check that we discarded properly
 					if (response.contains(controller.getMyNumber().toString() + " DISCARDED")) {
 						discardButton.setEnabled(false);
-						update(response);
-						for (JLabel card : cardList) {
-							frame.getContentPane().remove(card);
+						// If we are the last person to discard, then everything else is taken care of later
+						if (response.contains("TRICK STARTED")) {
+							update(response);
 						}
-						cardList.clear();
-						String handContents = controller.userInput("SHOW_HAND");
-						displayHand(handContents, ListenerEnum.NONE);
-						// Check that everyone has discarded
-						ActionListener allDiscardAction = new ActionListener() {
-							public void actionPerformed(ActionEvent evt) {
-								String response = controller.userInput("NO_COMMAND");
-								if (response.contains("TRICK STARTED")) {
-									allDiscardTimer.stop();
-									update(response);
-								}
+						else {
+							// We were not the last, so do it all ourselves
+							update(response);
+							for (JLabel card : cardList) {
+								frame.getContentPane().remove(card);
 							}
-						};
-						allDiscardTimer = new Timer(DELAY, allDiscardAction);
-						allDiscardTimer.start();
+							cardList.clear();
+							String handContents = controller.userInput("SHOW_HAND");
+							displayHand(handContents, ListenerEnum.NONE);
+							// Check that everyone has discarded
+							ActionListener allDiscardAction = new ActionListener() {
+								public void actionPerformed(ActionEvent evt) {
+									String response = controller.userInput("NO_COMMAND");
+									if (response.contains("TRICK STARTED")) {
+										allDiscardTimer.stop();
+										update(response);
+									}
+								}
+							};
+							allDiscardTimer = new Timer(DELAY, allDiscardAction);
+							timerList.add(allDiscardTimer);
+							allDiscardTimer.start();
+						}
 					}
 				}
 			}
@@ -114,6 +122,7 @@ public class DiscardCardsView extends SetbackClientView {
 			}
 		};
 		discardTimer = new Timer(DELAY, myDiscardAction);
+		timerList.add(discardTimer);
 		discardTimer.start();
 	}
 }

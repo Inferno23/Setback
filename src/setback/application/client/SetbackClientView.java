@@ -14,6 +14,7 @@ import javax.swing.Timer;
 import setback.application.views.DiscardCardsView;
 import setback.application.views.PlaceBetsView;
 import setback.application.views.PlayCardsView;
+import setback.application.views.RoundScoreView;
 import setback.application.views.SelectTrumpView;
 import setback.game.common.Card;
 
@@ -72,18 +73,21 @@ public abstract class SetbackClientView {
 	// PlayCardsView
 	protected int GUI_PLAY_CARDS_STRING_Y = GUI_CARD_TOP_Y - GUI_SPACING_CONSTANT;
 	protected int GUI_PLAY_CARDS_STRING_LENGTH = 200;
+	// RoundScoreView
+	protected int GUI_ROUND_SCORE_BUTTON_WIDTH = 125;
+	protected int GUI_ROUND_SCORE_BUTTON_HEIGHT = 75;
 	
 	// High level variables
 	protected SetbackClientController controller;
 	protected CardImageFactory factory;
 	// Random variables
 	protected int DELAY = 2000;
-//	protected int DELAY = 5000;
 	// GUI variables
 	protected JFrame frame;
 	protected List<JButton> buttonList;
 	protected List<JLabel> cardList;
 	protected List<Card> discardList;
+	protected List<Timer> timerList;
 	// Cards in my hand
 	protected JLabel cardOne;
 	protected JLabel cardTwo;
@@ -107,10 +111,9 @@ public abstract class SetbackClientView {
 	protected JLabel centerCard;
 	protected JLabel rightCard;
 	// Playing card variables
-	protected Timer cardTimer;
-	protected Timer pauseTimer;
 	protected boolean unpauseToggle;
 	protected JLabel currentPlayerLabel;
+	
 
 	/**
 	 * Create the GUI that the user will interact with.
@@ -139,6 +142,7 @@ public abstract class SetbackClientView {
 		buttonList = new ArrayList<JButton>();
 		cardList = new ArrayList<JLabel>();
 		discardList = new ArrayList<Card>();
+		timerList = new ArrayList<Timer>();
 		// Initialize the application frame
 		frame.getContentPane().setBackground(new Color(60, 179, 113));
 		frame.setResizable(false);
@@ -159,19 +163,30 @@ public abstract class SetbackClientView {
 	protected void update(String input) {
 		if (input.endsWith(" selected")) {
 			controller.setPlayerNumbers(input);
+			stopTimers();
 			new PlaceBetsView(controller, frame);
 		}
 		else if (input.contains("BETTING RESOLVED")) {
+			stopTimers();
 			new SelectTrumpView(controller, frame);
 		}
 		else if (input.contains(" SELECTED ")) {
+			stopTimers();
 			new DiscardCardsView(controller, frame);
 		}
-		else if (input.contains("TRICK STARTED")) {
-			new PlayCardsView(controller, frame, null, null, null, null);
+		else if (input.contains("GAME OVER")) {
+			// TODO: Make a game over screen
+			new JFrame();
 		}
-		else if (input.equals("BEGIN GAME")) {
-			System.out.println("We made it!");
+		// This next one probably never gets called properly,
+		// instead we make it from inside the PlayCardsView
+		else if (input.contains("ROUND ENDED")) {
+			stopTimers();
+			new RoundScoreView(controller, frame);
+		}
+		else if (input.contains("TRICK STARTED")) {
+			stopTimers();
+			new PlayCardsView(controller, frame, null, null, null, null);
 		}
 		else if (input.equals("EXIT")) {
 			System.exit(0);
@@ -393,6 +408,15 @@ public abstract class SetbackClientView {
 			break;
 		default:
 			break;
+		}
+	}
+
+	/**
+	 * Helper function that kills all of the active timers, just in case.
+	 */
+	protected void stopTimers() {
+		for (Timer t : timerList) {
+			t.stop();
 		}
 	}
 	

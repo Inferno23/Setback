@@ -216,7 +216,7 @@ public class PlayerController {
 				else if (command.getCommand().equals(Command.GET_WINNING_BET)) {
 					returnString = game.getWinningBet().toString();
 				}
-				// Get rump
+				// Get trump
 				else if (command.getCommand().equals(Command.GET_TRUMP)) {
 					returnString = game.getTrump().toString();
 				}
