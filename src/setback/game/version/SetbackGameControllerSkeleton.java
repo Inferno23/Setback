@@ -127,6 +127,7 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		bettingResolved = false;
 		allBetsPlaced = false;
 		nextBettor = updatePlayer(dealer);
+		currentPlayer = nextBettor; // This line is really just here to help the GUI
 		winningBet = null;
 		firstTrick = true;
 

@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import setback.application.client.ListenerEnum;
 import setback.application.client.SetbackClientController;
 import setback.common.PlayerNumber;
 
@@ -112,6 +113,24 @@ public class PlayCardsFinalTrickView extends PlayCardsView {
 		}
 		else {
 			return false;
+		}
+	}
+	
+	/**
+	 * Call the super function unless all of the cards have been played
+	 */
+	protected void displayHand(String handContents, ListenerEnum listener) {
+		if (!(myCardName != null && leftCardName != null && centerCardName != null && rightCardName != null)) {
+			super.displayHand(handContents, listener);
+		}
+	}
+	
+	/**
+	 * Call the super function unless all of the cards have been played
+	 */
+	protected void displayCorrectedNeighborHands() {
+		if (!(myCardName != null && leftCardName != null && centerCardName != null && rightCardName != null)) {
+			super.displayCorrectedNeighborHands();
 		}
 	}
 }

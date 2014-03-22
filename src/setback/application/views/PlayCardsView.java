@@ -104,7 +104,7 @@ public class PlayCardsView extends SetbackClientView {
 	/**
 	 * Helper function that displays the previously played cards.
 	 */
-	private void displayPlayedCards() {
+	protected void displayPlayedCards() {
 		if (myCardName != null) {
 			ImageIcon cardIcon = factory.createCard(myCardName);
 			myCard = new JLabel(cardIcon);
@@ -134,7 +134,7 @@ public class PlayCardsView extends SetbackClientView {
 	/**
 	 * Helper function that displays the correct number of cards in the neighbors' hands.
 	 */
-	private void displayCorrectedNeighborHands() {
+	protected void displayCorrectedNeighborHands() {
 		// I haven't played yet, so numCards is for hands that haven't played
 		if (myCardName == null) {
 			// Left hasn't played yet
