@@ -44,6 +44,7 @@ public class DiscardCardsView extends SetbackClientView {
 	 */
 	public DiscardCardsView(SetbackClientController controller, JFrame frame) {
 		super(controller, frame);
+		frame.repaint();
 	}
 
 	/**

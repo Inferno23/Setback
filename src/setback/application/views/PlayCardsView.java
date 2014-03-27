@@ -99,6 +99,7 @@ public class PlayCardsView extends SetbackClientView {
 				waitForAnyCard();
 			}
 		}
+		frame.repaint();
 	}
 
 	/**

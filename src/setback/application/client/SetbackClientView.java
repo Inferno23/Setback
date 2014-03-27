@@ -129,6 +129,7 @@ public abstract class SetbackClientView {
 		centerCards = new JLabel[13];
 		rightCards = new JLabel[13];
 		initialize();
+		frame.repaint();
 	}
 
 	/**
