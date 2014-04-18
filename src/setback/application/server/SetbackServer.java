@@ -40,7 +40,16 @@ public class SetbackServer {
 		int currentConnections = 0;
 		
 		final SetbackGameFactory factory = SetbackGameFactory.getInstance();
-		final SetbackGameController game = factory.makeDeltaSetbackGame(0);
+		final SetbackGameController game;
+		final String debug = System.getenv("DEBUG");
+		if (debug != null && debug.equals("true")) {
+			System.out.println("DEBUG");
+			game = factory.makeDeltaSetbackGame(0);
+		}
+		else {
+			System.out.println("RETAIL");
+			game = factory.makeDeltaSetbackGame();
+		}
 		
 		if (args != null && args.length == 1) {
 			portNumber = Integer.parseInt(args[0]);

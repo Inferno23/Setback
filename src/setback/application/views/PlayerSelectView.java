@@ -38,7 +38,8 @@ public class PlayerSelectView extends SetbackClientView {
 	 */
 	public PlayerSelectView(SetbackClientController controller, JFrame frame) {
 		super(controller, frame);
-		frame.repaint();
+		this.frame.revalidate();
+		this.frame.repaint();
 	}
 
 	/**

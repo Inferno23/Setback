@@ -29,8 +29,8 @@ public abstract class SetbackClientView {
 	// GUI Constants
 	protected int GUI_X = 100;
 	protected int GUI_Y = 100;
-	protected int GUI_WIDTH = 1200;
-	protected int GUI_HEIGHT = 800;
+	protected int GUI_WIDTH = 900;	// 1200
+	protected int GUI_HEIGHT = 600;	// 800
 	protected int GUI_WIDTH_CENTER = GUI_WIDTH / 2;
 	protected int GUI_HEIGHT_CENTER = GUI_HEIGHT / 2;
 	protected int GUI_TEXT_HEIGHT = 20;

@@ -46,7 +46,8 @@ public class SelectTrumpView extends SetbackClientView {
 	 */
 	public SelectTrumpView(SetbackClientController controller, JFrame frame) {
 		super(controller, frame);
-		frame.repaint();
+		this.frame.revalidate();
+		this.frame.repaint();
 	}
 
 	/**

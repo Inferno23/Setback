@@ -39,7 +39,8 @@ public class RoundScoreView extends SetbackClientView {
 	 */
 	public RoundScoreView(SetbackClientController controller, JFrame frame) {
 		super(controller, frame);
-		frame.repaint();
+		this.frame.revalidate();
+		this.frame.repaint();
 	}
 
 	/**

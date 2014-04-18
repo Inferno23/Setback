@@ -50,7 +50,8 @@ public class PlaceBetsView extends SetbackClientView {
 	 */
 	public PlaceBetsView(SetbackClientController controller, JFrame frame) {
 		super(controller, frame);
-		frame.repaint();
+		this.frame.revalidate();
+		this.frame.repaint();
 	}
 
 	/**

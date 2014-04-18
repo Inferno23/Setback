@@ -40,7 +40,8 @@ public class PlayCardsFinalTrickView extends PlayCardsView {
 			String rightCardName) {
 		super(controller, frame, myCardName, leftCardName, centerCardName,
 				rightCardName);
-		frame.repaint();
+		this.frame.revalidate();
+		this.frame.repaint();
 	}
 
 	/**
