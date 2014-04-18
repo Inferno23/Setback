@@ -14,7 +14,7 @@ import java.util.Arrays;
  * @version Dec 24, 2013
  */
 public class CommandMessage {
-	private Command command;
+	private final Command command;
 	private String[] arguments;
 	
 	/**
@@ -68,6 +68,18 @@ public class CommandMessage {
 	}
 
 	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(arguments);
+		result = prime * result + ((command == null) ? 0 : command.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -81,7 +93,7 @@ public class CommandMessage {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		CommandMessage other = (CommandMessage) obj;
+		final CommandMessage other = (CommandMessage) obj;
 		if (!Arrays.equals(arguments, other.arguments)) {
 			return false;
 		}

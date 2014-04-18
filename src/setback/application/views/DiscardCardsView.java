@@ -63,7 +63,7 @@ public class DiscardCardsView extends SetbackClientView {
 		trumpLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		frame.getContentPane().add(trumpLabel);
 		// Hands
-		String handContents = controller.userInput("SHOW_HAND");
+		final String handContents = controller.userInput("SHOW_HAND");
 		displayHand(handContents, ListenerEnum.SHIFT_UP);
 		displayNeighborHands(12);
 		// Discard button
@@ -74,7 +74,7 @@ public class DiscardCardsView extends SetbackClientView {
 			public void actionPerformed(ActionEvent arg0) {
 				if (discardList.size() == 3) {
 					discardTimer.stop();
-					String response = controller.userInput("DISCARD_CARDS "
+					final String response = controller.userInput("DISCARD_CARDS "
 							+ discardList.get(0) + " " + discardList.get(1) + " " + discardList.get(2));
 					// Double check that we discarded properly
 					if (response.contains(controller.getMyNumber().toString() + " DISCARDED")) {
@@ -90,12 +90,12 @@ public class DiscardCardsView extends SetbackClientView {
 								frame.getContentPane().remove(card);
 							}
 							cardList.clear();
-							String handContents = controller.userInput("SHOW_HAND");
+							final String handContents = controller.userInput("SHOW_HAND");
 							displayHand(handContents, ListenerEnum.NONE);
 							// Check that everyone has discarded
-							ActionListener allDiscardAction = new ActionListener() {
+							final ActionListener allDiscardAction = new ActionListener() {
 								public void actionPerformed(ActionEvent evt) {
-									String response = controller.userInput("NO_COMMAND");
+									final String response = controller.userInput("NO_COMMAND");
 									if (response.contains("TRICK STARTED")) {
 										allDiscardTimer.stop();
 										update(response);
@@ -113,7 +113,7 @@ public class DiscardCardsView extends SetbackClientView {
 		discardButton.setEnabled(false);
 		frame.getContentPane().add(discardButton);
 		// Check the cardList
-		ActionListener myDiscardAction = new ActionListener() {
+		final ActionListener myDiscardAction = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				if (discardList.size() == 3) {
 					discardButton.setEnabled(true);

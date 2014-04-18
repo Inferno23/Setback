@@ -65,7 +65,7 @@ public class SelectTrumpView extends SetbackClientView {
 		winningBet.setHorizontalAlignment(SwingConstants.CENTER);
 		frame.getContentPane().add(winningBet);
 		// Hands
-		String handContents = controller.userInput("SHOW_HAND");
+		final String handContents = controller.userInput("SHOW_HAND");
 		displayHand(handContents, ListenerEnum.NONE);
 		displayNeighborHands(12);
 		// Set up the buttons
@@ -76,7 +76,7 @@ public class SelectTrumpView extends SetbackClientView {
 				GUI_SELECT_TRUMP_BUTTON_Y, GUI_SELECT_TRUMP_BUTTON_WIDTH, GUI_SELECT_TRUMP_BUTTON_HEIGHT);
 		spadesButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String response = controller.userInput("SELECT_TRUMP SPADES").toUpperCase();
+				final String response = controller.userInput("SELECT_TRUMP SPADES").toUpperCase();
 				if (response.startsWith(trumpString + "SPADES")) {
 					toggleButtons(buttonList, false);
 					// Check for TRUMP SELECTED
@@ -91,7 +91,7 @@ public class SelectTrumpView extends SetbackClientView {
 				GUI_SELECT_TRUMP_BUTTON_Y, GUI_SELECT_TRUMP_BUTTON_WIDTH, GUI_SELECT_TRUMP_BUTTON_HEIGHT);
 		heartsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String response = controller.userInput("SELECT_TRUMP HEARTS").toUpperCase();
+				final String response = controller.userInput("SELECT_TRUMP HEARTS").toUpperCase();
 				if (response.startsWith(trumpString + "HEARTS")) {
 					toggleButtons(buttonList, false);
 					// Check for TRUMP SELECTED
@@ -106,7 +106,7 @@ public class SelectTrumpView extends SetbackClientView {
 				GUI_SELECT_TRUMP_BUTTON_Y, GUI_SELECT_TRUMP_BUTTON_WIDTH, GUI_SELECT_TRUMP_BUTTON_HEIGHT);
 		clubsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String response = controller.userInput("SELECT_TRUMP CLUBS").toUpperCase();
+				final String response = controller.userInput("SELECT_TRUMP CLUBS").toUpperCase();
 				if (response.startsWith(trumpString + "CLUBS")) {
 					toggleButtons(buttonList, false);
 					// Check for TRUMP SELECTED
@@ -121,7 +121,7 @@ public class SelectTrumpView extends SetbackClientView {
 				GUI_SELECT_TRUMP_BUTTON_Y, GUI_SELECT_TRUMP_BUTTON_WIDTH, GUI_SELECT_TRUMP_BUTTON_HEIGHT);
 		diamondsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String response = controller.userInput("SELECT_TRUMP DIAMONDS").toUpperCase();
+				final String response = controller.userInput("SELECT_TRUMP DIAMONDS").toUpperCase();
 				if (response.startsWith(trumpString + "DIAMONDS")) {
 					toggleButtons(buttonList, false);
 					// Check for TRUMP SELECTED
@@ -136,7 +136,7 @@ public class SelectTrumpView extends SetbackClientView {
 		buttonList.add(clubsButton);
 		buttonList.add(diamondsButton);
 		// Get the current player
-		PlayerNumber currentPlayer = PlayerNumber.valueOf(controller.userInput("GET_CURRENT_PLAYER").toUpperCase());
+		final PlayerNumber currentPlayer = PlayerNumber.valueOf(controller.userInput("GET_CURRENT_PLAYER").toUpperCase());
 		// This is the current player, enable the buttons
 		if (currentPlayer.equals(controller.getMyNumber())) {
 			toggleButtons(buttonList, true);
@@ -152,9 +152,9 @@ public class SelectTrumpView extends SetbackClientView {
 	 * This helper function sets up the timer.
 	 */
 	private void initializeTimer() {
-		ActionListener updateAction = new ActionListener() {
+		final ActionListener updateAction = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				String response = controller.userInput("NO_COMMAND");
+				final String response = controller.userInput("NO_COMMAND");
 				if (!response.equals("No command")) {
 					trumpSelectionTimer.stop();
 					// Just move along to the discarding screen, trump

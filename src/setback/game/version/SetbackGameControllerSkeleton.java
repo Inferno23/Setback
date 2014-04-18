@@ -218,7 +218,7 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 	 * (non-Javadoc)
 	 * @see setback.game.SetbackGameController#discardCards(setback.common.PlayerNumber, setback.game.common.Card, setback.game.common.Card, setback.game.common.Card)
 	 */
-	public void discardCards(PlayerNumber player, Card cardOne, Card cardTwo, Card cardThree) throws SetbackException {		
+	public void discardCards(PlayerNumber player, Card cardOne, Card cardTwo, Card cardThree) throws SetbackException {
 		// Check the state variables
 		if (!gameStarted) {
 			throw new SetbackException("You must start the game!");
@@ -260,7 +260,7 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 			throw new SetbackException("You must discard three valid cards!");
 		}
 		// Check that the cards are in the player's hand
-		Hand hand = getPlayerHand(player);
+		final Hand hand = getPlayerHand(player);
 		if (!hand.getCards().contains(cardOne)) {
 			throw new SetbackException("You do not have the " + cardOne.toString() + " so you cannot discard it!");
 		}
@@ -271,7 +271,7 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 			throw new SetbackException("You do not have the " + cardThree.toString() + " so you cannot discard it!");
 		}
 		// Actually discard the cards
-		List<Card> cardList = hand.getCards();
+		final List<Card> cardList = hand.getCards();
 		cardList.remove(cardOne);
 		cardList.remove(cardTwo);
 		cardList.remove(cardThree);
@@ -361,7 +361,7 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 		// Update the currentPlayer for the next card. 
 		currentPlayer = updatePlayer(currentPlayer);
 
-		CardPlayerDescriptor result = new CardPlayerDescriptor(card, player); 
+		final CardPlayerDescriptor result = new CardPlayerDescriptor(card, player); 
 		trickCards.add(result);
 
 		notifyObservers(player.toString() + " PLAYED " + card.toString());
@@ -519,7 +519,7 @@ public abstract class SetbackGameControllerSkeleton implements SetbackGameContro
 	 * (non-Javadoc)
 	 * @see setback.game.SetbackGameController#selectPlayerNumber(setback.common.PlayerNumber)
 	 */
-	public boolean requestPlayerNumber(PlayerNumber requestedNumber) throws SetbackException {
+	public boolean requestPlayerNumber(PlayerNumber requestedNumber) {
 		boolean granted;
 		String message;
 

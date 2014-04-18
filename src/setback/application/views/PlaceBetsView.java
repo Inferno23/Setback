@@ -63,15 +63,15 @@ public class PlaceBetsView extends SetbackClientView {
 		// Background and visibility
 		super.initialize();
 		// Please wait message
-		String pleaseWaitString = "Please wait for other players";
-		int pleaseWaitSize = pleaseWaitString.length() * UNICODE_SIZE_CONSTANT;
+		final String pleaseWaitString = "Please wait for other players";
+		final int pleaseWaitSize = pleaseWaitString.length() * UNICODE_SIZE_CONSTANT;
 		pleaseWait = new JLabel(pleaseWaitString);
 		pleaseWait.setBounds(GUI_WIDTH_CENTER - (pleaseWaitSize / 2), GUI_HEIGHT_CENTER, pleaseWaitSize, GUI_TEXT_HEIGHT);
 		frame.getContentPane().add(pleaseWait);
 		// Update timer
-		ActionListener updateAction = new ActionListener() {
+		final ActionListener updateAction = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				String handContents = controller.userInput("SHOW_HAND");
+				final String handContents = controller.userInput("SHOW_HAND");
 				if (!handContents.equals("You do not have a hand yet!")) {
 					connectionTimer.stop();
 					// Wipe anything from before
@@ -79,7 +79,7 @@ public class PlaceBetsView extends SetbackClientView {
 					displayHand(handContents, ListenerEnum.NONE);
 					displayNeighborHands(12);
 					bettingInitialization();
-					PlayerNumber currentPlayer = PlayerNumber.valueOf(controller.userInput("GET_CURRENT_PLAYER").toUpperCase());
+					final PlayerNumber currentPlayer = PlayerNumber.valueOf(controller.userInput("GET_CURRENT_PLAYER").toUpperCase());
 					if (currentPlayer.equals(controller.getLeft())) {
 						waitOnPlayer(controller.getLeft());
 					}
@@ -114,7 +114,7 @@ public class PlaceBetsView extends SetbackClientView {
 				GUI_PLACE_BET_BUTTON_Y, GUI_PLACE_BET_BUTTON_HEIGHT, GUI_PLACE_BET_BUTTON_WIDTH);
 		passButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String response = controller.userInput("PLACE_BET PASS");
+				final String response = controller.userInput("PLACE_BET PASS");
 				if (response.startsWith(betString + "PASS")) {
 					toggleButtons(buttonList, false);
 					myBet.setText("YOU PASSED");
@@ -135,7 +135,7 @@ public class PlaceBetsView extends SetbackClientView {
 				GUI_PLACE_BET_BUTTON_Y, GUI_PLACE_BET_BUTTON_HEIGHT, GUI_PLACE_BET_BUTTON_WIDTH);
 		twoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String response = controller.userInput("PLACE_BET TWO");
+				final String response = controller.userInput("PLACE_BET TWO");
 				if (response.startsWith(betString + "TWO")) {
 					toggleButtons(buttonList, false);
 					myBet.setText("YOU BET TWO");
@@ -156,7 +156,7 @@ public class PlaceBetsView extends SetbackClientView {
 				GUI_PLACE_BET_BUTTON_Y, GUI_PLACE_BET_BUTTON_HEIGHT, GUI_PLACE_BET_BUTTON_WIDTH);
 		threeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String response = controller.userInput("PLACE_BET THREE");
+				final String response = controller.userInput("PLACE_BET THREE");
 				if (response.startsWith(betString + "THREE")) {
 					toggleButtons(buttonList, false);
 					myBet.setText("YOU BET THREE");
@@ -177,7 +177,7 @@ public class PlaceBetsView extends SetbackClientView {
 				GUI_PLACE_BET_BUTTON_Y, GUI_PLACE_BET_BUTTON_HEIGHT, GUI_PLACE_BET_BUTTON_WIDTH);
 		fourButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String response = controller.userInput("PLACE_BET FOUR");
+				final String response = controller.userInput("PLACE_BET FOUR");
 				if (response.startsWith(betString + "FOUR")) {
 					toggleButtons(buttonList, false);
 					myBet.setText("YOU BET FOUR");
@@ -198,7 +198,7 @@ public class PlaceBetsView extends SetbackClientView {
 				GUI_PLACE_BET_BUTTON_Y, GUI_PLACE_BET_BUTTON_HEIGHT, GUI_PLACE_BET_BUTTON_WIDTH);
 		fiveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String response = controller.userInput("PLACE_BET FIVE");
+				final String response = controller.userInput("PLACE_BET FIVE");
 				if (response.startsWith(betString + "FIVE")) {
 					toggleButtons(buttonList, false);
 					myBet.setText("YOU BET FIVE");
@@ -219,7 +219,7 @@ public class PlaceBetsView extends SetbackClientView {
 				GUI_PLACE_BET_BUTTON_Y, GUI_PLACE_BET_BUTTON_HEIGHT, GUI_PLACE_BET_BUTTON_WIDTH);
 		takeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String response = controller.userInput("PLACE_BET TAKE");
+				final String response = controller.userInput("PLACE_BET TAKE");
 				if (response.startsWith(betString + "TAKE")) {
 					toggleButtons(buttonList, false);
 					myBet.setText("YOU TOOK THE BET");
@@ -259,14 +259,14 @@ public class PlaceBetsView extends SetbackClientView {
 	 */
 	private void waitOnPlayer(final PlayerNumber playerToWaitOn) {
 		toggleButtons(buttonList, false);
-		ActionListener singleBetAction = new ActionListener() {
+		final ActionListener singleBetAction = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				String response = controller.userInput("NO_COMMAND");
+				final String response = controller.userInput("NO_COMMAND");
 				if (!response.equals("No command")) {
 					neighborBetTimer.stop();
 					if (playerToWaitOn == controller.getLeft()) {
 						// Left label
-						String array[] = response.split(" ");
+						final String[] array = response.split(" ");
 						leftBet = new JLabel(array[0] + " " + array[1] + " " + array[2]);
 						leftBet.setBounds(GUI_CARD_LEFT_X + GUI_CARD_WIDTH + 3 * GUI_SPACING_CONSTANT,
 								GUI_HEIGHT_CENTER - 3 * GUI_SPACING_CONSTANT, 
@@ -276,7 +276,7 @@ public class PlaceBetsView extends SetbackClientView {
 						waitOnPlayer(controller.getCenter());
 					} else if (playerToWaitOn == controller.getCenter()) {
 						// Center label
-						String array[] = response.split(" ");
+						final String[] array = response.split(" ");
 						centerBet = new JLabel(array[0] + " " + array[1] + " " + array[2]);
 						centerBet.setHorizontalAlignment(SwingConstants.CENTER);
 						centerBet.setBounds(GUI_WIDTH_CENTER,
@@ -288,7 +288,7 @@ public class PlaceBetsView extends SetbackClientView {
 					}
 					else {
 						// Right label
-						String array[] = response.split(" ");
+						final String[] array = response.split(" ");
 						rightBet = new JLabel(array[0] + " " + array[1] + " " + array[2]);
 						rightBet.setHorizontalAlignment(SwingConstants.RIGHT);
 						rightBet.setBounds(GUI_WIDTH_CENTER + 3 * GUI_SPACING_CONSTANT,

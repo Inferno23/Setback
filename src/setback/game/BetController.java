@@ -39,8 +39,8 @@ public interface BetController {
 	 * This function determines the winner based on the past four bets.
 	 * It throws an exception if there have not been four bets.
 	 * It clears the bet fields for the next round of betting.
+	 * @throws SetbackException If betting is not complete. 
 	 * @return The winner and their bet.
-	 * @throws SetbackExcpetion If anything goes wrong.
 	 */
 	BetResult determineWinner() throws SetbackException;
 }

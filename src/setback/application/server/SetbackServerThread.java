@@ -42,7 +42,7 @@ public class SetbackServerThread extends Thread implements SetbackObserver {
 		super("SetbackServerThread");
 		this.socket = socket;
 		game.addObserver(this);
-		this.controller = new PlayerController(game);
+		controller = new PlayerController(game);
 		parser = new CommandParser();
 	}
 
@@ -54,7 +54,7 @@ public class SetbackServerThread extends Thread implements SetbackObserver {
 	public void run() {
 		try {
 			out = new PrintWriter(socket.getOutputStream(), true);
-			BufferedReader in = new BufferedReader(
+			final BufferedReader in = new BufferedReader(
 					new InputStreamReader(socket.getInputStream()));
 
 			String inputLine, outputLine;
@@ -92,7 +92,7 @@ public class SetbackServerThread extends Thread implements SetbackObserver {
 		if (message != null) {
 			// Game inputs
 			if (message.equals("ROUND BEGIN")) {
-				controller.handleUpdate("ROUND BEGIN");
+				controller.startRound();
 			}
 			else if (message.equals("BETTING RESOLVED")) {
 				// The PlayerController does not care, but we need to tell the client
@@ -116,7 +116,7 @@ public class SetbackServerThread extends Thread implements SetbackObserver {
 				// Selecting trump
 				else if (message.contains(" SELECTED ")) {
 					// The PlayerController does not care, but we need to tell the client
-					out.print(message + " ");					
+					out.print(message + " ");
 				}
 				// Discarding cards
 				else if (message.contains(" DISCARDED")) {

@@ -51,10 +51,10 @@ public class RoundScoreView extends SetbackClientView {
 	protected void initialize() {
 		// Background and visibility
 		super.initialize();
-		String teamOne = "TEAM ONE: " + controller.userInput("GET_TEAM_ONE_SCORE");
-		String teamTwo = "TEAM TWO: " + controller.userInput("GET_TEAM_TWO_SCORE");
-		int teamLength = teamOne.length() * UNICODE_SIZE_CONSTANT;
-		PlayerNumber myNumber = controller.getMyNumber();
+		final String teamOne = "TEAM ONE: " + controller.userInput("GET_TEAM_ONE_SCORE");
+		final String teamTwo = "TEAM TWO: " + controller.userInput("GET_TEAM_TWO_SCORE");
+		final int teamLength = teamOne.length() * UNICODE_SIZE_CONSTANT;
+		final PlayerNumber myNumber = controller.getMyNumber();
 		String teamString = "FYI: You're on ";
 
 		// Team One
@@ -65,7 +65,7 @@ public class RoundScoreView extends SetbackClientView {
 		else {
 			teamString = teamString + "TEAM TWO";
 		}
-		int teamStringLength = teamString.length() * UNICODE_SIZE_CONSTANT;
+		final int teamStringLength = teamString.length() * UNICODE_SIZE_CONSTANT;
 
 		// Which team you're on
 		teamLabel = new JLabel();

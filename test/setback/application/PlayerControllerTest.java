@@ -287,10 +287,10 @@ public class PlayerControllerTest {
 		controllerTwo.processInput(new CommandMessage(Command.REQUEST_PLAYER_TWO));
 		controllerThree.processInput(new CommandMessage(Command.REQUEST_PLAYER_THREE));
 		controllerFour.processInput(new CommandMessage(Command.REQUEST_PLAYER_FOUR));
-		controllerOne.handleUpdate("ROUND BEGIN");
-		controllerTwo.handleUpdate("ROUND BEGIN");
-		controllerThree.handleUpdate("ROUND BEGIN");
-		controllerFour.handleUpdate("ROUND BEGIN");
+		controllerOne.startRound();
+		controllerTwo.startRound();
+		controllerThree.startRound();
+		controllerFour.startRound();
 	}
 
 	/**

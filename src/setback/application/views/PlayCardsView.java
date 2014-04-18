@@ -68,18 +68,18 @@ public class PlayCardsView extends SetbackClientView {
 				GUI_PLAY_CARDS_STRING_LENGTH, GUI_TEXT_HEIGHT);
 		frame.getContentPane().add(currentPlayerLabel);
 		// Get my hand and display it
-		String handContents = controller.userInput("SHOW_HAND");
+		final String handContents = controller.userInput("SHOW_HAND");
 		displayHand(handContents, ListenerEnum.PLAY);
 		// Find the number of cards that are in the hand
-		this.numCards = handContents.split("\t").length - 1;
+		numCards = handContents.split("\t").length - 1;
 		displayPlayedCards();
 		displayCorrectedNeighborHands();
 
 		// Check if the all four cards have been played
-		if (!checkForEndOfTrick()) {
+		if (!isEndOfTrick()) {
 
 			// Find the current player
-			PlayerNumber currentPlayer = PlayerNumber.valueOf(controller.userInput("GET_CURRENT_PLAYER").toUpperCase());
+			final PlayerNumber currentPlayer = PlayerNumber.valueOf(controller.userInput("GET_CURRENT_PLAYER").toUpperCase());
 			// If I am the current player we won't call waitForAnyCard.
 			if (currentPlayer.equals(controller.getMyNumber())) {
 				currentPlayerLabel.setText("Current Player: Me");
@@ -108,25 +108,25 @@ public class PlayCardsView extends SetbackClientView {
 	 */
 	protected void displayPlayedCards() {
 		if (myCardName != null) {
-			ImageIcon cardIcon = factory.createCard(myCardName);
+			final ImageIcon cardIcon = factory.createCard(myCardName);
 			myCard = new JLabel(cardIcon);
 			myCard.setBounds(GUI_WIDTH_CENTER, GUI_CARD_BOTTOM_Y - GUI_CARD_PLAYED_SHIFT, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
 			frame.getContentPane().add(myCard);
 		}
 		if (leftCardName != null) {
-			ImageIcon cardIcon = factory.createCard(leftCardName);
+			final ImageIcon cardIcon = factory.createCard(leftCardName);
 			leftCard = new JLabel(cardIcon);
 			leftCard.setBounds(GUI_CARD_LEFT_X + GUI_CARD_PLAYED_SHIFT, GUI_HEIGHT_CENTER, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
 			frame.getContentPane().add(leftCard);
 		}
 		if (centerCardName != null) {
-			ImageIcon cardIcon = factory.createCard(centerCardName);
+			final ImageIcon cardIcon = factory.createCard(centerCardName);
 			centerCard = new JLabel(cardIcon);
 			centerCard.setBounds(GUI_WIDTH_CENTER, GUI_CARD_TOP_Y + GUI_CARD_PLAYED_SHIFT, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
 			frame.getContentPane().add(centerCard);
 		}
 		if (rightCardName != null) {
-			ImageIcon cardIcon = factory.createCard(rightCardName);
+			final ImageIcon cardIcon = factory.createCard(rightCardName);
 			rightCard = new JLabel(cardIcon);
 			rightCard.setBounds(GUI_CARD_RIGHT_X - GUI_CARD_PLAYED_SHIFT, GUI_HEIGHT_CENTER, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
 			frame.getContentPane().add(rightCard);
@@ -205,9 +205,9 @@ public class PlayCardsView extends SetbackClientView {
 			card.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent arg0) {
 					// Try to play the card
-					String response = controller.userInput("PLAY_CARD " + cardName);
+					final String response = controller.userInput("PLAY_CARD " + cardName);
 					// We expect it to get played
-					String desired = controller.getMyNumber() + " PLAYED " + cardName;
+					final String desired = controller.getMyNumber() + " PLAYED " + cardName;
 					// If we played the card properly
 					if (response.startsWith(desired)) {
 						// We have more cards to play
@@ -238,16 +238,16 @@ public class PlayCardsView extends SetbackClientView {
 	 * current player string.
 	 */
 	protected void waitForAnyCard() {
-		ActionListener cardPlayedAction = new ActionListener() {
+		final ActionListener cardPlayedAction = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				String response = controller.userInput("NO_COMMAND");
+				final String response = controller.userInput("NO_COMMAND");
 				if (!response.equals("No command")) {
 					// Stop the timer
 					cardTimer.stop();
 					// Split the response
-					String array[] = response.split(" ");
-					PlayerNumber cardPlayer = PlayerNumber.valueOf(array[0]);
-					String cardName = array[2];
+					final String[] array = response.split(" ");
+					final PlayerNumber cardPlayer = PlayerNumber.valueOf(array[0]);
+					final String cardName = array[2];
 					if (cardPlayer.equals(controller.getLeft())) {
 						new PlayCardsView(controller, frame, myCardName, cardName, centerCardName, rightCardName);
 					}
@@ -263,21 +263,20 @@ public class PlayCardsView extends SetbackClientView {
 		cardTimer = new Timer(DELAY, cardPlayedAction);
 		timerList.add(cardTimer);
 		cardTimer.start();
-	}	
+	}
 
 	/**
 	 * This helper function checks the response from the server
 	 * to determine if the trick has ended.  If the trick has ended,
 	 * it will leave the GUI in stasis for DELAY seconds, then move
 	 * on to the next trick.
-	 * @param serverResponse The response from the server the last
 	 * time that a card was played.
 	 * @return True if the trick is ending, else false.
 	 */
-	protected boolean checkForEndOfTrick() {
+	protected boolean isEndOfTrick() {
 		// If the trick is over, wait for DELAY then make a new GUI
 		if (myCardName != null && leftCardName != null && centerCardName != null && rightCardName != null) {
-			ActionListener pauseAction = new ActionListener() {
+			final ActionListener pauseAction = new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					if (unpauseToggle) {
 						pauseTimer.stop();

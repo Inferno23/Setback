@@ -19,8 +19,8 @@ import java.net.UnknownHostException;
  */
 public class SetbackCommandLineClient {
 	
-	private static int DEFAULT_PORT = 2323;
-	private static String DEFAULT_HOSTNAME = "66.189.40.187";
+	private static final int DEFAULT_PORT = 2323;
+	private static final String DEFAULT_HOSTNAME = "66.189.40.187";
 
 	/**
 	 * This is the executable function that connects the
@@ -31,9 +31,8 @@ public class SetbackCommandLineClient {
 	 * passed in as the first argument, and an IP address is passed
 	 * in as the second argument, they will be used as the port and
 	 * host name for the socket connection.
-	 * @throws IOException
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		
 		int portNumber;
 		String hostname;
@@ -55,7 +54,7 @@ public class SetbackCommandLineClient {
 				BufferedReader in = new BufferedReader(
 						new InputStreamReader(socket.getInputStream()));
 				) {
-			BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+			final BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 			String fromServer;
 			String fromUser;
 

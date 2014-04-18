@@ -137,7 +137,7 @@ public class PlayerController {
 				}
 				// Place bets
 				else if (command.getCommand().equals(Command.PLACE_BET)) {
-					String betString = command.getArguments()[0];
+					final String betString = command.getArguments()[0];
 					game.placeBet(myNumber, Bet.valueOf(betString));
 					returnString = myNumber.toString() + " BET " + betString;
 					if (game.checkAllBetsPlaced()) {
@@ -146,18 +146,18 @@ public class PlayerController {
 				}
 				// Select trump
 				else if (command.getCommand().equals(Command.SELECT_TRUMP)) {
-					String suitString = command.getArguments()[0];
+					final String suitString = command.getArguments()[0];
 					game.selectTrump(myNumber, CardSuit.valueOf(suitString));
 					returnString = myNumber.toString() + " SELECTED " + suitString;
 				}
 				// Discard cards
 				else if (command.getCommand().equals(Command.DISCARD_CARDS)) {
-					Card cardOne = Card.fromString(command.getArguments()[0]);
-					Card cardTwo = Card.fromString(command.getArguments()[1]);
-					Card cardThree = Card.fromString(command.getArguments()[2]);
+					final Card cardOne = Card.fromString(command.getArguments()[0]);
+					final Card cardTwo = Card.fromString(command.getArguments()[1]);
+					final Card cardThree = Card.fromString(command.getArguments()[2]);
 					game.discardCards(myNumber, cardOne, cardTwo, cardThree);
 					// Discard the cards from my hand
-					List<Card> myCards = myHand.getCards(); 
+					final List<Card> myCards = myHand.getCards(); 
 					myCards.remove(cardOne);
 					myCards.remove(cardTwo);
 					myCards.remove(cardThree);
@@ -171,15 +171,15 @@ public class PlayerController {
 				}
 				// Play cards
 				else if (command.getCommand().equals(Command.PLAY_CARD)) {
-					Card card = Card.fromString(command.getArguments()[0]);
+					final Card card = Card.fromString(command.getArguments()[0]);
 					game.playCard(card, myNumber);
 					// Discard the card from my hand
-					List<Card> myCards = myHand.getCards(); 
+					final List<Card> myCards = myHand.getCards(); 
 					myCards.remove(card);
 					returnString = myNumber.toString() + " PLAYED " + card.toString();
 					// Check if all four cards have been played
 					if (game.checkFourCardsPlayed()) {
-						List<CardPlayerDescriptor> trickCards = game.getTrickCards();
+						final List<CardPlayerDescriptor> trickCards = game.getTrickCards();
 						game.playTrick(trickCards.get(0), trickCards.get(1),
 								trickCards.get(2), trickCards.get(3));
 						// Check if there are more cards to play
@@ -187,7 +187,7 @@ public class PlayerController {
 							game.startTrick();
 						}
 						else {
-							RoundResult result = game.playRound(game.getTrickResults());
+							final RoundResult result = game.playRound(game.getTrickResults());
 							if (result.getStatus().equals(RoundResultStatus.OK)) {
 								game.startRound();
 							}
@@ -248,28 +248,16 @@ public class PlayerController {
 	public PlayerNumber getMyNumber() {
 		return myNumber;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see setback.networking.SetbackObserver#update(java.lang.String)
+	
+	/**
+	 * This function is called to get the hand and sort
+	 * it at the start of a round.  This is called by
+	 * the SetbackServerThread when a round begins.
 	 */
-	public void handleUpdate(String message) {
-		if (message == null) {
-
-		}
-		else {
-			if (message.equals("ROUND BEGIN")) {
-				// Get the hand and immediately sort the cards.
-				myHand = game.getPlayerHand(myNumber);
-				myHand.sortCards();
-			}
-			else if (message.startsWith("PLAYER_") && message.contains(" BET ")) {
-				// Do nothing
-			}
-			else if (message.equals("BETTING RESOLVED")) {
-				
-			}
-		}
+	public void startRound() {
+		// Get the hand and immediately sort the cards.
+		myHand = game.getPlayerHand(myNumber);
+		myHand.sortCards();
 	}
 
 }

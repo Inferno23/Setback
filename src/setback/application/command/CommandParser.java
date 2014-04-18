@@ -26,7 +26,7 @@ public class CommandParser {
 	 */
 	public CommandMessage parseString(String input) throws SetbackException {
 		CommandMessage message;
-		Command command;
+		final Command command;
 
 		// Check for null
 		if (input == null) {
@@ -34,10 +34,10 @@ public class CommandParser {
 		}
 		// Parse the string
 		else {
-			String array[] = input.split(" ");
+			final String[] array = input.split(" ");
 			try {
 				command = Command.valueOf(array[0]);
-				int argumentNumber = command.getNumberOfArguments();
+				final int argumentNumber = command.getNumberOfArguments();
 				// Check if we should have zero arguments
 				if (argumentNumber == 0) {
 					if (array.length == 1) {
@@ -49,7 +49,7 @@ public class CommandParser {
 				}
 				else if (argumentNumber == 1) {
 					if (array.length == 2) {
-						String arguments[] = {array[1]};
+						final String[] arguments = {array[1]};
 						message = new CommandMessage(command, arguments);
 					}
 					else if (array.length < 2) {
@@ -62,7 +62,7 @@ public class CommandParser {
 				// We should have three arguments
 				else {
 					if (array.length == 4) {
-						String arguments[] = {array[1], array[2], array[3]};
+						final String[] arguments = {array[1], array[2], array[3]};
 						message = new CommandMessage(command, arguments);
 					}
 					else if (array.length < 4) {

@@ -1,3 +1,7 @@
+/**
+ * This file was developed for fun by Michael Burns for a private
+ * implementation of the card game Setback, also known as Pitch.
+ */
 package setback.application.client;
 
 import java.awt.Color;
@@ -102,9 +106,9 @@ public abstract class SetbackClientView {
 	protected JLabel cardEleven;
 	protected JLabel cardTwelve;
 	// Neighbor hands
-	protected JLabel[] leftCards;
-	protected JLabel[] centerCards;
-	protected JLabel[] rightCards;
+	protected JLabel[] leftHand;
+	protected JLabel[] centerHand;
+	protected JLabel[] rightHand;
 	// Played cards
 	protected JLabel myCard;
 	protected JLabel leftCard;
@@ -121,13 +125,13 @@ public abstract class SetbackClientView {
 	 * will handle all of the communication with the server.
 	 * @param frame The JFrame that the application runs in.
 	 */
-	public SetbackClientView(SetbackClientController controller, JFrame frame) {
+	protected SetbackClientView(SetbackClientController controller, JFrame frame) {
 		this.controller = controller;
 		this.frame = frame;
 		factory = CardImageFactory.getInstance();
-		leftCards = new JLabel[13];
-		centerCards = new JLabel[13];
-		rightCards = new JLabel[13];
+		leftHand = new JLabel[13];
+		centerHand = new JLabel[13];
+		rightHand = new JLabel[13];
 		initialize();
 		frame.repaint();
 	}
@@ -215,7 +219,7 @@ public abstract class SetbackClientView {
 	 */
 	protected void displayHand(String handContents, ListenerEnum listener) {
 		// Parse the cards
-		final String cards[] = handContents.split("\t");
+		final String[] cards = handContents.split("\t");
 		// Card labels and bounds
 		if (cards.length > 12) {
 			cardTwelve = new JLabel(factory.createCard(cards[12]));
@@ -336,12 +340,12 @@ public abstract class SetbackClientView {
 	 */
 	protected void displayLeftHand(int numCards) {
 		int index;
-		int offsetY = GUI_HEIGHT_CENTER - (numCards * GUI_CARD_SPACING);
+		final int offsetY = GUI_HEIGHT_CENTER - (numCards * GUI_CARD_SPACING);
 		
 		for (index = numCards; index > 0; index--) {
-			leftCards[index] = new JLabel(factory.createHorizontalCard("Back-Left"));
-			leftCards[index].setBounds(GUI_CARD_LEFT_X, offsetY + (GUI_CARD_SPACING * index), GUI_CARD_HEIGHT, GUI_CARD_WIDTH);
-			frame.getContentPane().add(leftCards[index]);
+			leftHand[index] = new JLabel(factory.createHorizontalCard("Back-Left"));
+			leftHand[index].setBounds(GUI_CARD_LEFT_X, offsetY + (GUI_CARD_SPACING * index), GUI_CARD_HEIGHT, GUI_CARD_WIDTH);
+			frame.getContentPane().add(leftHand[index]);
 		}
 		frame.repaint();
 	}
@@ -352,12 +356,12 @@ public abstract class SetbackClientView {
 	 */
 	protected void displayCenterHand(int numCards) {
 		int index;
-		int offsetX = GUI_WIDTH_CENTER - (numCards * GUI_CARD_SPACING);
+		final int offsetX = GUI_WIDTH_CENTER - (numCards * GUI_CARD_SPACING);
 		
 		for (index = 1; index <= numCards; index++) {
-			centerCards[index] = new JLabel(factory.createCard("Back-Center"));
-			centerCards[index].setBounds(offsetX + (GUI_CARD_SPACING * index), GUI_CARD_TOP_Y, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
-			frame.getContentPane().add(centerCards[index]);
+			centerHand[index] = new JLabel(factory.createCard("Back-Center"));
+			centerHand[index].setBounds(offsetX + (GUI_CARD_SPACING * index), GUI_CARD_TOP_Y, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
+			frame.getContentPane().add(centerHand[index]);
 		}
 		frame.repaint();
 	}
@@ -368,12 +372,12 @@ public abstract class SetbackClientView {
 	 */
 	protected void displayRightHand(int numCards) {
 		int index;
-		int offsetY = GUI_HEIGHT_CENTER - (numCards * GUI_CARD_SPACING);
+		final int offsetY = GUI_HEIGHT_CENTER - (numCards * GUI_CARD_SPACING);
 		
 		for (index = 1; index <= numCards; index++) {
-			rightCards[index] = new JLabel(factory.createHorizontalCard("Back-Right"));
-			rightCards[index].setBounds(GUI_CARD_RIGHT_X, offsetY + (GUI_CARD_SPACING * index), GUI_CARD_HEIGHT, GUI_CARD_WIDTH);
-			frame.getContentPane().add(rightCards[index]);
+			rightHand[index] = new JLabel(factory.createHorizontalCard("Back-Right"));
+			rightHand[index].setBounds(GUI_CARD_RIGHT_X, offsetY + (GUI_CARD_SPACING * index), GUI_CARD_HEIGHT, GUI_CARD_WIDTH);
+			frame.getContentPane().add(rightHand[index]);
 		}
 		frame.repaint();
 	}

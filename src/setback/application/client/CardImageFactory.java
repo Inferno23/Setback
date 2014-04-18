@@ -42,9 +42,9 @@ public class CardImageFactory {
 	 * @return The image of the card.
 	 */
 	public ImageIcon createCard(String cardName) {
-		ImageIcon originalIcon = new ImageIcon("lib/cards/" + cardName + ".png");
-		BufferedImage resizedImage = new BufferedImage(100, 125, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D graphic = resizedImage.createGraphics();
+		final ImageIcon originalIcon = new ImageIcon("lib/cards/" + cardName + ".png");
+		final BufferedImage resizedImage = new BufferedImage(100, 125, BufferedImage.TYPE_INT_ARGB);
+		final Graphics2D graphic = resizedImage.createGraphics();
 		graphic.drawImage(originalIcon.getImage(), 0, 0, 100, 125, null);
 		return new ImageIcon(resizedImage);
 	}
@@ -58,9 +58,9 @@ public class CardImageFactory {
 	 * @return The image of the card.
 	 */
 	public ImageIcon createHorizontalCard(String cardName) {
-		ImageIcon originalIcon = new ImageIcon("lib/cards/" + cardName + ".png");
-		BufferedImage resizedImage = new BufferedImage(125, 100, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D graphic = resizedImage.createGraphics();
+		final ImageIcon originalIcon = new ImageIcon("lib/cards/" + cardName + ".png");
+		final BufferedImage resizedImage = new BufferedImage(125, 100, BufferedImage.TYPE_INT_ARGB);
+		final Graphics2D graphic = resizedImage.createGraphics();
 		graphic.drawImage(originalIcon.getImage(), 0, 0, 125, 100, null);
 		return new ImageIcon(resizedImage);
 	}

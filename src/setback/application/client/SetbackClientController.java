@@ -24,8 +24,8 @@ import setback.common.PlayerNumber;
  */
 public class SetbackClientController {
 
-	private PrintWriter out;
-	private BufferedReader in;
+	private final PrintWriter out;
+	private final BufferedReader in;
 	// Setback variables
 	private PlayerNumber myNumber;
 	private PlayerNumber left;
@@ -96,12 +96,12 @@ public class SetbackClientController {
 	 * This function sets the appropriate
 	 * PlayerNumbers for the controller, and
 	 * the left, center, and right.
-	 * @input The string containing this client's
+	 * @param input The string containing this client's
 	 * player number.
 	 */
 	public void setPlayerNumbers(String input) {
-		String array[] = input.split(" ");
-		String playerString = array[0] + "_" + array[1];
+		final String[] array = input.split(" ");
+		final String playerString = array[0] + "_" + array[1];
 		myNumber = PlayerNumber.valueOf(playerString.toUpperCase());
 		
 		switch (myNumber) {

@@ -51,31 +51,31 @@ public class PlayCardsFinalTrickView extends PlayCardsView {
 	 * final trick of the round.
 	 */
 	protected void waitForAnyCard() {
-		ActionListener cardPlayedAction = new ActionListener() {
+		final ActionListener cardPlayedAction = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				String response = controller.userInput("NO_COMMAND");
+				final String response = controller.userInput("NO_COMMAND");
 				if (!response.equals("No command")) {
 					// Stop the timer
 					cardTimer.stop();
 					// Split the response
-					String array[] = response.split(" ");
-					PlayerNumber cardPlayer = PlayerNumber.valueOf(array[0]);
-					String cardName = array[2];
+					final String[] array = response.split(" ");
+					final PlayerNumber cardPlayer = PlayerNumber.valueOf(array[0]);
+					final String cardName = array[2];
 					if (cardPlayer.equals(controller.getLeft())) {
 						leftCardName = cardName;
-						if (!checkForEndOfTrick()) {
+						if (!isEndOfTrick()) {
 							new PlayCardsFinalTrickView(controller, frame, myCardName, cardName, centerCardName, rightCardName);
 						}
 					}
 					else if (cardPlayer.equals(controller.getCenter())) {
 						centerCardName = cardName;
-						if (!checkForEndOfTrick()) {
+						if (!isEndOfTrick()) {
 							new PlayCardsFinalTrickView(controller, frame, myCardName, leftCardName, cardName, rightCardName);
 						}
 					}
 					else {
 						rightCardName = cardName;
-						if (!checkForEndOfTrick()) {
+						if (!isEndOfTrick()) {
 							new PlayCardsFinalTrickView(controller, frame, myCardName, leftCardName, centerCardName, cardName);
 						}
 					}
@@ -85,17 +85,17 @@ public class PlayCardsFinalTrickView extends PlayCardsView {
 		cardTimer = new Timer(DELAY, cardPlayedAction);
 		timerList.add(cardTimer);
 		cardTimer.start();
-	}	
+	}
 
 	/**
 	 * Overrides the function from the PlayCardsView.
 	 * Instead of making a new PlayCardsView at the end of the trick,
 	 * it goes to the RoundScoreView, because the whole round should be over.
 	 */
-	protected boolean checkForEndOfTrick() {
+	protected boolean isEndOfTrick() {
 		// If the trick is over, wait for DELAY then make a new GUI
 		if (myCardName != null && leftCardName != null && centerCardName != null && rightCardName != null) {
-			ActionListener pauseAction = new ActionListener() {
+			final ActionListener pauseAction = new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					if (unpauseToggle) {
 						pauseTimer.stop();

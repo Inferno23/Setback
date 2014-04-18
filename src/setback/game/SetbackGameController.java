@@ -237,14 +237,14 @@ public interface SetbackGameController {
 	
 	/**
 	 * This method returns the score for team one.
-	 * @throws SetbackExcption if the game has not been started.
+	 * @throws SetbackException if the game has not been started.
 	 * @return The persistent score for team one.
 	 */
 	int getTeamOneScore() throws SetbackException;
 	
 	/**
 	 * This method returns the score for team two.
-	 * @throws SetbackExcption if the game has not been started.
+	 * @throws SetbackException if the game has not been started.
 	 * @return The persistent score for team two.
 	 */
 	int getTeamTwoScore() throws SetbackException;

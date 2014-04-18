@@ -48,7 +48,7 @@ public class Card {
 	 * @return The recreated card.
 	 */
 	public static Card fromString(String input) {
-		String array[] = input.split("-");	
+		final String[] array = input.split("-");
 		return new Card(CardType.valueOf(array[0].toUpperCase()),
 				CardSuit.valueOf(array[2].toUpperCase()));
 	}

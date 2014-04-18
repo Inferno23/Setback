@@ -16,8 +16,8 @@ import java.net.UnknownHostException;
  */
 public class SetbackClient {
 	
-	private static int DEFAULT_PORT = 2323;
-	private static String DEFAULT_HOSTNAME = "66.189.40.187";
+	private static final int DEFAULT_PORT = 2323;
+	private static final String DEFAULT_HOSTNAME = "66.189.40.187";
 
 	/**
 	 * This is the executable function that connects the
@@ -28,9 +28,8 @@ public class SetbackClient {
 	 * passed in as the first argument, and an IP address is passed
 	 * in as the second argument, they will be used as the port and
 	 * host name for the socket connection.
-	 * @throws IOException
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		
 		int portNumber;
 		String hostname;
@@ -47,7 +46,7 @@ public class SetbackClient {
 
 		try {
 			// Make the connection
-			Socket socket = new Socket(hostname, portNumber);
+			final Socket socket = new Socket(hostname, portNumber);
 			// Initialize the controller and the view
 			new SetbackClientController(socket);
 			

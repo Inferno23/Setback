@@ -19,8 +19,8 @@ import setback.game.SetbackGameFactory;
  */
 public class SetbackServer {
 	
-	private static int DEFAULT_PORT = 2323;
-	private static int MAX_CONNECTIONS = 4;
+	private static final int DEFAULT_PORT = 2323;
+	private static final int MAX_CONNECTIONS = 4;
 	
 	/**
 	 * This is the executable function that creates the server.
@@ -32,9 +32,8 @@ public class SetbackServer {
 	 * @param args Default variable for java.  If a number is
 	 * passed in as the only argument, it will be used as the
 	 * port number for the socket connection.
-	 * @throws IOException If the port is occupied.
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 
 		int portNumber;
 		int currentConnections = 0;

@@ -55,7 +55,7 @@ public class PlayerSelectView extends SetbackClientView {
 		playerOneButton.setBounds(GUI_PLAYER_SELECT_LEFT_COLUMN_X, GUI_PLAYER_SELECT_TOP_ROW_Y, GUI_PLAYER_SELECT_BUTTON_WIDTH, GUI_PLAYER_SELECT_BUTTON_HEIGHT);
 		playerOneButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String response = controller.userInput("REQUEST_PLAYER_ONE");
+				final String response = controller.userInput("REQUEST_PLAYER_ONE");
 				update(response);
 			}
 		});
@@ -65,7 +65,7 @@ public class PlayerSelectView extends SetbackClientView {
 		playerTwoButton.setBounds(GUI_PLAYER_SELECT_RIGHT_COLUMN_X, GUI_PLAYER_SELECT_TOP_ROW_Y, GUI_PLAYER_SELECT_BUTTON_WIDTH, GUI_PLAYER_SELECT_BUTTON_HEIGHT);
 		playerTwoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String response = controller.userInput("REQUEST_PLAYER_TWO");
+				final String response = controller.userInput("REQUEST_PLAYER_TWO");
 				update(response);
 			}
 		});
@@ -75,7 +75,7 @@ public class PlayerSelectView extends SetbackClientView {
 		playerThreeButton.setBounds(GUI_PLAYER_SELECT_LEFT_COLUMN_X, GUI_PLAYER_SELECT_BOTTOM_ROW_Y, GUI_PLAYER_SELECT_BUTTON_WIDTH, GUI_PLAYER_SELECT_BUTTON_HEIGHT);
 		playerThreeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String response = controller.userInput("REQUEST_PLAYER_THREE");
+				final String response = controller.userInput("REQUEST_PLAYER_THREE");
 				update(response);
 			}
 		});
@@ -85,20 +85,20 @@ public class PlayerSelectView extends SetbackClientView {
 		playerFourButton.setBounds(GUI_PLAYER_SELECT_RIGHT_COLUMN_X, GUI_PLAYER_SELECT_BOTTOM_ROW_Y, GUI_PLAYER_SELECT_BUTTON_WIDTH, GUI_PLAYER_SELECT_BUTTON_HEIGHT);
 		playerFourButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String response = controller.userInput("REQUEST_PLAYER_FOUR");
+				final String response = controller.userInput("REQUEST_PLAYER_FOUR");
 				update(response);
 			}
 		});
 		frame.getContentPane().add(playerFourButton);
 		// Team One Label
-		String teamOneString = "Team One";
-		int teamOneSize = teamOneString.length() * UNICODE_SIZE_CONSTANT;
+		final String teamOneString = "Team One";
+		final int teamOneSize = teamOneString.length() * UNICODE_SIZE_CONSTANT;
 		teamOneLabel = new JLabel(teamOneString);
 		teamOneLabel.setBounds(GUI_PLAYER_SELECT_LEFT_COLUMN_X, GUI_PLAYER_SELECT_TOP_ROW_Y - GUI_SPACING_CONSTANT, teamOneSize, GUI_TEXT_HEIGHT);
 		frame.getContentPane().add(teamOneLabel);
 		// Team Two Label
-		String teamTwoString = "Team Two";
-		int teamTwoSize = teamTwoString.length() * UNICODE_SIZE_CONSTANT;
+		final String teamTwoString = "Team Two";
+		final int teamTwoSize = teamTwoString.length() * UNICODE_SIZE_CONSTANT;
 		teamTwoLabel = new JLabel(teamTwoString);
 		teamTwoLabel.setBounds(GUI_PLAYER_SELECT_RIGHT_COLUMN_X, GUI_PLAYER_SELECT_TOP_ROW_Y - GUI_SPACING_CONSTANT, teamTwoSize, GUI_TEXT_HEIGHT);
 		frame.getContentPane().add(teamTwoLabel);
