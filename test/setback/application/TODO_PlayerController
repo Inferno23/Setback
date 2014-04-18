@@ -22,4 +22,4 @@ X Play Card with card not in hand - Message from exception
 X Play Card with fake card - That's not a valid card!
 X Play full trick - <PlayerNumber> WON TRICK
 - Play a full round - ROUND_SCORE TEAM_ONE <Score> TEAM_TWO <Score>
-- Play a full round - OVERALL_SCORE TEAM_ONE <Score> TEAM_TWO <Score>
+X Play a full round - OVERALL_SCORE TEAM_ONE <Score> TEAM_TWO <Score>

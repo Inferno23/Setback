@@ -24,8 +24,8 @@ import setback.common.PlayerNumber;
  */
 public class SetbackClientController {
 
-	private final PrintWriter out;
-	private final BufferedReader in;
+	private PrintWriter out;
+	private BufferedReader in;
 	// Setback variables
 	private PlayerNumber myNumber;
 	private PlayerNumber left;
@@ -49,6 +49,7 @@ public class SetbackClientController {
 			in.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
+			System.exit(1);
 		}
 
 		// Create the GUI

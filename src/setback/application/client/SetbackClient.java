@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import setback.common.SetbackException;
+
 /**
  * This class functions as the client that a player will run
  * when they want to play a game of Setback.
@@ -15,7 +17,7 @@ import java.net.UnknownHostException;
  * @version Jan 1, 2014
  */
 public class SetbackClient {
-	
+
 	private static final int DEFAULT_PORT = 2323;
 	private static final String DEFAULT_HOSTNAME = "66.189.40.187";
 
@@ -30,33 +32,45 @@ public class SetbackClient {
 	 * host name for the socket connection.
 	 */
 	public static void main(String[] args) {
-		
-		int portNumber;
-		String hostname;
 
-		// Setting up connection variables
-		if (args.length == 2) {
-			portNumber = Integer.parseInt(args[0]);
-			hostname = args[1];
-		}
-		else {
-			portNumber = DEFAULT_PORT;
-			hostname = DEFAULT_HOSTNAME;
-		}
+		final Socket socket;
 
 		try {
-			// Make the connection
-			final Socket socket = new Socket(hostname, portNumber);
-			// Initialize the controller and the view
+			// Set up the socket connection
+			if (args.length == 2) {
+				socket = makeSocket(Integer.parseInt(args[0]), args[1]);
+			}
+			else {
+				socket = makeSocket(DEFAULT_PORT, DEFAULT_HOSTNAME);
+			}
+			// Start the controller
 			new SetbackClientController(socket);
-			
-		} catch (UnknownHostException e) {
-			System.err.println("Don't know about host " + hostname);
-			System.exit(1);
-		} catch (IOException e) {
-			System.err.println("Couldn't get I/O for the connection to " +
-					hostname);
+
+		} catch (SetbackException e) {
+			System.err.println(e.getMessage());
 			System.exit(1);
 		}
+	}
+
+	/**
+	 * This function handles creating a socket with the given hostname and
+	 * port number.  Throws an exception if the socket cannot be created.
+	 * @param portNumber The port to connect on.
+	 * @param hostname The name of the host to connect to.
+	 * @return The Socket that has been established.
+	 * @throws SetbackException If the Socket cannot be opened.
+	 */
+	public static Socket makeSocket(int portNumber, String hostname) throws SetbackException {
+		final Socket socket;
+
+		try {
+			socket = new Socket(hostname, portNumber);
+		} catch (UnknownHostException e) {
+			throw new SetbackException("Don't know about host " + hostname);
+		} catch (IOException e) {
+			throw new SetbackException("Couldn't get I/O for the connection to " + hostname);
+		}
+
+		return socket;
 	}
 }
