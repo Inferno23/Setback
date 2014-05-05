@@ -19,7 +19,7 @@ import setback.common.SetbackException;
 public class SetbackClient {
 
 	private static final int DEFAULT_PORT = 2323;
-	private static final String DEFAULT_HOSTNAME = "66.189.40.187";
+	private static final String DEFAULT_HOSTNAME = "216.49.150.62";
 
 	/**
 	 * This is the executable function that connects the

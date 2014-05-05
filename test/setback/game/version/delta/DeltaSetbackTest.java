@@ -4,6 +4,7 @@
  */
 package setback.game.version.delta;
 
+import static org.junit.Assert.assertEquals;
 import static setback.utilities.TestCard.aceOfClubs;
 import static setback.utilities.TestCard.aceOfDiamonds;
 import static setback.utilities.TestCard.aceOfSpades;
@@ -197,6 +198,11 @@ public class DeltaSetbackTest {
 		game.playCard(sevenOfClubs, PlayerNumber.PLAYER_ONE);
 	}
 	
+	@Test
+	public void testRandomlySeededDeltaSetback() throws SetbackException {
+		game = factory.makeDeltaSetbackGame();
+		assertEquals(DeltaSetbackGame.class, game.getClass());
+	}
 	
 	/**
 	 * Helper function that calls all of the correct functions up

@@ -153,4 +153,11 @@ public class CommandParserTest {
 		final CommandMessage expected = new CommandMessage(Command.GET_TEAM_TWO_SCORE);
 		assertEquals(expected, result);
 	}
+	
+	@Test
+	public void commandMessageHashCodeTest() {
+		final CommandMessage command = new CommandMessage(Command.GET_CURRENT_PLAYER);
+		final CommandMessage nullCommand = new CommandMessage(null);
+		assertFalse(command.hashCode() == nullCommand.hashCode());
+	}
 }
