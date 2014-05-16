@@ -28,9 +28,9 @@ import setback.game.common.RoundResultStatus;
  */
 public class PlayerController {
 
-	private final SetbackGameController game;
-	private PlayerNumber myNumber;
-	private Hand myHand;
+	protected final SetbackGameController game;
+	protected PlayerNumber myNumber;
+	protected Hand myHand;
 
 	/**
 	 * Constructor for a PlayerController.  It takes in

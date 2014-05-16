@@ -25,10 +25,10 @@ import setback.game.SetbackGameController;
 public class SetbackServerThread extends Thread implements SetbackObserver {
 
 	private final Socket socket;
-	private final PlayerController controller;
+	protected PlayerController controller;
 	private final CommandParser parser;
 
-	private PrintWriter out;
+	protected PrintWriter out;
 
 	/**
 	 * Constructor that is called by the server.  It provides

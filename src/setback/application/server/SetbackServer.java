@@ -32,15 +32,43 @@ public class SetbackServer {
 	 * @param args Default variable for java.  If a number is
 	 * passed in as the only argument, it will be used as the
 	 * port number for the socket connection.
+	 * @throws IOException If the server cannot accept connections.
 	 */
-	public static void main(String[] args) {
-
-		int portNumber;
-		int currentConnections = 0;
-		
-		final SetbackGameFactory factory = SetbackGameFactory.getInstance();
+	public static void main(String[] args) throws IOException {
 		final SetbackGameController game;
+		final int portNumber;
+		final ServerSocket serverSocket;
+		int currentConnections;
+		
 		final String debug = System.getenv("DEBUG");
+		game = makeGame(debug);
+		portNumber = getPortNumber(args);
+		serverSocket = getServerSocket(portNumber);
+		
+		if (serverSocket == null) {
+			System.err.println("Could not listen on port " + portNumber);
+			System.exit(-1);
+		}
+		
+		for (currentConnections = 0; currentConnections < MAX_CONNECTIONS; currentConnections++) {
+			new SetbackServerThread(serverSocket.accept(), game).start();
+			currentConnections++;
+			System.out.println("currentConnections = " + currentConnections);
+		}
+	}
+	
+	/**
+	 * This function handles creating the game to be played.
+	 * If the DEBUG system variable is set to be true, it will
+	 * provide the SetbackGameFactory with a non-random seed
+	 * for the game.  Otherwise, it will use a random seed for the game.
+	 * @param debug The debug string.  True if in debug, null or false if retail.
+	 * @return The SetbackGameController to be played.
+	 */
+	public static SetbackGameController makeGame(String debug) {
+		final SetbackGameController game;
+		final SetbackGameFactory factory = SetbackGameFactory.getInstance();
+		
 		if (debug != null && debug.equals("true")) {
 			System.out.println("DEBUG");
 			game = factory.makeDeltaSetbackGame(0);
@@ -49,23 +77,42 @@ public class SetbackServer {
 			System.out.println("RETAIL");
 			game = factory.makeDeltaSetbackGame();
 		}
-		
+	
+		return game;
+	}
+	
+	/**
+	 * This function handles parsing the command line arguments
+	 * for a specified port to play on.
+	 * @param args The arguments given to the SetbackServer that
+	 * should be null or contain the port number.
+	 * @return The port number to be used.
+	 */
+	public static int getPortNumber(String[] args) {
+		final int portNumber;
 		if (args != null && args.length == 1) {
 			portNumber = Integer.parseInt(args[0]);
 		}
 		else {
 			portNumber = DEFAULT_PORT;
 		}
+		return portNumber;
+	}
 
-		try (ServerSocket serverSocket = new ServerSocket(portNumber)) { 
-			while (currentConnections < MAX_CONNECTIONS) {
-				new SetbackServerThread(serverSocket.accept(), game).start();
-				currentConnections++;
-				System.out.println("currentConnections = " + currentConnections);
-			}
+	/**
+	 * This function handles creating the ServerSocket for clients
+	 * to connect to.
+	 * @param portNumber The port to open the socket on.
+	 */
+	public static ServerSocket getServerSocket(final int portNumber) {
+		ServerSocket serverSocket;
+		
+		try {
+			serverSocket = new ServerSocket(portNumber);
 		} catch (IOException e) {
-			System.err.println("Could not listen on port " + portNumber);
-			System.exit(-1);
+			serverSocket = null;
 		}
+		
+		return serverSocket;
 	}
 }

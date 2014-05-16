@@ -216,8 +216,10 @@ public class SetbackGameCommonTest {
 	@Test
 	public void betResultCoverageTest() {
 		BetResult result = new BetResult(PlayerNumber.PLAYER_ONE, Bet.TWO);
+		String expectedString = "PLAYER_ONE WON WITH A BET OF TWO";
 		assertEquals(PlayerNumber.PLAYER_ONE, result.getBettor());
 		assertEquals(Bet.TWO, result.getBet());
+		assertEquals(expectedString, result.toString());
 	}
 	
 	///////////////////////////////

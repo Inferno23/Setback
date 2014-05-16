@@ -165,6 +165,7 @@ public abstract class SetbackClientView {
 	 * The GUI will be updated accordingly.
 	 * @param input The String sent from the Server.
 	 */
+	// TODO: Make this return the view for testing, shouldn't hurt functionality.
 	protected void update(String input) {
 		if (input.endsWith(" selected")) {
 			controller.setPlayerNumbers(input);

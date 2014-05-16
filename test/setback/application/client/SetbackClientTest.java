@@ -25,7 +25,7 @@ import setback.common.SetbackException;
 public class SetbackClientTest {
 
 	private ServerSocket serverSocket;
-	private int port = 9999;
+	private final int port = 9999;
 
 	@Before
 	public void setup() throws IOException {

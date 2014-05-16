@@ -46,6 +46,6 @@ public class BetResult {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return bettor.toString() + " WON WITH A BET OF  " + bet.toString().toUpperCase();
+		return bettor.toString() + " WON WITH A BET OF " + bet.toString().toUpperCase();
 	}
 }
