@@ -30,26 +30,53 @@ public class SetbackClientControllerMock extends SetbackClientController {
 	 * because we do not want a real socket connection.  It does take
 	 * in PlayerNumbers for each player to test the player selection buttons.
 	 * @param myNumber The PlayerNumber for the player.
-	 * @param left The PlayerNumber for the player on the left.
-	 * @param center The PlayerNumber for the player in the center.
-	 * @param right The PlayerNumber for the player on the right.
 	 */
-	public SetbackClientControllerMock(PlayerNumber myNumber, PlayerNumber left,
-			PlayerNumber center, PlayerNumber right) {
+	public SetbackClientControllerMock(PlayerNumber myNumber) {
 		// We do not want an actual socket for the mock
 		super(new MockIOPair(null));
 		// Set the given player numbers, which may be null.
 		this.myNumber = myNumber;
-		this.left = left;
-		this.center = center;
-		this.right = right;
 	}
 
 	@Override
 	public String userInput(String input) {
 		String returnString = null;
 
-		//TODO: Add the appropriate
+		// PlayerSelectView
+		if (input.equals("REQUEST_PLAYER_ONE")) {
+			if (myNumber == null) {
+				returnString = "Player one selected";
+			}
+			else {
+				returnString = "Player one rejected";
+			}
+		}
+		else if (input.equals("REQUEST_PLAYER_TWO")) {
+			if (myNumber == null) {
+				returnString = "Player two selected";
+			}
+			else {
+				returnString = "Player two rejected";
+			}
+		}
+		else if (input.equals("REQUEST_PLAYER_THREE")) {
+			if (myNumber == null) {
+				returnString = "Player three selected";
+			}
+			else {
+				returnString = "Player three rejected";
+			}
+		}
+		else if (input.equals("REQUEST_PLAYER_FOUR")) {
+			if (myNumber == null) {
+				returnString = "Player four selected";
+			}
+			else {
+				returnString = "Player four rejected";
+			}
+		}
+		
+		// Next view
 
 		return returnString;
 	}

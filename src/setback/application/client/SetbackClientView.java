@@ -18,6 +18,7 @@ import javax.swing.Timer;
 import setback.application.views.DiscardCardsView;
 import setback.application.views.PlaceBetsView;
 import setback.application.views.PlayCardsView;
+import setback.application.views.PlayerSelectView;
 import setback.application.views.RoundScoreView;
 import setback.application.views.SelectTrumpView;
 import setback.game.common.Card;
@@ -59,6 +60,7 @@ public abstract class SetbackClientView {
 	protected int GUI_PLAYER_SELECT_RIGHT_COLUMN_X = GUI_WIDTH_CENTER + GUI_SPACING_CONSTANT_HALF;
 	protected int GUI_PLAYER_SELECT_TOP_ROW_Y = GUI_HEIGHT_CENTER - (GUI_PLAYER_SELECT_BUTTON_HEIGHT + GUI_SPACING_CONSTANT_HALF);
 	protected int GUI_PLAYER_SELECT_BOTTOM_ROW_Y = GUI_HEIGHT_CENTER + GUI_SPACING_CONSTANT_HALF;
+	protected int GUI_PLAYER_SELECT_ERROR_Y = GUI_PLAYER_SELECT_BOTTOM_ROW_Y + GUI_PLAYER_SELECT_BUTTON_HEIGHT + GUI_SPACING_CONSTANT;
 	// PlaceBetsView
 	protected int GUI_PLACE_BET_BUTTON_WIDTH = 75;
 	protected int GUI_PLACE_BET_BUTTON_HEIGHT = 75;
@@ -118,6 +120,9 @@ public abstract class SetbackClientView {
 	protected boolean unpauseToggle;
 	protected JLabel currentPlayerLabel;
 	
+	// Testing variable
+	protected SetbackClientView view = null;
+	
 
 	/**
 	 * Create the GUI that the user will interact with.
@@ -165,37 +170,40 @@ public abstract class SetbackClientView {
 	 * The GUI will be updated accordingly.
 	 * @param input The String sent from the Server.
 	 */
-	// TODO: Make this return the view for testing, shouldn't hurt functionality.
-	protected void update(String input) {
+	protected SetbackClientView update(String input) {
 		if (input.endsWith(" selected")) {
 			controller.setPlayerNumbers(input);
 			stopTimers();
-			new PlaceBetsView(controller, frame);
+			return new PlaceBetsView(controller, frame);
 		}
 		else if (input.contains("BETTING RESOLVED")) {
 			stopTimers();
-			new SelectTrumpView(controller, frame);
+			return new SelectTrumpView(controller, frame);
 		}
 		else if (input.contains(" SELECTED ")) {
 			stopTimers();
-			new DiscardCardsView(controller, frame);
+			return new DiscardCardsView(controller, frame);
 		}
 		else if (input.contains("GAME OVER")) {
 			// TODO: Make a game over screen
-			new JFrame();
+			return new PlayerSelectView(controller, frame);
 		}
 		// This next one probably never gets called properly,
 		// instead we make it from inside the PlayCardsView
 		else if (input.contains("ROUND ENDED")) {
 			stopTimers();
-			new RoundScoreView(controller, frame);
+			return new RoundScoreView(controller, frame);
 		}
 		else if (input.contains("TRICK STARTED")) {
 			stopTimers();
-			new PlayCardsView(controller, frame, null, null, null, null);
+			return new PlayCardsView(controller, frame, null, null, null, null);
 		}
 		else if (input.equals("EXIT")) {
 			System.exit(0);
+			return null;
+		}
+		else {
+			return this;
 		}
 	}
 
@@ -424,6 +432,14 @@ public abstract class SetbackClientView {
 		for (Timer t : timerList) {
 			t.stop();
 		}
+	}
+	
+	/**
+	 * Getter for the view field that is actually the view itself.
+	 * @return The SetbackClientView object held in the SetbackClientView
+	 */
+	public SetbackClientView getView() {
+		return view;
 	}
 	
 }

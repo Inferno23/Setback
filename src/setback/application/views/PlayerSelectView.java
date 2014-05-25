@@ -28,6 +28,8 @@ public class PlayerSelectView extends SetbackClientView {
 
 	protected JLabel teamOneLabel;
 	protected JLabel teamTwoLabel;
+	
+	protected JLabel errorLabel;
 
 	/**
 	 * Create the GUI for player selection.  Just call the
@@ -56,7 +58,10 @@ public class PlayerSelectView extends SetbackClientView {
 		playerOneButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				final String response = controller.userInput("REQUEST_PLAYER_ONE");
-				update(response);
+				view = update(response);
+				if (response.endsWith("rejected")) {
+					errorLabel.setVisible(true);
+				}
 			}
 		});
 		frame.getContentPane().add(playerOneButton);
@@ -66,7 +71,10 @@ public class PlayerSelectView extends SetbackClientView {
 		playerTwoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				final String response = controller.userInput("REQUEST_PLAYER_TWO");
-				update(response);
+				view = update(response);
+				if (response.endsWith("rejected")) {
+					errorLabel.setVisible(true);
+				}
 			}
 		});
 		frame.getContentPane().add(playerTwoButton);
@@ -76,7 +84,10 @@ public class PlayerSelectView extends SetbackClientView {
 		playerThreeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				final String response = controller.userInput("REQUEST_PLAYER_THREE");
-				update(response);
+				view = update(response);
+				if (response.endsWith("rejected")) {
+					errorLabel.setVisible(true);
+				}
 			}
 		});
 		frame.getContentPane().add(playerThreeButton);
@@ -86,7 +97,10 @@ public class PlayerSelectView extends SetbackClientView {
 		playerFourButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				final String response = controller.userInput("REQUEST_PLAYER_FOUR");
-				update(response);
+				view = update(response);
+				if (response.endsWith("rejected")) {
+					errorLabel.setVisible(true);
+				}
 			}
 		});
 		frame.getContentPane().add(playerFourButton);
@@ -102,5 +116,12 @@ public class PlayerSelectView extends SetbackClientView {
 		teamTwoLabel = new JLabel(teamTwoString);
 		teamTwoLabel.setBounds(GUI_PLAYER_SELECT_RIGHT_COLUMN_X, GUI_PLAYER_SELECT_TOP_ROW_Y - GUI_SPACING_CONSTANT, teamTwoSize, GUI_TEXT_HEIGHT);
 		frame.getContentPane().add(teamTwoLabel);
+		// Error Message Label
+		final String errorLabelString = "That player has already been selected.";
+		final int errorLabelSize = errorLabelString.length() * UNICODE_SIZE_CONSTANT;
+		errorLabel = new JLabel(errorLabelString);
+		errorLabel.setBounds(GUI_WIDTH_CENTER - errorLabelSize / 2, GUI_PLAYER_SELECT_ERROR_Y, errorLabelSize, GUI_TEXT_HEIGHT);
+		frame.getContentPane().add(errorLabel);
+		errorLabel.setVisible(false);
 	}
 }
