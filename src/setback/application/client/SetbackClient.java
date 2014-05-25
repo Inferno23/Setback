@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import setback.application.socket.IOPair;
+import setback.application.socket.SocketIOPair;
 import setback.common.SetbackException;
 
 /**
@@ -19,7 +21,7 @@ import setback.common.SetbackException;
 public class SetbackClient {
 
 	private static final int DEFAULT_PORT = 2323;
-	private static final String DEFAULT_HOSTNAME = "216.49.150.62";
+	private static final String DEFAULT_HOSTNAME = "216.49.151.138";
 
 	/**
 	 * This is the executable function that connects the
@@ -43,8 +45,10 @@ public class SetbackClient {
 			else {
 				socket = makeSocket(DEFAULT_PORT, DEFAULT_HOSTNAME);
 			}
+			
+			final IOPair pair = new SocketIOPair(socket);
 			// Start the controller
-			new SetbackClientController(socket);
+			new SetbackClientController(pair);
 
 		} catch (SetbackException e) {
 			System.err.println(e.getMessage());

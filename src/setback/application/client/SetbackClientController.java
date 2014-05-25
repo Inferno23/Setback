@@ -8,10 +8,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.Socket;
 
 import javax.swing.JFrame;
 
+import setback.application.socket.IOPair;
 import setback.application.views.PlayerSelectView;
 import setback.common.PlayerNumber;
 
@@ -27,24 +27,24 @@ public class SetbackClientController {
 	private PrintWriter out;
 	private BufferedReader in;
 	// Setback variables
-	private PlayerNumber myNumber;
-	private PlayerNumber left;
-	private PlayerNumber center;
-	private PlayerNumber right;
+	protected PlayerNumber myNumber;
+	protected PlayerNumber left;
+	protected PlayerNumber center;
+	protected PlayerNumber right;
 
 	/**
 	 * Constructor for a SetbackClientController that takes
 	 * in the socket connection from the SetbackClient, and
 	 * uses it to establish read/write connections with the
 	 * SetbackServerThread.
-	 * @param socket The socket connection to the server.
+	 * @param pair The IOPair that has the input and output streams.
 	 */
-	SetbackClientController(Socket socket) {
+	SetbackClientController(IOPair pair) {
 		// Make the connections for reading and writing
 		try {
-			out = new PrintWriter(socket.getOutputStream(), true);
+			out = new PrintWriter(pair.out(), true);
 			in = new BufferedReader(
-					new InputStreamReader(socket.getInputStream()));
+					new InputStreamReader(pair.in()));
 			// Read and ignore the initial "null" string.
 			in.readLine();
 		} catch (IOException e) {

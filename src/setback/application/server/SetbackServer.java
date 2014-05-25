@@ -6,7 +6,9 @@ package setback.application.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 
+import setback.application.socket.SocketIOPair;
 import setback.game.SetbackGameController;
 import setback.game.SetbackGameFactory;
 
@@ -51,7 +53,8 @@ public class SetbackServer {
 		}
 		
 		for (currentConnections = 0; currentConnections < MAX_CONNECTIONS; currentConnections++) {
-			new SetbackServerThread(serverSocket.accept(), game).start();
+			Socket socket = serverSocket.accept();
+			new SetbackServerThread(new SocketIOPair(socket), game).start();
 			currentConnections++;
 			System.out.println("currentConnections = " + currentConnections);
 		}

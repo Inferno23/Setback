@@ -8,11 +8,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.Socket;
 
 import setback.application.SetbackObserver;
 import setback.application.command.CommandMessage;
 import setback.application.command.CommandParser;
+import setback.application.socket.IOPair;
 import setback.common.SetbackException;
 import setback.game.SetbackGameController;
 
@@ -24,23 +24,24 @@ import setback.game.SetbackGameController;
  */
 public class SetbackServerThread extends Thread implements SetbackObserver {
 
-	private final Socket socket;
+	private final IOPair pair;
 	protected PlayerController controller;
 	private final CommandParser parser;
 
 	protected PrintWriter out;
+	protected BufferedReader in;
 
 	/**
 	 * Constructor that is called by the server.  It provides
 	 * the socket that connects to the client, and the shared
 	 * SetbackServerController which interacts with the SetbackGameController.
-	 * @param socket The connection to the client.
+	 * @param pair The input/output pair connected to the client.
 	 * @param game The SetbackGameController that is
 	 * being shared by the four players.
 	 */
-	public SetbackServerThread(Socket socket, SetbackGameController game) {
+	public SetbackServerThread(IOPair pair, SetbackGameController game) {
 		super("SetbackServerThread");
-		this.socket = socket;
+		this.pair = pair;
 		game.addObserver(this);
 		controller = new PlayerController(game);
 		parser = new CommandParser();
@@ -53,9 +54,9 @@ public class SetbackServerThread extends Thread implements SetbackObserver {
 	 */
 	public void run() {
 		try {
-			out = new PrintWriter(socket.getOutputStream(), true);
-			final BufferedReader in = new BufferedReader(
-					new InputStreamReader(socket.getInputStream()));
+			out = new PrintWriter(pair.out(), true);
+			in = new BufferedReader(
+					new InputStreamReader(pair.in()));
 
 			String inputLine, outputLine;
 			CommandMessage inputCommand;
@@ -77,8 +78,9 @@ public class SetbackServerThread extends Thread implements SetbackObserver {
 					}
 				}
 			}
-			socket.close();
 
+			pair.close();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

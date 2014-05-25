@@ -21,13 +21,13 @@ import setback.application.client.SetbackClientView;
  */
 public class PlayerSelectView extends SetbackClientView {
 	
-	private JButton playerOneButton;
-	private JButton playerTwoButton;
-	private JButton playerThreeButton;
-	private JButton playerFourButton;
+	protected JButton playerOneButton;
+	protected JButton playerTwoButton;
+	protected JButton playerThreeButton;
+	protected JButton playerFourButton;
 
-	private JLabel teamOneLabel;
-	private JLabel teamTwoLabel;
+	protected JLabel teamOneLabel;
+	protected JLabel teamTwoLabel;
 
 	/**
 	 * Create the GUI for player selection.  Just call the
