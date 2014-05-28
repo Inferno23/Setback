@@ -15,7 +15,6 @@ import javax.swing.Timer;
 
 import setback.application.client.ListenerEnum;
 import setback.application.client.SetbackClientController;
-import setback.application.client.SetbackClientView;
 
 /**
  * This view will handle discarding cards.  It will
@@ -46,6 +45,7 @@ public class DiscardCardsView extends SetbackClientView {
 		super(controller, frame);
 		this.frame.revalidate();
 		this.frame.repaint();
+		view = this;
 	}
 
 	/**

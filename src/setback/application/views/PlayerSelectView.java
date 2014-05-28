@@ -12,7 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import setback.application.client.SetbackClientController;
-import setback.application.client.SetbackClientView;
 
 /**
  * This class is the GUI for Player Selection.
@@ -42,6 +41,7 @@ public class PlayerSelectView extends SetbackClientView {
 		super(controller, frame);
 		this.frame.revalidate();
 		this.frame.repaint();
+		view = this;
 	}
 
 	/**

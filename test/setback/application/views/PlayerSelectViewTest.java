@@ -4,7 +4,9 @@
  */
 package setback.application.views;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import javax.swing.JFrame;
 
@@ -65,7 +67,7 @@ public class PlayerSelectViewTest {
 		controller = new SetbackClientControllerMock();
 		view = new PlayerSelectView(controller, frame);
 		view.playerOneButton.doClick();
-		assertEquals(PlaceBetsView.class, view.getView().getClass());
+		assertEquals(PleaseWaitView.class, view.getView().getClass());
 	}
 	
 	@Test
@@ -82,7 +84,7 @@ public class PlayerSelectViewTest {
 		controller = new SetbackClientControllerMock();
 		view = new PlayerSelectView(controller, frame);
 		view.playerTwoButton.doClick();
-		assertEquals(PlaceBetsView.class, view.getView().getClass());
+		assertEquals(PleaseWaitView.class, view.getView().getClass());
 	}
 	
 	@Test
@@ -99,7 +101,7 @@ public class PlayerSelectViewTest {
 		controller = new SetbackClientControllerMock();
 		view = new PlayerSelectView(controller, frame);
 		view.playerThreeButton.doClick();
-		assertEquals(PlaceBetsView.class, view.getView().getClass());
+		assertEquals(PleaseWaitView.class, view.getView().getClass());
 	}
 	
 	@Test
@@ -116,7 +118,7 @@ public class PlayerSelectViewTest {
 		controller = new SetbackClientControllerMock();
 		view = new PlayerSelectView(controller, frame);
 		view.playerFourButton.doClick();
-		assertEquals(PlaceBetsView.class, view.getView().getClass());
+		assertEquals(PleaseWaitView.class, view.getView().getClass());
 	}
 	
 	@Test

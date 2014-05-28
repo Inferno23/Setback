@@ -2,7 +2,7 @@
  * This file was developed for fun by Michael Burns for a private
  * implementation of the card game Setback, also known as Pitch.
  */
-package setback.application.client;
+package setback.application.views;
 
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
@@ -15,12 +15,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
-import setback.application.views.DiscardCardsView;
-import setback.application.views.PlaceBetsView;
-import setback.application.views.PlayCardsView;
-import setback.application.views.PlayerSelectView;
-import setback.application.views.RoundScoreView;
-import setback.application.views.SelectTrumpView;
+import setback.application.client.CardImageFactory;
+import setback.application.client.ListenerEnum;
+import setback.application.client.SetbackClientController;
 import setback.game.common.Card;
 
 /**
@@ -47,9 +44,9 @@ public abstract class SetbackClientView {
 	protected int GUI_CARD_HEIGHT = 125;
 	protected int GUI_CARD_SPACING = 20;
 	protected int GUI_CARD_BOTTOM_Y = GUI_HEIGHT * 7 / 8 - GUI_CARD_HEIGHT;
-	protected int GUI_CARD_LEFT_X = GUI_WIDTH / 8 - GUI_CARD_HEIGHT;
+	protected int GUI_CARD_LEFT_X = GUI_SPACING_CONSTANT;
 	protected int GUI_CARD_TOP_Y = GUI_HEIGHT / 8;
-	protected int GUI_CARD_RIGHT_X = GUI_WIDTH * 7 / 8;
+	protected int GUI_CARD_RIGHT_X = GUI_WIDTH - (GUI_CARD_HEIGHT + GUI_SPACING_CONSTANT);
 	protected int GUI_CARD_DISCARD_SHIFT = 25;
 	protected int GUI_CARD_PLAYED_SHIFT = GUI_CARD_HEIGHT + GUI_CARD_DISCARD_SHIFT;
 	
@@ -172,9 +169,9 @@ public abstract class SetbackClientView {
 	 */
 	protected SetbackClientView update(String input) {
 		if (input.endsWith(" selected")) {
-			controller.setPlayerNumbers(input);
+			controller.setPlayerNumbersFromString(input);
 			stopTimers();
-			return new PlaceBetsView(controller, frame);
+			return new PleaseWaitView(controller, frame);
 		}
 		else if (input.contains("BETTING RESOLVED")) {
 			stopTimers();
@@ -365,7 +362,7 @@ public abstract class SetbackClientView {
 	 */
 	protected void displayCenterHand(int numCards) {
 		int index;
-		final int offsetX = GUI_WIDTH_CENTER - (numCards * GUI_CARD_SPACING);
+		final int offsetX = GUI_WIDTH_CENTER - (numCards * GUI_CARD_SPACING) + GUI_CARD_WIDTH;
 		
 		for (index = 1; index <= numCards; index++) {
 			centerHand[index] = new JLabel(factory.createCard("Back-Center"));

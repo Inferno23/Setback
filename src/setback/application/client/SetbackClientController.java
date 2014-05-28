@@ -100,12 +100,20 @@ public class SetbackClientController {
 	 * @param input The string containing this client's
 	 * player number.
 	 */
-	public void setPlayerNumbers(String input) {
+	public void setPlayerNumbersFromString(String input) {
 		final String[] array = input.split(" ");
 		final String playerString = array[0] + "_" + array[1];
 		myNumber = PlayerNumber.valueOf(playerString.toUpperCase());
-		
-		switch (myNumber) {
+		setPlayerNumbers(myNumber);
+	}
+	
+	/**
+	 * This function takes in a PlayerNumber and sets
+	 * the left, center, and right numbers.
+	 * @param number The PlayerNumber of the controller.
+	 */
+	public void setPlayerNumbers(PlayerNumber number) {
+		switch (number) {
 		case PLAYER_ONE:
 			left = PlayerNumber.PLAYER_TWO;
 			center = PlayerNumber.PLAYER_THREE;

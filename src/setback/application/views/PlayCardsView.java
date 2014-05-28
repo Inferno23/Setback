@@ -16,7 +16,6 @@ import javax.swing.Timer;
 
 import setback.application.client.ListenerEnum;
 import setback.application.client.SetbackClientController;
-import setback.application.client.SetbackClientView;
 import setback.common.PlayerNumber;
 
 /**

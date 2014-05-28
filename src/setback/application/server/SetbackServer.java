@@ -55,7 +55,6 @@ public class SetbackServer {
 		for (currentConnections = 0; currentConnections < MAX_CONNECTIONS; currentConnections++) {
 			Socket socket = serverSocket.accept();
 			new SetbackServerThread(new SocketIOPair(socket), game).start();
-			currentConnections++;
 			System.out.println("currentConnections = " + currentConnections);
 		}
 	}

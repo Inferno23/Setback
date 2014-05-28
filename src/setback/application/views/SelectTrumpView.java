@@ -15,7 +15,6 @@ import javax.swing.Timer;
 
 import setback.application.client.ListenerEnum;
 import setback.application.client.SetbackClientController;
-import setback.application.client.SetbackClientView;
 import setback.common.PlayerNumber;
 
 /**
@@ -48,6 +47,7 @@ public class SelectTrumpView extends SetbackClientView {
 		super(controller, frame);
 		this.frame.revalidate();
 		this.frame.repaint();
+		view = this;
 	}
 
 	/**

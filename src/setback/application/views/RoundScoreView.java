@@ -12,7 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import setback.application.client.SetbackClientController;
-import setback.application.client.SetbackClientView;
 import setback.common.PlayerNumber;
 
 /**
