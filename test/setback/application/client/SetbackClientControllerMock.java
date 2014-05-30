@@ -6,6 +6,8 @@ package setback.application.client;
 
 import setback.application.socket.MockIOPair;
 import setback.common.PlayerNumber;
+import setback.game.common.Bet;
+import setback.game.common.BetResult;
 
 /**
  * This class subclasses the real SetbackClientController, but has getters
@@ -145,6 +147,18 @@ public class SetbackClientControllerMock extends SetbackClientController {
 			if (bettingResolved) {
 				returnString += " BETTING RESOLVED";
 			}
+		}
+		
+		// SelectTrumpView
+		else if (input.equals("GET_WINNING_BET")) {
+			final BetResult betResult = new BetResult(PlayerNumber.PLAYER_TWO, Bet.TWO);
+			returnString = betResult.toString();
+		}
+		else if (input.startsWith("SELECT_TRUMP")) {
+			final String[] array = input.split(" ");
+			final String suitString = array[1];
+			returnString = myNumber.toString().toUpperCase()
+					+ " SELECTED " + suitString;
 		}
 
 		// SetbackClientView

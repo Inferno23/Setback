@@ -2,7 +2,7 @@
  * This file was developed for fun by Michael Burns for a private
  * implementation of the card game Setback, also known as Pitch.
  */
-package setback.application;
+package setback.application.server;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import setback.application.command.Command;
 import setback.application.command.CommandMessage;
-import setback.application.server.PlayerController;
 import setback.common.PlayerNumber;
 import setback.game.SetbackGameController;
 import setback.game.SetbackGameFactory;

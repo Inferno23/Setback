@@ -29,12 +29,12 @@ public class SelectTrumpView extends SetbackClientView {
 
 	protected Timer trumpSelectionTimer;
 
-	private JLabel winningBet;
+	protected JLabel winningBet;
 
-	private JButton spadesButton;
-	private JButton heartsButton;
-	private JButton clubsButton;
-	private JButton diamondsButton;
+	protected JButton spadesButton;
+	protected JButton heartsButton;
+	protected JButton clubsButton;
+	protected JButton diamondsButton;
 
 	/**
 	 * Create the GUI for selecting trump.  Just call the
@@ -47,7 +47,6 @@ public class SelectTrumpView extends SetbackClientView {
 		super(controller, frame);
 		this.frame.revalidate();
 		this.frame.repaint();
-		view = this;
 	}
 
 	/**
@@ -80,7 +79,7 @@ public class SelectTrumpView extends SetbackClientView {
 				if (response.startsWith(trumpString + "SPADES")) {
 					toggleButtons(buttonList, false);
 					// Check for TRUMP SELECTED
-					update(response);
+					view = update(response);
 				}
 			}
 		});
@@ -95,7 +94,7 @@ public class SelectTrumpView extends SetbackClientView {
 				if (response.startsWith(trumpString + "HEARTS")) {
 					toggleButtons(buttonList, false);
 					// Check for TRUMP SELECTED
-					update(response);
+					view = update(response);
 				}
 			}
 		});
@@ -110,7 +109,7 @@ public class SelectTrumpView extends SetbackClientView {
 				if (response.startsWith(trumpString + "CLUBS")) {
 					toggleButtons(buttonList, false);
 					// Check for TRUMP SELECTED
-					update(response);
+					view = update(response);
 				}
 			}
 		});
@@ -125,7 +124,7 @@ public class SelectTrumpView extends SetbackClientView {
 				if (response.startsWith(trumpString + "DIAMONDS")) {
 					toggleButtons(buttonList, false);
 					// Check for TRUMP SELECTED
-					update(response);
+					view = update(response);
 				}
 			}
 		});
@@ -159,7 +158,7 @@ public class SelectTrumpView extends SetbackClientView {
 					trumpSelectionTimer.stop();
 					// Just move along to the discarding screen, trump
 					// will be displayed there as well.
-					update(response);
+					view = update(response);
 				}
 			}
 		};

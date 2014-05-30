@@ -45,7 +45,6 @@ public class DiscardCardsView extends SetbackClientView {
 		super(controller, frame);
 		this.frame.revalidate();
 		this.frame.repaint();
-		view = this;
 	}
 
 	/**
