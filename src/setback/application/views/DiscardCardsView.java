@@ -27,12 +27,9 @@ import setback.application.client.SetbackClientController;
  */
 public class DiscardCardsView extends SetbackClientView {
 
-	protected Timer discardTimer;
 	protected Timer allDiscardTimer;
 
-	private JLabel trumpLabel;
-
-	private JButton discardButton;
+	protected JLabel trumpLabel;
 
 	/**
 	 * Create the GUI for discarding cards.  Just call the
@@ -57,8 +54,10 @@ public class DiscardCardsView extends SetbackClientView {
 		super.initialize();
 		// Trump label
 		trumpLabel = new JLabel("TRUMP IS " + controller.userInput("GET_TRUMP"));
-		trumpLabel.setBounds(GUI_WIDTH_CENTER, GUI_HEIGHT_CENTER - (3 * GUI_SPACING_CONSTANT),
-				GUI_DISCARD_CARDS_STRING_LENGTH, GUI_TEXT_HEIGHT);
+		trumpLabel.setBounds(GUI_WIDTH_CENTER - GUI_DISCARD_CARDS_STRING_LENGTH / 2,
+				GUI_HEIGHT_CENTER - (3 * GUI_SPACING_CONSTANT),
+				GUI_DISCARD_CARDS_STRING_LENGTH,
+				GUI_TEXT_HEIGHT);
 		trumpLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		frame.getContentPane().add(trumpLabel);
 		// Hands
@@ -72,7 +71,6 @@ public class DiscardCardsView extends SetbackClientView {
 		discardButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (discardList.size() == 3) {
-					discardTimer.stop();
 					final String response = controller.userInput("DISCARD_CARDS "
 							+ discardList.get(0) + " " + discardList.get(1) + " " + discardList.get(2));
 					// Double check that we discarded properly
@@ -80,11 +78,11 @@ public class DiscardCardsView extends SetbackClientView {
 						discardButton.setEnabled(false);
 						// If we are the last person to discard, then everything else is taken care of later
 						if (response.contains("TRICK STARTED")) {
-							update(response);
+							view = update(response);
 						}
 						else {
 							// We were not the last, so do it all ourselves
-							update(response);
+							view = update(response);
 							for (JLabel card : cardList) {
 								frame.getContentPane().remove(card);
 							}
@@ -97,7 +95,7 @@ public class DiscardCardsView extends SetbackClientView {
 									final String response = controller.userInput("NO_COMMAND");
 									if (response.contains("TRICK STARTED")) {
 										allDiscardTimer.stop();
-										update(response);
+										view = update(response);
 									}
 								}
 							};
@@ -111,19 +109,5 @@ public class DiscardCardsView extends SetbackClientView {
 		});
 		discardButton.setEnabled(false);
 		frame.getContentPane().add(discardButton);
-		// Check the cardList
-		final ActionListener myDiscardAction = new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				if (discardList.size() == 3) {
-					discardButton.setEnabled(true);
-				}
-				else {
-					discardButton.setEnabled(false);
-				}
-			}
-		};
-		discardTimer = new Timer(DELAY, myDiscardAction);
-		timerList.add(discardTimer);
-		discardTimer.start();
 	}
 }

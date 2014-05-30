@@ -100,6 +100,7 @@ public class PlayCardsView extends SetbackClientView {
 		}
 		this.frame.revalidate();
 		this.frame.repaint();
+		view = this;
 	}
 
 	/**

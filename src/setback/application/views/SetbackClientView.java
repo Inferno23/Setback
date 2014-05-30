@@ -7,6 +7,7 @@ package setback.application.views;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,6 +91,7 @@ public abstract class SetbackClientView {
 	protected List<JButton> buttonList;
 	protected List<JLabel> cardList;
 	protected List<Card> discardList;
+	protected JButton discardButton;
 	protected List<Timer> timerList;
 	// Cards in my hand
 	protected JLabel cardOne;
@@ -399,21 +401,37 @@ public abstract class SetbackClientView {
 		switch(type) {
 		case SHIFT_UP:
 			card.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent arg0) {
+				public void mousePressed(MouseEvent arg0) {
 					if (discardList.size() < 3) {
 						discardList.add(Card.fromString(cardName));
 						card.setBounds(card.getX(), card.getY() - GUI_CARD_DISCARD_SHIFT, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
+						// Remove the old listeners
+						MouseListener[] listeners = card.getMouseListeners();
+						for (MouseListener listener : listeners) {
+							card.removeMouseListener(listener);
+						}
 						addListener(ListenerEnum.SHIFT_DOWN, card, cardName);
+						// Check if we are ready to discard
+						if (discardList.size() == 3) {
+							discardButton.setEnabled(true);
+						}
 					}
 				}
 			});
 			break;
 		case SHIFT_DOWN:
 			card.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent arg0) {
+				public void mousePressed(MouseEvent arg0) {
 					discardList.remove(Card.fromString(cardName));
 					card.setBounds(card.getX(), card.getY() + GUI_CARD_DISCARD_SHIFT, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
+					// Remove the old listeners
+					MouseListener[] listeners = card.getMouseListeners();
+					for (MouseListener listener : listeners) {
+						card.removeMouseListener(listener);
+					}
 					addListener(ListenerEnum.SHIFT_UP, card, cardName);
+					// We cannot be ready to discard
+					discardButton.setEnabled(false);
 				}
 			});
 			break;

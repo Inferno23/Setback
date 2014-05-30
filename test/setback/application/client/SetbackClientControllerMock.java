@@ -20,6 +20,8 @@ public class SetbackClientControllerMock extends SetbackClientController {
 
 	public String noCommandString;
 	public boolean bettingResolved;
+	public boolean discarded;
+	public boolean trickStarted;
 
 	/**
 	 * A constructor for the subclass which does not take in a socket,
@@ -89,11 +91,19 @@ public class SetbackClientControllerMock extends SetbackClientController {
 				returnString = "You do not have a hand yet!";
 			}
 			else if (myNumber == PlayerNumber.PLAYER_ONE) {
-				returnString = "PLAYER ONE'S HAND:\tThree-of-Spades\t"
-						+ "Six-of-Spades\tAce-of-Spades\tFour-of-Hearts\t"
-						+ "Ace-of-Hearts\tSix-of-Clubs\tSeven-of-Clubs\t"
-						+ "Seven-of-Diamonds\tTen-of-Diamonds\tJack-of-Diamonds\t"
-						+ "Queen-of-Diamonds\tAce-of-Diamonds";
+				if (!discarded) { 
+					returnString = "PLAYER ONE'S HAND:\tThree-of-Spades\t"
+							+ "Six-of-Spades\tAce-of-Spades\tFour-of-Hearts\t"
+							+ "Ace-of-Hearts\tSix-of-Clubs\tSeven-of-Clubs\t"
+							+ "Seven-of-Diamonds\tTen-of-Diamonds\tJack-of-Diamonds\t"
+							+ "Queen-of-Diamonds\tAce-of-Diamonds";
+				}
+				else {
+					returnString = "PLAYER ONE'S HAND:\tFour-of-Hearts\t"
+							+ "Ace-of-Hearts\tSix-of-Clubs\tSeven-of-Clubs\t"
+							+ "Seven-of-Diamonds\tTen-of-Diamonds\tJack-of-Diamonds\t"
+							+ "Queen-of-Diamonds\tAce-of-Diamonds";
+				}
 			}
 			else if (myNumber == PlayerNumber.PLAYER_TWO) {
 				returnString = "PLAYER TWO'S HAND:\tEight-of-Spades\t"
@@ -148,7 +158,7 @@ public class SetbackClientControllerMock extends SetbackClientController {
 				returnString += " BETTING RESOLVED";
 			}
 		}
-		
+
 		// SelectTrumpView
 		else if (input.equals("GET_WINNING_BET")) {
 			final BetResult betResult = new BetResult(PlayerNumber.PLAYER_TWO, Bet.TWO);
@@ -159,6 +169,21 @@ public class SetbackClientControllerMock extends SetbackClientController {
 			final String suitString = array[1];
 			returnString = myNumber.toString().toUpperCase()
 					+ " SELECTED " + suitString;
+		}
+
+		// DiscardCardsView
+		else if (input.equals("GET_TRUMP")) {
+			returnString = "SPADES";
+		}
+		else if (input.startsWith("DISCARD_CARDS")) {
+			final String[] array = input.split(" ");
+			returnString = myNumber.toString().toUpperCase()
+					+ " DISCARDED " + array[1] + " "
+					+ array[2] + " " + array[3];
+			
+			if (trickStarted) {
+				returnString += " TRICK STARTED";
+			}
 		}
 
 		// SetbackClientView
