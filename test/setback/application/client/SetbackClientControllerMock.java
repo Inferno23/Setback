@@ -191,6 +191,14 @@ public class SetbackClientControllerMock extends SetbackClientController {
 			returnString = myNumber.toString().toUpperCase()
 					+ " PLAYED " + array[1];
 		}
+		
+		// RoundScoreView
+		else if (input.equals("GET_TEAM_ONE_SCORE")) {
+			returnString = Integer.toString(1);
+		}
+		else if (input.equals("GET_TEAM_TWO_SCORE")) {
+			returnString = Integer.toString(2);
+		}
 
 		// SetbackClientView
 		else if (input.equals("GET_CURRENT_PLAYER")) {

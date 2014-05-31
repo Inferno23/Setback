@@ -23,10 +23,10 @@ import setback.common.PlayerNumber;
  */
 public class RoundScoreView extends SetbackClientView {
 
-	private JLabel teamLabel;
-	private JLabel teamOneScore;
-	private JLabel teamTwoScore;
-	private JButton continueButton;
+	protected JLabel teamLabel;
+	protected JLabel teamOneScore;
+	protected JLabel teamTwoScore;
+	protected JButton continueButton;
 
 	/**
 	 * Create the GUI for displaying the score after a round of Setback.
@@ -40,6 +40,7 @@ public class RoundScoreView extends SetbackClientView {
 		super(controller, frame);
 		this.frame.revalidate();
 		this.frame.repaint();
+		view = this;
 	}
 
 	/**
@@ -69,7 +70,7 @@ public class RoundScoreView extends SetbackClientView {
 		// Which team you're on
 		teamLabel = new JLabel();
 		teamLabel.setText(teamString);
-		teamLabel.setBounds(GUI_WIDTH_CENTER, GUI_HEIGHT_CENTER - GUI_SPACING_CONSTANT, 
+		teamLabel.setBounds(GUI_ROUND_SCORE_TEAM_LABEL_X, GUI_ROUND_SCORE_TEAM_LABEL_Y, 
 				teamStringLength, GUI_TEXT_HEIGHT);
 		frame.getContentPane().add(teamLabel);
 		// Team one score
@@ -92,7 +93,7 @@ public class RoundScoreView extends SetbackClientView {
 		continueButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// Continue to the next hand
-				new PlaceBetsView(controller, frame);
+				view = new PlaceBetsView(controller, frame);
 			}
 		});
 		frame.getContentPane().add(continueButton);

@@ -82,6 +82,8 @@ public abstract class SetbackClientView {
 	// RoundScoreView
 	protected int GUI_ROUND_SCORE_BUTTON_WIDTH = 125;
 	protected int GUI_ROUND_SCORE_BUTTON_HEIGHT = 75;
+	protected int GUI_ROUND_SCORE_TEAM_LABEL_X = GUI_WIDTH_CENTER - GUI_SPACING_CONSTANT;
+	protected int GUI_ROUND_SCORE_TEAM_LABEL_Y = GUI_HEIGHT_CENTER - GUI_SPACING_CONSTANT;
 	
 	// High level variables
 	protected SetbackClientController controller;
@@ -188,12 +190,6 @@ public abstract class SetbackClientView {
 		else if (input.contains("GAME OVER")) {
 			// TODO: Make a game over screen
 			return new PlayerSelectView(controller, frame);
-		}
-		// This next one probably never gets called properly,
-		// instead we make it from inside the PlayCardsView
-		else if (input.contains("ROUND ENDED")) {
-			stopTimers();
-			return new RoundScoreView(controller, frame);
 		}
 		else if (input.contains("TRICK STARTED")) {
 			stopTimers();
