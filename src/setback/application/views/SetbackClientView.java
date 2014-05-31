@@ -46,10 +46,12 @@ public abstract class SetbackClientView {
 	protected int GUI_CARD_SPACING = 20;
 	protected int GUI_CARD_BOTTOM_Y = GUI_HEIGHT * 7 / 8 - GUI_CARD_HEIGHT;
 	protected int GUI_CARD_LEFT_X = GUI_SPACING_CONSTANT;
-	protected int GUI_CARD_TOP_Y = GUI_HEIGHT / 8;
+	protected int GUI_CARD_TOP_Y = GUI_HEIGHT / 10;
 	protected int GUI_CARD_RIGHT_X = GUI_WIDTH - (GUI_CARD_HEIGHT + GUI_SPACING_CONSTANT);
 	protected int GUI_CARD_DISCARD_SHIFT = 25;
-	protected int GUI_CARD_PLAYED_SHIFT = GUI_CARD_HEIGHT + GUI_CARD_DISCARD_SHIFT;
+	protected int GUI_CARD_PLAYED_CENTER = GUI_WIDTH_CENTER - (GUI_CARD_WIDTH / 2);
+	protected int GUI_CARD_PLAYED_SHIFT = GUI_CARD_HEIGHT - GUI_SPACING_CONSTANT_HALF;
+	protected int GUI_CARD_PLAYED_SIDE_HEIGHT = GUI_HEIGHT_CENTER - 2 * GUI_SPACING_CONSTANT;
 	
 	// PlayerSelectView
 	protected int GUI_PLAYER_SELECT_BUTTON_WIDTH = 200;
@@ -364,7 +366,7 @@ public abstract class SetbackClientView {
 	 */
 	protected void displayCenterHand(int numCards) {
 		int index;
-		final int offsetX = GUI_WIDTH_CENTER - (numCards * GUI_CARD_SPACING) + GUI_CARD_WIDTH;
+		final int offsetX = GUI_WIDTH_CENTER - (6 * GUI_CARD_SPACING);
 		
 		for (index = 1; index <= numCards; index++) {
 			centerHand[index] = new JLabel(factory.createCard("Back-Center"));

@@ -108,27 +108,27 @@ public class PlayCardsView extends SetbackClientView {
 	 */
 	protected void displayPlayedCards() {
 		if (myCardName != null) {
-			final ImageIcon cardIcon = factory.createCard(myCardName);
+			final ImageIcon cardIcon = factory.createHorizontalCard(myCardName);
 			myCard = new JLabel(cardIcon);
-			myCard.setBounds(GUI_WIDTH_CENTER, GUI_CARD_BOTTOM_Y - GUI_CARD_PLAYED_SHIFT, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
+			myCard.setBounds(GUI_CARD_PLAYED_CENTER, GUI_CARD_BOTTOM_Y - GUI_CARD_PLAYED_SHIFT, GUI_CARD_HEIGHT, GUI_CARD_WIDTH);
 			frame.getContentPane().add(myCard);
 		}
 		if (leftCardName != null) {
 			final ImageIcon cardIcon = factory.createCard(leftCardName);
 			leftCard = new JLabel(cardIcon);
-			leftCard.setBounds(GUI_CARD_LEFT_X + GUI_CARD_PLAYED_SHIFT, GUI_HEIGHT_CENTER, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
+			leftCard.setBounds(GUI_CARD_LEFT_X + GUI_CARD_PLAYED_SHIFT + GUI_SPACING_CONSTANT, GUI_CARD_PLAYED_SIDE_HEIGHT, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
 			frame.getContentPane().add(leftCard);
 		}
 		if (centerCardName != null) {
-			final ImageIcon cardIcon = factory.createCard(centerCardName);
+			final ImageIcon cardIcon = factory.createHorizontalCard(centerCardName);
 			centerCard = new JLabel(cardIcon);
-			centerCard.setBounds(GUI_WIDTH_CENTER, GUI_CARD_TOP_Y + GUI_CARD_PLAYED_SHIFT, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
+			centerCard.setBounds(GUI_CARD_PLAYED_CENTER, GUI_CARD_TOP_Y + GUI_CARD_PLAYED_SHIFT + GUI_SPACING_CONSTANT_HALF, GUI_CARD_HEIGHT, GUI_CARD_WIDTH);
 			frame.getContentPane().add(centerCard);
 		}
 		if (rightCardName != null) {
 			final ImageIcon cardIcon = factory.createCard(rightCardName);
 			rightCard = new JLabel(cardIcon);
-			rightCard.setBounds(GUI_CARD_RIGHT_X - GUI_CARD_PLAYED_SHIFT, GUI_HEIGHT_CENTER, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
+			rightCard.setBounds(GUI_CARD_RIGHT_X - GUI_CARD_PLAYED_SHIFT - GUI_SPACING_CONSTANT, GUI_CARD_PLAYED_SIDE_HEIGHT, GUI_CARD_WIDTH, GUI_CARD_HEIGHT);
 			frame.getContentPane().add(rightCard);
 		}
 	}
@@ -203,20 +203,17 @@ public class PlayCardsView extends SetbackClientView {
 		switch(type) {
 		case PLAY:
 			card.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent arg0) {
-					// Try to play the card
-					final String response = controller.userInput("PLAY_CARD " + cardName);
-					// We expect it to get played
-					final String desired = controller.getMyNumber() + " PLAYED " + cardName;
-					// If we played the card properly
-					if (response.startsWith(desired)) {
-						// We have more cards to play
-						if (numCards > 1) {
-							new PlayCardsView(controller, frame, cardName, leftCardName, centerCardName, rightCardName);
-						}
-						// This is our last card, so go the subclass that handles the end of the round
-						else {
-							new PlayCardsFinalTrickView(controller, frame, cardName, leftCardName, centerCardName, rightCardName);
+				public void mousePressed(MouseEvent arg0) {
+					// Only try to play if the current player label says it
+					// is my turn, this solves some multiplayer issues
+					if (currentPlayerLabel.getText().equals("Current Player: Me")) {
+						// Try to play the card
+						final String response = controller.userInput("PLAY_CARD " + cardName);
+						// We expect it to get played
+						final String desired = controller.getMyNumber() + " PLAYED " + cardName;
+						// If we played the card properly
+						if (response.startsWith(desired)) {
+							view = new PlayCardsView(controller, frame, cardName, leftCardName, centerCardName, rightCardName);
 						}
 					}
 					else {
@@ -249,13 +246,13 @@ public class PlayCardsView extends SetbackClientView {
 					final PlayerNumber cardPlayer = PlayerNumber.valueOf(array[0]);
 					final String cardName = array[2];
 					if (cardPlayer.equals(controller.getLeft())) {
-						new PlayCardsView(controller, frame, myCardName, cardName, centerCardName, rightCardName);
+						view = new PlayCardsView(controller, frame, myCardName, cardName, centerCardName, rightCardName);
 					}
 					else if (cardPlayer.equals(controller.getCenter())) {
-						new PlayCardsView(controller, frame, myCardName, leftCardName, cardName, rightCardName);
+						view = new PlayCardsView(controller, frame, myCardName, leftCardName, cardName, rightCardName);
 					}
 					else {
-						new PlayCardsView(controller, frame, myCardName, leftCardName, centerCardName, cardName);
+						view = new PlayCardsView(controller, frame, myCardName, leftCardName, centerCardName, cardName);
 					}
 				}
 			}
@@ -280,7 +277,14 @@ public class PlayCardsView extends SetbackClientView {
 				public void actionPerformed(ActionEvent evt) {
 					if (unpauseToggle) {
 						pauseTimer.stop();
-						new PlayCardsView(controller, frame, null, null, null, null);
+						if (numCards > 0 && numCards < 12) {
+							// We have cards, and it isn't a new hand
+							view = new PlayCardsView(controller, frame, null, null, null, null);
+						}
+						else {
+							// Round is over
+							view = new RoundScoreView(controller, frame);
+						}
 					}
 					else {
 						unpauseToggle = true;

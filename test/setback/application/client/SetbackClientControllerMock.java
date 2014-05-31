@@ -22,6 +22,8 @@ public class SetbackClientControllerMock extends SetbackClientController {
 	public boolean bettingResolved;
 	public boolean discarded;
 	public boolean trickStarted;
+	public PlayerNumber currentPlayer;
+	public boolean finalTrick;
 
 	/**
 	 * A constructor for the subclass which does not take in a socket,
@@ -45,6 +47,7 @@ public class SetbackClientControllerMock extends SetbackClientController {
 		// Set the given player numbers, which may be null.
 		this.myNumber = myNumber;
 		setPlayerNumbers(myNumber);
+		currentPlayer = PlayerNumber.PLAYER_TWO;
 	}
 
 	@Override
@@ -91,15 +94,15 @@ public class SetbackClientControllerMock extends SetbackClientController {
 				returnString = "You do not have a hand yet!";
 			}
 			else if (myNumber == PlayerNumber.PLAYER_ONE) {
-				if (!discarded) { 
-					returnString = "PLAYER ONE'S HAND:\tThree-of-Spades\t"
-							+ "Six-of-Spades\tAce-of-Spades\tFour-of-Hearts\t"
+				if (discarded) {
+					returnString = "PLAYER ONE'S HAND:\tFour-of-Hearts\t"
 							+ "Ace-of-Hearts\tSix-of-Clubs\tSeven-of-Clubs\t"
 							+ "Seven-of-Diamonds\tTen-of-Diamonds\tJack-of-Diamonds\t"
 							+ "Queen-of-Diamonds\tAce-of-Diamonds";
 				}
-				else {
-					returnString = "PLAYER ONE'S HAND:\tFour-of-Hearts\t"
+				else { 
+					returnString = "PLAYER ONE'S HAND:\tThree-of-Spades\t"
+							+ "Six-of-Spades\tAce-of-Spades\tFour-of-Hearts\t"
 							+ "Ace-of-Hearts\tSix-of-Clubs\tSeven-of-Clubs\t"
 							+ "Seven-of-Diamonds\tTen-of-Diamonds\tJack-of-Diamonds\t"
 							+ "Queen-of-Diamonds\tAce-of-Diamonds";
@@ -113,11 +116,7 @@ public class SetbackClientControllerMock extends SetbackClientController {
 						+ "Four-of-Diamonds\tFive-of-Diamonds";
 			}
 			else if (myNumber == PlayerNumber.PLAYER_THREE) {
-				returnString = "PLAYER THREE'S HAND:\tSeven-of-Spades\t"
-						+ "Jack-of-Spades\tKing-of-Spades\tTwo-of-Clubs\t"
-						+ "Three-of-Clubs\tFour-of-Clubs\tTen-of-Clubs\t"
-						+ "Ace-of-Clubs\tEight-of-Hearts\tTen-of-Hearts\t"
-						+ "Jack-of-Hearts\tSix-of-Diamonds";
+				returnString = "PLAYER THREE'S HAND:\tSeven-of-Spades";
 			}
 			else if (myNumber == PlayerNumber.PLAYER_FOUR) {
 				returnString = "PLAYER FOUR'S HAND:\tTwo-of-Spades\t"
@@ -180,15 +179,22 @@ public class SetbackClientControllerMock extends SetbackClientController {
 			returnString = myNumber.toString().toUpperCase()
 					+ " DISCARDED " + array[1] + " "
 					+ array[2] + " " + array[3];
-			
+
 			if (trickStarted) {
 				returnString += " TRICK STARTED";
 			}
 		}
 
+		// PlayCardsView
+		else if (input.startsWith("PLAY_CARD")) {
+			final String[] array = input.split(" ");
+			returnString = myNumber.toString().toUpperCase()
+					+ " PLAYED " + array[1];
+		}
+
 		// SetbackClientView
 		else if (input.equals("GET_CURRENT_PLAYER")) {
-			returnString = "PLAYER_TWO";
+			returnString = currentPlayer.toString().toUpperCase();
 		}
 
 		else if (input.equals("NO_COMMAND")) {
