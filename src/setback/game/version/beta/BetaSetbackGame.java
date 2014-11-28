@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import setback.application.SetbackObserver;
 import setback.game.SetbackGameController;
-import setback.game.version.SetbackGameControllerSkeleton;
+import setback.game.version.SetbackGameControllerObservable;
 import setback.game.version.alpha.DummyBetController;
 
 /**
@@ -18,7 +18,7 @@ import setback.game.version.alpha.DummyBetController;
  * @author Michael Burns
  * @version Oct 21, 2013
  */
-public class BetaSetbackGame extends SetbackGameControllerSkeleton implements
+public class BetaSetbackGame extends SetbackGameControllerObservable implements
 		SetbackGameController {
 	
 	/**
