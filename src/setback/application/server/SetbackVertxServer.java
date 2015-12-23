@@ -4,8 +4,11 @@
  */
 package setback.application.server;
 
+import io.netty.util.internal.ConcurrentSet;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
+import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.eventbus.Message;
 import setback.application.socket.SocketIOPair;
 import setback.game.SetbackGameController;
 import setback.game.SetbackGameFactory;
@@ -26,6 +29,7 @@ public class SetbackVertxServer {
   public static final String HOST = "localhost";
   public static final int PORT = 8080;
   private static final int MAX_PLAYERS = 4;
+  public static final String CONNECTION_CHANNEL = "CONNECTION_CHANNEL";
 
   /**
    * This is the executable function that creates the server.
@@ -41,6 +45,7 @@ public class SetbackVertxServer {
   public static void main(String[] args) {
     final SetbackGameController game;
     final VertxOptions options;
+    final ConcurrentSet<String> connections = new ConcurrentSet<>();
 
     // TODO: Debug vs Retail
     game = SetbackGameFactory.getInstance().makeDeltaSetbackGame();
@@ -51,10 +56,18 @@ public class SetbackVertxServer {
     Vertx.clusteredVertx(options, handler -> {
       if (handler.succeeded()) {
         final Vertx vertx = handler.result();
-        for (int currentConnections = 0; currentConnections < MAX_PLAYERS; currentConnections++) {
-          // TODO: SetbackServerVerticle options and handler
-          vertx.deployVerticle(new SetbackServerVerticle());
-        }
+        final EventBus eventBus = vertx.eventBus();
+
+        eventBus.<String>consumer(CONNECTION_CHANNEL, connectionHandler -> {
+          String message = connectionHandler.body();
+          System.out.println("Connection from " + message);
+          connections.add(message);
+          // TODO: Send back a channel to listen on?
+
+          if (connections.size() == MAX_PLAYERS) {
+            // TODO: Send a message to start the game
+          }
+        });
 
       } else {
         System.out.println("Failed to deploy clustered vertx instance.");
