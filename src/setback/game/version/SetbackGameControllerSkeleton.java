@@ -4,25 +4,15 @@
  */
 package setback.game.version;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import setback.common.PlayerNumber;
 import setback.common.SetbackException;
 import setback.game.BetController;
 import setback.game.CardDealerController;
 import setback.game.SetbackGameController;
-import setback.game.common.Bet;
-import setback.game.common.BetResult;
-import setback.game.common.Card;
-import setback.game.common.CardPlayerDescriptor;
-import setback.game.common.CardSuit;
-import setback.game.common.Hand;
-import setback.game.common.Round;
-import setback.game.common.RoundResult;
-import setback.game.common.RoundResultStatus;
-import setback.game.common.Trick;
-import setback.game.common.TrickResult;
+import setback.game.common.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is the abstract class that implements the common features

@@ -33,6 +33,16 @@ public class SetbackClientController {
 	protected PlayerNumber right;
 
 	/**
+	 * Constructor which takes in no arguments.
+	 * This is useful for the Vertx client, which will
+	 * replace this.
+	 */
+	SetbackClientController() {
+		// Create the GUI
+		new PlayerSelectView(this, new JFrame());
+	}
+
+	/**
 	 * Constructor for a SetbackClientController that takes
 	 * in the socket connection from the SetbackClient, and
 	 * uses it to establish read/write connections with the
@@ -52,8 +62,7 @@ public class SetbackClientController {
 			System.exit(1);
 		}
 
-		// Create the GUI
-		new PlayerSelectView(this, new JFrame());
+		new SetbackClientController();
 	}
 
 	/**
