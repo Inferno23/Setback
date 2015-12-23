@@ -22,7 +22,7 @@ import setback.common.PlayerNumber;
  * @author Michael Burns
  * @version May 31, 2014
  */
-public class RoundScoreViewTest {
+public class RoundScoreViewIT {
 
 	private RoundScoreView view;
 	private SetbackClientControllerMock controller;

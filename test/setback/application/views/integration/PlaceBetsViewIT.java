@@ -25,7 +25,7 @@ import setback.common.PlayerNumber;
  * @author Michael Burns
  * @version May 27, 2014
  */
-public class PlaceBetsViewTest {
+public class PlaceBetsViewIT {
 
 	private PlaceBetsView view;
 	private SetbackClientControllerMock controller;

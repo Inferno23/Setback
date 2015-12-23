@@ -27,7 +27,7 @@ import setback.common.PlayerNumber;
  * @author Michael Burns
  * @version May 30, 2014
  */
-public class DiscardCardsViewTest {
+public class DiscardCardsViewIT {
 	
 	private DiscardCardsView view;
 	private SetbackClientControllerMock controller;

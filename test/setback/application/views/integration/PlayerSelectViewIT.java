@@ -24,7 +24,7 @@ import setback.common.PlayerNumber;
  * @author Michael Burns
  * @version May 25, 2014
  */
-public class PlayerSelectViewTest {
+public class PlayerSelectViewIT {
 
 	private PlayerSelectView view;
 	private SetbackClientController controller;

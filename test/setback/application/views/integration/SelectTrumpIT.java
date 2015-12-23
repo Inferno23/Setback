@@ -23,7 +23,7 @@ import setback.common.PlayerNumber;
  * @author Michael Burns
  * @version May 30, 2014
  */
-public class SelectTrumpTest {
+public class SelectTrumpIT {
 
 	private SelectTrumpView view;
 	private SetbackClientControllerMock controller;

@@ -24,7 +24,7 @@ import setback.common.PlayerNumber;
  * @author Michael Burns
  * @version May 25, 2014
  */
-public class PleaseWaitViewTest {
+public class PleaseWaitViewIT {
 	
 	private PleaseWaitView view;
 	private SetbackClientController controller;
