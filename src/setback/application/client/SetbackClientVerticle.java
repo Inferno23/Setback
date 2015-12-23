@@ -16,8 +16,6 @@ import io.vertx.core.Vertx;
 // TODO: Somebody needs to start this verticle
 public class SetbackClientVerticle extends AbstractVerticle {
 
-  public static final int DEFAULT_PORT = 2323;
-  public static final String DEFAULT_HOSTNAME = "216.49.151.138";
 
   // TODO: Might not need to remember this variable
   private SetbackClientController controller;

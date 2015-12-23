@@ -34,8 +34,47 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.dstovall</groupId>
+        <artifactId>onejar-maven-plugin</artifactId>
+        <version>1.4.4</version>
+        <executions>
+          <execution>
+            <id>build-server</id>
+            <configuration>
+              <mainClass>setback.application.server.SetbackVertxServer</mainClass>
+              <attachToBuild>true</attachToBuild>
+              <classifier>onejar</classifier>
+              <filename>setbackServer.jar</filename>
+            </configuration>
+            <goals>
+              <goal>one-jar</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>build-client</id>
+            <configuration>
+              <mainClass>setback.application.client.SetbackVertxClient</mainClass>
+              <attachToBuild>true</attachToBuild>
+              <classifier>onejar</classifier>
+              <filename>setbackClient.jar</filename>
+            </configuration>
+            <goals>
+              <goal>one-jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>onejar-maven-plugin.googlecode.com</id>
+      <url>http://onejar-maven-plugin.googlecode.com/svn/mavenrepo</url>
+    </pluginRepository>
+  </pluginRepositories>
+
   <dependencies>
   	<dependency>
   		<groupId>io.vertx</groupId>
