@@ -7,7 +7,7 @@ package setback.application.server;
 import java.util.List;
 
 import setback.application.command.Command;
-import setback.application.command.CommandMessage;
+import setback.application.command.CommandMessageJson;
 import setback.common.PlayerNumber;
 import setback.common.SetbackException;
 import setback.game.SetbackGameController;
@@ -45,25 +45,25 @@ public class PlayerController {
 	}
 
 	/**
-	 * This function takes in a CommandMessage,
+	 * This function takes in a CommandMessageJson,
 	 * checks that the message is valid, and
-	 * executes the command on the game stored
+	 * executes the commandMessageJson on the game stored
 	 * in the PlayerController.
-	 * @param command The command to validate
+	 * @param commandMessageJson The commandMessageJson to validate
 	 * and execute.
 	 * @return A string indicating what occurred.
 	 * This string might be removed.
 	 */
-	public String processInput(CommandMessage command) {
+	public String processInput(CommandMessageJson commandMessageJson) {
 		String returnString;
 
-		if (command == null) {
+		if (commandMessageJson == null) {
 			returnString = "No command";
 		}
 		else {
 			try {
 				// Request players
-				if (command.getCommand().equals(Command.REQUEST_PLAYER_ONE)) {
+				if (commandMessageJson.getCommand().equals(Command.REQUEST_PLAYER_ONE)) {
 					if (myNumber == null) {
 						if (game.requestPlayerNumber(PlayerNumber.PLAYER_ONE)) {
 							myNumber = PlayerNumber.PLAYER_ONE;
@@ -81,7 +81,7 @@ public class PlayerController {
 						returnString = "Player one rejected";
 					}
 				}
-				else if (command.getCommand().equals(Command.REQUEST_PLAYER_TWO)) {
+				else if (commandMessageJson.getCommand().equals(Command.REQUEST_PLAYER_TWO)) {
 					if (myNumber == null) {
 						if (game.requestPlayerNumber(PlayerNumber.PLAYER_TWO)) {
 							myNumber = PlayerNumber.PLAYER_TWO;
@@ -99,7 +99,7 @@ public class PlayerController {
 						returnString = "Player two rejected";
 					}
 				}
-				else if (command.getCommand().equals(Command.REQUEST_PLAYER_THREE)) {
+				else if (commandMessageJson.getCommand().equals(Command.REQUEST_PLAYER_THREE)) {
 					if (myNumber == null) {
 						if (game.requestPlayerNumber(PlayerNumber.PLAYER_THREE)) {
 							myNumber = PlayerNumber.PLAYER_THREE;
@@ -117,7 +117,7 @@ public class PlayerController {
 						returnString = "Player three rejected";
 					}
 				}
-				else if (command.getCommand().equals(Command.REQUEST_PLAYER_FOUR)) {
+				else if (commandMessageJson.getCommand().equals(Command.REQUEST_PLAYER_FOUR)) {
 					if (myNumber == null) {
 						if (game.requestPlayerNumber(PlayerNumber.PLAYER_FOUR)) {
 							myNumber = PlayerNumber.PLAYER_FOUR;
@@ -136,8 +136,8 @@ public class PlayerController {
 					}
 				}
 				// Place bets
-				else if (command.getCommand().equals(Command.PLACE_BET)) {
-					final String betString = command.getArguments()[0];
+				else if (commandMessageJson.getCommand().equals(Command.PLACE_BET)) {
+					final String betString = commandMessageJson.getParameters().getString(0);
 					game.placeBet(myNumber, Bet.valueOf(betString));
 					returnString = myNumber.toString() + " BET " + betString;
 					if (game.checkAllBetsPlaced()) {
@@ -145,19 +145,19 @@ public class PlayerController {
 					}
 				}
 				// Select trump
-				else if (command.getCommand().equals(Command.SELECT_TRUMP)) {
-					final String suitString = command.getArguments()[0];
+				else if (commandMessageJson.getCommand().equals(Command.SELECT_TRUMP)) {
+					final String suitString = commandMessageJson.getParameters().getString(0);
 					game.selectTrump(myNumber, CardSuit.valueOf(suitString));
 					returnString = myNumber.toString() + " SELECTED " + suitString;
 				}
 				// Discard cards
-				else if (command.getCommand().equals(Command.DISCARD_CARDS)) {
-					final Card cardOne = Card.fromString(command.getArguments()[0]);
-					final Card cardTwo = Card.fromString(command.getArguments()[1]);
-					final Card cardThree = Card.fromString(command.getArguments()[2]);
+				else if (commandMessageJson.getCommand().equals(Command.DISCARD_CARDS)) {
+					final Card cardOne = Card.fromString(commandMessageJson.getParameters().getString(0));
+					final Card cardTwo = Card.fromString(commandMessageJson.getParameters().getString(1));
+					final Card cardThree = Card.fromString(commandMessageJson.getParameters().getString(2));
 					game.discardCards(myNumber, cardOne, cardTwo, cardThree);
 					// Discard the cards from my hand
-					final List<Card> myCards = myHand.getCards(); 
+					final List<Card> myCards = myHand.getCards();
 					myCards.remove(cardOne);
 					myCards.remove(cardTwo);
 					myCards.remove(cardThree);
@@ -170,8 +170,8 @@ public class PlayerController {
 					}
 				}
 				// Play cards
-				else if (command.getCommand().equals(Command.PLAY_CARD)) {
-					final Card card = Card.fromString(command.getArguments()[0]);
+				else if (commandMessageJson.getCommand().equals(Command.PLAY_CARD)) {
+					final Card card = Card.fromString(commandMessageJson.getParameters().getString(0));
 					game.playCard(card, myNumber);
 					// Discard the card from my hand
 					final List<Card> myCards = myHand.getCards(); 
@@ -195,7 +195,7 @@ public class PlayerController {
 					}
 				}
 				// Show hands
-				else if (command.getCommand().equals(Command.SHOW_HAND)) {
+				else if (commandMessageJson.getCommand().equals(Command.SHOW_HAND)) {
 					if (myHand == null) {
 						returnString = "You do not have a hand yet!";
 					}
@@ -204,7 +204,7 @@ public class PlayerController {
 					}
 				}
 				// Get current player
-				else if (command.getCommand().equals(Command.GET_CURRENT_PLAYER)) {
+				else if (commandMessageJson.getCommand().equals(Command.GET_CURRENT_PLAYER)) {
 					if (myHand == null) {
 						returnString = "There is no current player yet!";
 					}
@@ -213,22 +213,22 @@ public class PlayerController {
 					}
 				}
 				// Get winning bet
-				else if (command.getCommand().equals(Command.GET_WINNING_BET)) {
+				else if (commandMessageJson.getCommand().equals(Command.GET_WINNING_BET)) {
 					returnString = game.getWinningBet().toString();
 				}
 				// Get trump
-				else if (command.getCommand().equals(Command.GET_TRUMP)) {
+				else if (commandMessageJson.getCommand().equals(Command.GET_TRUMP)) {
 					returnString = game.getTrump().toString();
 				}
 				// Get Team one score
-				else if (command.getCommand().equals(Command.GET_TEAM_ONE_SCORE)) {
+				else if (commandMessageJson.getCommand().equals(Command.GET_TEAM_ONE_SCORE)) {
 					returnString = Integer.toString(game.getTeamOneScore());
 				}
-				else if (command.getCommand().equals(Command.GET_TEAM_TWO_SCORE)) {
+				else if (commandMessageJson.getCommand().equals(Command.GET_TEAM_TWO_SCORE)) {
 					returnString = Integer.toString(game.getTeamTwoScore());
 				}
 				// Exit
-				else if (command.getCommand().equals(Command.EXIT)) {
+				else if (commandMessageJson.getCommand().equals(Command.EXIT)) {
 					returnString = "EXIT";
 				}
 				else {

@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 
 import setback.application.SetbackObserver;
 import setback.application.command.CommandMessage;
+import setback.application.command.CommandMessageJson;
 import setback.application.command.CommandParser;
 import setback.application.socket.IOPair;
 import setback.common.SetbackException;
@@ -66,8 +67,12 @@ public class SetbackServerThread extends Thread implements SetbackObserver {
 
 			while ((inputLine = in.readLine()) != null) {
 				try {
+          // TODO: Shouldn't need to convert between CommandMessage and CommandMessageJson
 					inputCommand = parser.parseString(inputLine);
-					outputLine = controller.processInput(inputCommand);
+					CommandMessageJson commandMessageJson =
+							CommandMessageJson.constructCommandMessage(inputCommand.getCommand(),
+									inputCommand.getArguments());
+					outputLine = controller.processInput(commandMessageJson);
 				} catch (SetbackException se) {
 					outputLine = se.getMessage();
 				}
