@@ -8,14 +8,11 @@ import io.netty.util.internal.ConcurrentSet;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.eventbus.EventBus;
-import io.vertx.core.eventbus.Message;
-import setback.application.socket.SocketIOPair;
+import io.vertx.core.spi.cluster.ClusterManager;
 import setback.game.SetbackGameController;
 import setback.game.SetbackGameFactory;
-
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
+import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
+import com.hazelcast.config.Config;
 
 /**
  * This class functions as the server that the players' clients
@@ -51,7 +48,11 @@ public class SetbackVertxServer {
     game = SetbackGameFactory.getInstance().makeDeltaSetbackGame();
 
     // TODO: Default options
-    options = new VertxOptions().setClusterHost(HOST).setClusterPort(PORT);
+    ClusterManager mgr = new HazelcastClusterManager();
+    options = new VertxOptions()
+        .setClusterManager(mgr)
+        .setClusterHost(HOST)
+        .setClusterPort(PORT);
 
     Vertx.clusteredVertx(options, handler -> {
       if (handler.succeeded()) {
