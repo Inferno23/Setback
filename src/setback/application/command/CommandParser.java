@@ -9,8 +9,8 @@ import setback.common.SetbackException;
 /**
  * This class parses commands sent from the client to
  * the server threads.  It takes in Strings that are
- * based from CommandMessages, and converts them back
- * into CommandMessages.
+ * based from CommandMessageJsons, and converts them back
+ * into CommandMessageJsons.
  * @author Michael
  * @version Dec 26, 2013
  */
@@ -18,19 +18,19 @@ public class CommandParser {
 
 	/**
 	 * Function that takes in a String and converts
-	 * it back into a CommandMessage.
+	 * it back into a CommandMessageJson.
 	 * @param input The String to convert.
 	 * @throws SetbackException if an unknown string is
 	 * entered, or a Command has the wrong number of arguments. 
-	 * @return A CommandMessage parsed from the input string.
+	 * @return A CommandMessageJson parsed from the input string.
 	 */
-	public CommandMessage parseString(String input) throws SetbackException {
-		CommandMessage message;
+	public CommandMessageJson parseString(String input) throws SetbackException {
+		CommandMessageJson message;
 		final Command command;
 
 		// Check for null
 		if (input == null) {
-			message = new CommandMessage(Command.NO_COMMAND);
+			message = CommandMessageJson.constructCommandMessage(Command.NO_COMMAND);
 		}
 		// Parse the string
 		else {
@@ -41,7 +41,7 @@ public class CommandParser {
 				// Check if we should have zero arguments
 				if (argumentNumber == 0) {
 					if (array.length == 1) {
-						message = new CommandMessage(command);
+						message = CommandMessageJson.constructCommandMessage(command);
 					}
 					else {
 						throw new SetbackException("Too many arguments!");
@@ -50,7 +50,7 @@ public class CommandParser {
 				else if (argumentNumber == 1) {
 					if (array.length == 2) {
 						final String[] arguments = {array[1]};
-						message = new CommandMessage(command, arguments);
+						message = CommandMessageJson.constructCommandMessage(command, arguments);
 					}
 					else if (array.length < 2) {
 						throw new SetbackException("Too few arguments!");
@@ -63,7 +63,7 @@ public class CommandParser {
 				else {
 					if (array.length == 4) {
 						final String[] arguments = {array[1], array[2], array[3]};
-						message = new CommandMessage(command, arguments);
+						message = CommandMessageJson.constructCommandMessage(command, arguments);
 					}
 					else if (array.length < 4) {
 						throw new SetbackException("Too few arguments!");

@@ -4,18 +4,17 @@
  */
 package setback.application.server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-
 import setback.application.SetbackObserver;
-import setback.application.command.CommandMessage;
 import setback.application.command.CommandMessageJson;
 import setback.application.command.CommandParser;
 import setback.application.socket.IOPair;
 import setback.common.SetbackException;
 import setback.game.SetbackGameController;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 
 /**
  * This is the thread that the server spawns.  It is associated
@@ -60,18 +59,15 @@ public class SetbackServerThread extends Thread implements SetbackObserver {
 					new InputStreamReader(pair.in()));
 
 			String inputLine, outputLine;
-			CommandMessage inputCommand;
 
 			outputLine = null;
 			out.println(outputLine);
 
 			while ((inputLine = in.readLine()) != null) {
 				try {
-          // TODO: Shouldn't need to convert between CommandMessage and CommandMessageJson
-					inputCommand = parser.parseString(inputLine);
+          // TODO: Shouldn't need to use the Parser to make a CommandMessageJson
 					CommandMessageJson commandMessageJson =
-							CommandMessageJson.constructCommandMessage(inputCommand.getCommand(),
-									inputCommand.getArguments());
+              parser.parseString(inputLine);
 					outputLine = controller.processInput(commandMessageJson);
 				} catch (SetbackException se) {
 					outputLine = se.getMessage();
