@@ -15,6 +15,26 @@ public class CommandMessageJson extends JsonObject {
   private final String COMMAND = "COMMAND";
   private final String PARAMETERS = "PARAMETERS";
 
+  // Constructors
+
+  /**
+   * Empty constructor for a CommandMessageJson.
+   * Just uses the base JsonObject constructor.
+   */
+  public CommandMessageJson() {
+    super();
+  }
+
+  /**
+   * Contructor for a CommandMessageJson which
+   * takes in an input String.  Used to deserialize
+   * after messages are sent.
+   * @param input The serialized contents of a CommandMessageJson.
+   */
+  public CommandMessageJson(String input) {
+    super(input);
+  }
+
   // Getters/Setters
 
   /**

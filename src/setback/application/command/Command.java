@@ -36,7 +36,7 @@ public enum Command {
 	 * @param numberOfArguments The number of additional
 	 * arguments the command requires
 	 */
-	private Command(int numberOfArguments) {
+	Command(int numberOfArguments) {
 		this.numberOfArguments = numberOfArguments;
 	}
 
