@@ -13,9 +13,13 @@ import setback.common.PlayerNumber;
  */
 public interface SetbackClientController {
 
+  // TODO: Rewrite this
   void setPlayerNumbersFromString(String input);
 
+  // TODO: Remove this and replace with individual commands
   String userInput(String input);
+
+  // Getters for the players
 
   /**
    * @return The player's number.
@@ -36,4 +40,8 @@ public interface SetbackClientController {
    * @return The number of the player to the right.
    */
   PlayerNumber getRight();
+
+  // Actual methods to send
+
+  String requestPlayer(PlayerNumber playerNumber);
 }

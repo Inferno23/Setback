@@ -4,14 +4,11 @@
  */
 package setback.application.views;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-
 import setback.application.client.SetbackClientController;
+import setback.common.PlayerNumber;
+
+import javax.swing.*;
+import java.awt.event.ActionListener;
 
 /**
  * This class is the GUI for Player Selection.
@@ -55,54 +52,22 @@ public class PlayerSelectView extends SetbackClientView {
 		// Player One Button
 		playerOneButton = new JButton("Player One");
 		playerOneButton.setBounds(GUI_PLAYER_SELECT_LEFT_COLUMN_X, GUI_PLAYER_SELECT_TOP_ROW_Y, GUI_PLAYER_SELECT_BUTTON_WIDTH, GUI_PLAYER_SELECT_BUTTON_HEIGHT);
-		playerOneButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				final String response = controller.userInput("REQUEST_PLAYER_ONE");
-				view = update(response);
-				if (response.endsWith("rejected")) {
-					errorLabel.setVisible(true);
-				}
-			}
-		});
+		playerOneButton.addActionListener(createPlayerRequestListener(PlayerNumber.PLAYER_ONE));
 		frame.getContentPane().add(playerOneButton);
 		// Player Two Button
 		playerTwoButton = new JButton("Player Two");
 		playerTwoButton.setBounds(GUI_PLAYER_SELECT_RIGHT_COLUMN_X, GUI_PLAYER_SELECT_TOP_ROW_Y, GUI_PLAYER_SELECT_BUTTON_WIDTH, GUI_PLAYER_SELECT_BUTTON_HEIGHT);
-		playerTwoButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				final String response = controller.userInput("REQUEST_PLAYER_TWO");
-				view = update(response);
-				if (response.endsWith("rejected")) {
-					errorLabel.setVisible(true);
-				}
-			}
-		});
+		playerTwoButton.addActionListener(createPlayerRequestListener(PlayerNumber.PLAYER_TWO));
 		frame.getContentPane().add(playerTwoButton);
 		// Player Three Button
 		playerThreeButton = new JButton("Player Three");
 		playerThreeButton.setBounds(GUI_PLAYER_SELECT_LEFT_COLUMN_X, GUI_PLAYER_SELECT_BOTTOM_ROW_Y, GUI_PLAYER_SELECT_BUTTON_WIDTH, GUI_PLAYER_SELECT_BUTTON_HEIGHT);
-		playerThreeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				final String response = controller.userInput("REQUEST_PLAYER_THREE");
-				view = update(response);
-				if (response.endsWith("rejected")) {
-					errorLabel.setVisible(true);
-				}
-			}
-		});
+		playerThreeButton.addActionListener(createPlayerRequestListener(PlayerNumber.PLAYER_THREE));
 		frame.getContentPane().add(playerThreeButton);
 		// Player Four Button
 		playerFourButton = new JButton("Player Four");
 		playerFourButton.setBounds(GUI_PLAYER_SELECT_RIGHT_COLUMN_X, GUI_PLAYER_SELECT_BOTTOM_ROW_Y, GUI_PLAYER_SELECT_BUTTON_WIDTH, GUI_PLAYER_SELECT_BUTTON_HEIGHT);
-		playerFourButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				final String response = controller.userInput("REQUEST_PLAYER_FOUR");
-				view = update(response);
-				if (response.endsWith("rejected")) {
-					errorLabel.setVisible(true);
-				}
-			}
-		});
+		playerFourButton.addActionListener(createPlayerRequestListener(PlayerNumber.PLAYER_FOUR));
 		frame.getContentPane().add(playerFourButton);
 		// Team One Label
 		final String teamOneString = "Team One";
@@ -124,4 +89,20 @@ public class PlayerSelectView extends SetbackClientView {
 		frame.getContentPane().add(errorLabel);
 		errorLabel.setVisible(false);
 	}
+
+  /**
+   * Helper method to create the action listener for the
+   * player request buttons.
+   * @param playerNumber The player number to request.
+   * @return The listener for the button.
+   */
+  private ActionListener createPlayerRequestListener(PlayerNumber playerNumber) {
+    return listener -> {
+      final String response = controller.requestPlayer(playerNumber);
+      view = update(response);
+      if (response.endsWith("rejected")) {
+        errorLabel.setVisible(true);
+      }
+    };
+  }
 }

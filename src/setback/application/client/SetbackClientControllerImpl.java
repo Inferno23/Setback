@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 import setback.application.socket.IOPair;
 import setback.application.views.PlayerSelectView;
 import setback.common.PlayerNumber;
+import setback.common.SetbackException;
+import setback.common.SetbackRuntimeException;
 
 /**
  * This is the brain of the SetbackClient.
@@ -98,7 +100,23 @@ public class SetbackClientControllerImpl extends SetbackClientControllerSkeleton
 		return returnString;
 	}
 
-	/**
+  @Override
+  public String requestPlayer(PlayerNumber playerNumber) {
+    switch (playerNumber) {
+      case PLAYER_ONE:
+        return userInput("REQUEST_PLAYER_ONE");
+      case PLAYER_TWO:
+        return userInput("REQUEST_PLAYER_TWO");
+      case PLAYER_THREE:
+        return userInput("REQUEST_PLAYER_THREE");
+      case PLAYER_FOUR:
+        return userInput("REQUEST_PLAYER_FOUR");
+      default:
+        throw new SetbackRuntimeException("Invalid player number requested.");
+    }
+  }
+
+  /**
 	 * This function sets the appropriate
 	 * PlayerNumbers for the controller, and
 	 * the left, center, and right.

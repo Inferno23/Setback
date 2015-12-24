@@ -8,6 +8,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
+import setback.common.PlayerNumber;
 
 /**
  * This class is the brains behind the SetbackClient using vertx.
@@ -43,15 +44,6 @@ public class SetbackVertxClientControllerImpl extends SetbackClientControllerSke
     });
   }
 
-  // TODO: Need methods for each command.
-
-  public void requestPlayerNumber(int playerNumber, Handler<AsyncResult<Boolean>> handler) {
-    // TODO: Channel, request, handler
-    eventBus.send("REQUEST_PLAYER_CHANNEL", "REQUEST_PLAYER_ONE", sendHandler -> {
-      // TODO: Do some stuff
-    });
-  }
-
   @Override
   public void setPlayerNumbersFromString(String input) {
     // TODO: Implement me.
@@ -59,6 +51,12 @@ public class SetbackVertxClientControllerImpl extends SetbackClientControllerSke
 
   @Override
   public String userInput(String input) {
+    // TODO: Implement me.
+    return null;
+  }
+
+  @Override
+  public String requestPlayer(PlayerNumber playerNumber) {
     // TODO: Implement me.
     return null;
   }
