@@ -7,6 +7,7 @@ package setback.application.server;
 import setback.common.PlayerNumber;
 import setback.game.SetbackGameController;
 import setback.game.common.Hand;
+import setback.game.version.SetbackMultiplayerGame;
 
 /**
  * This class subclasses the real PlayerController, but has getters
@@ -24,7 +25,7 @@ public class PlayerControllerMock extends PlayerController {
 	/* (non-Javadoc)
 	 * @see setback.application.server.PlayerController#PlayerController()
 	 */
-	public PlayerControllerMock(SetbackGameController game) {
+	public PlayerControllerMock(SetbackMultiplayerGame game) {
 		super(game);
 		status = null;
 	}

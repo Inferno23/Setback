@@ -4,6 +4,7 @@
  */
 package setback.game;
 
+import setback.game.version.SetbackMultiplayerGame;
 import setback.game.version.alpha.AlphaSetbackGameImpl;
 import setback.game.version.beta.BetaSetbackGameImpl;
 import setback.game.version.delta.DeltaSetbackGameImpl;
@@ -75,4 +76,22 @@ public class SetbackGameFactory {
 	public SetbackGameController makeDeltaSetbackGame(long seed) {
 		return new DeltaSetbackGameImpl(seed);
 	}
+
+  /**
+   * Create the most up to date Multiplayer Setback game.
+   * @return The created Setback game.
+   */
+	public SetbackMultiplayerGame makeSetbackMultiplayerGame() {
+    return (SetbackMultiplayerGame) makeDeltaSetbackGame();
+  }
+
+  /**
+   * Create the most up to date Multiplayer Setback game.
+   * @param seed The seed for the random number
+   *             generator in the dealer.
+   * @return The created Setback game.
+   */
+  public SetbackMultiplayerGame makeSetbackMultiplayerGame(long seed) {
+    return (SetbackMultiplayerGame) makeDeltaSetbackGame(seed);
+  }
 }

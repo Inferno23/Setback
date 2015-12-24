@@ -4,13 +4,14 @@
  */
 package setback.application.server;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-
 import setback.application.socket.SocketIOPair;
 import setback.game.SetbackGameController;
 import setback.game.SetbackGameFactory;
+import setback.game.version.SetbackMultiplayerGame;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 /**
  * This class functions as the server that the players' clients
@@ -37,7 +38,7 @@ public class SetbackServer {
 	 * @throws IOException If the server cannot accept connections.
 	 */
 	public static void main(String[] args) throws IOException {
-		final SetbackGameController game;
+		final SetbackMultiplayerGame game;
 		final int portNumber;
 		final ServerSocket serverSocket;
 		int currentConnections;
@@ -67,17 +68,17 @@ public class SetbackServer {
 	 * @param debug The debug string.  True if in debug, null or false if retail.
 	 * @return The SetbackGameController to be played.
 	 */
-	public static SetbackGameController makeGame(String debug) {
-		final SetbackGameController game;
+	public static SetbackMultiplayerGame makeGame(String debug) {
+		final SetbackMultiplayerGame game;
 		final SetbackGameFactory factory = SetbackGameFactory.getInstance();
 		
 		if (debug != null && debug.equals("true")) {
 			System.out.println("DEBUG");
-			game = factory.makeDeltaSetbackGame(0);
+			game = factory.makeSetbackMultiplayerGame();
 		}
 		else {
 			System.out.println("RETAIL");
-			game = factory.makeDeltaSetbackGame();
+			game = factory.makeSetbackMultiplayerGame();
 		}
 	
 		return game;

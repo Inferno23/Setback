@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 
 import setback.application.socket.IOPair;
 import setback.game.SetbackGameController;
+import setback.game.version.SetbackMultiplayerGame;
 
 /**
  * This class subclasses the real SetbackServerThread, but has getters
@@ -20,7 +21,7 @@ public class SetbackServerThreadMock extends SetbackServerThread {
 	/* (non-Javadoc)
 	 * @see setback.application.server.SetbackServerThread#SetbackServerThread()
 	 */
-	public SetbackServerThreadMock(IOPair pair, SetbackGameController game) {
+	public SetbackServerThreadMock(IOPair pair, SetbackMultiplayerGame game) {
 		super(pair, game);
 		controller = new PlayerControllerMock(game);
 	}

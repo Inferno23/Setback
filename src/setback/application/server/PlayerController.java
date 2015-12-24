@@ -4,42 +4,36 @@
  */
 package setback.application.server;
 
-import java.util.List;
-
 import setback.application.command.Command;
 import setback.application.command.CommandMessageJson;
 import setback.common.PlayerNumber;
 import setback.common.SetbackException;
-import setback.game.SetbackGameController;
-import setback.game.common.Bet;
-import setback.game.common.Card;
-import setback.game.common.CardPlayerDescriptor;
-import setback.game.common.CardSuit;
-import setback.game.common.Hand;
-import setback.game.common.RoundResult;
-import setback.game.common.RoundResultStatus;
+import setback.game.common.*;
+import setback.game.version.SetbackMultiplayerGame;
+
+import java.util.List;
 
 /**
  * This class is the controller that a player interacts with.
  * Each player has a PlayerController, and each PlayerController
- * shares the same SetbackGameController.
+ * shares the same SetbackMultiplayerGame.
  * @author Michael
  * @version Dec 27, 2013
  */
 public class PlayerController {
 
-	protected final SetbackGameController game;
+	protected final SetbackMultiplayerGame game;
 	protected PlayerNumber myNumber;
 	protected Hand myHand;
 
 	/**
 	 * Constructor for a PlayerController.  It takes in
-	 * the shared SetbackGameController that is being
+	 * the shared SetbackMultiplayerGame that is being
 	 * played.
-	 * @param game The shared SetbackGameController that
+	 * @param game The shared SetbackMultiplayerGame that
 	 * all of the PlayerControllers will act upon.
 	 */
-	public PlayerController(SetbackGameController game) {
+	public PlayerController(SetbackMultiplayerGame game) {
 		this.game = game;
 		myNumber = null;
 	}

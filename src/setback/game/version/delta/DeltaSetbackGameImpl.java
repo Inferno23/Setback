@@ -18,8 +18,7 @@ import setback.game.version.gamma.GammaBetController;
  * @author Michael
  * @version Dec 21, 2013
  */
-public class DeltaSetbackGameImpl extends SetbackGameObservableImpl implements
-	SetbackGameController {
+public class DeltaSetbackGameImpl extends SetbackGameObservableImpl {
 
 	/**
 	 * Constructor for a DeltaSetbackGameImpl that takes in a seed

@@ -14,6 +14,7 @@ import setback.game.SetbackGameFactory;
 import setback.game.common.Card;
 import setback.game.common.CardSuit;
 import setback.game.common.CardType;
+import setback.game.version.SetbackMultiplayerGame;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -26,7 +27,7 @@ import static org.junit.Assert.assertTrue;
 public class PlayerControllerTest {
 
 	private SetbackGameFactory factory;
-	private SetbackGameController game;
+	private SetbackMultiplayerGame game;
 	private PlayerController controllerOne;
 	private PlayerController controllerTwo;
 	private PlayerController controllerThree;
@@ -35,7 +36,7 @@ public class PlayerControllerTest {
 	@Before
 	public void setup() {
 		factory = SetbackGameFactory.getInstance();
-		game = factory.makeDeltaSetbackGame(0);
+		game = factory.makeSetbackMultiplayerGame(0);
 		controllerOne = new PlayerController(game);
 		controllerTwo = new PlayerController(game);
 		controllerThree = new PlayerController(game);
