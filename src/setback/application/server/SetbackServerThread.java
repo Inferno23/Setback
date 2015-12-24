@@ -10,6 +10,7 @@ import setback.application.command.CommandParser;
 import setback.application.socket.IOPair;
 import setback.common.SetbackException;
 import setback.game.SetbackGameController;
+import setback.game.version.SetbackMultiplayerGame;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,7 +40,7 @@ public class SetbackServerThread extends Thread implements SetbackObserver {
 	 * @param game The SetbackGameController that is
 	 * being shared by the four players.
 	 */
-	public SetbackServerThread(IOPair pair, SetbackGameController game) {
+	public SetbackServerThread(IOPair pair, SetbackMultiplayerGame game) {
 		super("SetbackServerThread");
 		this.pair = pair;
 		game.addObserver(this);

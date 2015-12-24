@@ -9,8 +9,6 @@ import java.util.List;
 import setback.application.SetbackObserver;
 import setback.common.PlayerNumber;
 import setback.common.SetbackException;
-import setback.game.SetbackGameController;
-import setback.game.SetbackGameObservable;
 import setback.game.common.Bet;
 import setback.game.common.Card;
 import setback.game.common.CardPlayerDescriptor;
@@ -27,7 +25,7 @@ import setback.game.common.TrickResult;
  */
 public abstract class SetbackGameObservableImpl
 		extends SetbackGameControllerSkeleton
-		implements SetbackGameController, SetbackGameObservable {
+		implements SetbackMultiplayerGame {
 
 	/**
 	 * This is the list of observers to notify.
