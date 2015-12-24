@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import setback.application.SetbackObserver;
 import setback.game.SetbackGameController;
-import setback.game.version.SetbackGameControllerObservable;
+import setback.game.version.SetbackGameObservableImpl;
 
 /**
  * The implementation of SetbackGameController for the Alpha version.
@@ -17,12 +17,12 @@ import setback.game.version.SetbackGameControllerObservable;
  * @author Michael Burns
  * @version Oct 17, 2013
  */
-public class AlphaSetbackGame  extends SetbackGameControllerObservable implements SetbackGameController {
+public class AlphaSetbackGameImpl extends SetbackGameObservableImpl implements SetbackGameController {
 
 	/**
-	 * Constructor for an AlphaSetbackGame.  Initializes the state variables.
+	 * Constructor for an AlphaSetbackGameImpl.  Initializes the state variables.
 	 */
-	public AlphaSetbackGame() {
+	public AlphaSetbackGameImpl() {
 		gameStarted = false;
 		roundStarted = false;
 		bettingResolved = false;

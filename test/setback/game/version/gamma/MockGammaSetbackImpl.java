@@ -13,12 +13,12 @@ import setback.game.common.Hand;
 import setback.game.common.TrickResult;
 
 /**
- * This is a mock of the GammaSetbackGame.
+ * This is a mock of the GammaSetbackGameImpl.
  * It is being used for end of game testing.
  * @author Michael Burns
  * @version Nov 7, 2013
  */
-public class MockGammaSetbackController extends GammaSetbackGame implements
+public class MockGammaSetbackImpl extends GammaSetbackGameImpl implements
 		SetbackGameController {
 
 	/**
@@ -27,7 +27,7 @@ public class MockGammaSetbackController extends GammaSetbackGame implements
 	 * @param teamOneScore The initial score for team one.
 	 * @param teamTwoScore The initial score for team two.
 	 */
-	public MockGammaSetbackController(int teamOneScore, int teamTwoScore) {
+	public MockGammaSetbackImpl(int teamOneScore, int teamTwoScore) {
 		this.teamOneScore = teamOneScore;
 		this.teamTwoScore = teamTwoScore;
 	}

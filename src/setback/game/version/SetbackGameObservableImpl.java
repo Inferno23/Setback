@@ -10,6 +10,7 @@ import setback.application.SetbackObserver;
 import setback.common.PlayerNumber;
 import setback.common.SetbackException;
 import setback.game.SetbackGameController;
+import setback.game.SetbackGameObservable;
 import setback.game.common.Bet;
 import setback.game.common.Card;
 import setback.game.common.CardPlayerDescriptor;
@@ -24,8 +25,9 @@ import setback.game.common.TrickResult;
  * @author Michael Burns
  * @version Nov 28, 2014
  */
-public abstract class SetbackGameControllerObservable extends
-		SetbackGameControllerSkeleton implements SetbackGameController {
+public abstract class SetbackGameObservableImpl
+		extends SetbackGameControllerSkeleton
+		implements SetbackGameController, SetbackGameObservable {
 
 	/**
 	 * This is the list of observers to notify.

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import setback.application.SetbackObserver;
 import setback.game.SetbackGameController;
-import setback.game.version.SetbackGameControllerObservable;
+import setback.game.version.SetbackGameObservableImpl;
 import setback.game.version.gamma.GammaBetController;
 
 /**
@@ -18,17 +18,17 @@ import setback.game.version.gamma.GammaBetController;
  * @author Michael
  * @version Dec 21, 2013
  */
-public class DeltaSetbackGame extends SetbackGameControllerObservable implements
+public class DeltaSetbackGameImpl extends SetbackGameObservableImpl implements
 	SetbackGameController {
 
 	/**
-	 * Constructor for a DeltaSetbackGame that takes in a seed
+	 * Constructor for a DeltaSetbackGameImpl that takes in a seed
 	 * to be used with the random number generator in the
 	 * card dealer.
 	 * @param seed The seed for the random number generator
 	 * in the card dealer.
 	 */
-	public DeltaSetbackGame(long seed) {
+	public DeltaSetbackGameImpl(long seed) {
 		gameStarted = false;
 		roundStarted = false;
 		bettingResolved = false;

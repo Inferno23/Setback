@@ -4,10 +4,10 @@
  */
 package setback.game;
 
-import setback.game.version.alpha.AlphaSetbackGame;
-import setback.game.version.beta.BetaSetbackGame;
-import setback.game.version.delta.DeltaSetbackGame;
-import setback.game.version.gamma.GammaSetbackGame;
+import setback.game.version.alpha.AlphaSetbackGameImpl;
+import setback.game.version.beta.BetaSetbackGameImpl;
+import setback.game.version.delta.DeltaSetbackGameImpl;
+import setback.game.version.gamma.GammaSetbackGameImpl;
 
 /**
  * Factory to produce various versions of the Setback Game.
@@ -39,7 +39,7 @@ public class SetbackGameFactory {
 	 * @return The created Alpha Setback game.
 	 */
 	public SetbackGameController makeAlphaSetbackGame() {
-		return new AlphaSetbackGame();
+		return new AlphaSetbackGameImpl();
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class SetbackGameFactory {
 	 * @return The created Beta Setback game.
 	 */
 	public SetbackGameController makeBetaSetbackGame() {
-		return new BetaSetbackGame();
+		return new BetaSetbackGameImpl();
 	}
 	
 	/**
@@ -55,7 +55,7 @@ public class SetbackGameFactory {
 	 * @return The created Gamma Setback game.
 	 */
 	public SetbackGameController makeGammaSetbackGame() {
-		return new GammaSetbackGame();
+		return new GammaSetbackGameImpl();
 	}
 	
 	/**
@@ -63,7 +63,7 @@ public class SetbackGameFactory {
 	 * @return The created Delta Setback game.
 	 */
 	public SetbackGameController makeDeltaSetbackGame() {
-		return new DeltaSetbackGame(System.currentTimeMillis());
+		return new DeltaSetbackGameImpl(System.currentTimeMillis());
 	}
 	
 	/**
@@ -73,6 +73,6 @@ public class SetbackGameFactory {
 	 * @return The created Delta Setback game.
 	 */
 	public SetbackGameController makeDeltaSetbackGame(long seed) {
-		return new DeltaSetbackGame(seed);
+		return new DeltaSetbackGameImpl(seed);
 	}
 }

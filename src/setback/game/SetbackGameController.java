@@ -81,7 +81,7 @@ public interface SetbackGameController {
 	 * @param cardThree The third card to discard.
 	 * @throws SetbackException If a player attempts to discard a card
 	 * that is not currently in their hand.
-	 * @since DeltaSetbackGame
+	 * @since DeltaSetbackGameImpl
 	 */
 	void discardCards(PlayerNumber player, Card cardOne, Card cardTwo, Card cardThree) throws SetbackException;
 	
@@ -207,30 +207,7 @@ public interface SetbackGameController {
 	 * @return The trump suit.
 	 */
 	CardSuit getTrump();
-	
-	//////////////////////////////////////////
-	// These functions are for observers    //
-	//////////////////////////////////////////
-	
-	/**
-	 * Adds an observer to the set of observers for this object.
-	 * @param observer The observer to add.
-	 */
-	void addObserver(SetbackObserver observer);
-	
-	/**
-	 * Notify all of the observers that a change has been made.
-	 * @param message The message to tell the Observers.
-	 */
-	void notifyObservers(String message);
-	
-	/**
-	 * This function gets the hand of the specified player.
-	 * @param player The player whose hand should be returned.
-	 * @return The specified player's hand.
-	 */
-	Hand getPlayerHand(PlayerNumber player);
-	
+
 	//////////////////////////////////////////
 	// These functions can happen any time. //
 	//////////////////////////////////////////

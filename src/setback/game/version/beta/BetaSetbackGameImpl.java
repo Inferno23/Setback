@@ -2,29 +2,29 @@
  * This file was developed for fun by Michael Burns for a private
  * implementation of the card game Setback, also known as Pitch.
  */
-package setback.game.version.gamma;
+package setback.game.version.beta;
 
 import java.util.ArrayList;
 
 import setback.application.SetbackObserver;
 import setback.game.SetbackGameController;
-import setback.game.version.SetbackGameControllerObservable;
-import setback.game.version.beta.BetaCardDealerController;
+import setback.game.version.SetbackGameObservableImpl;
+import setback.game.version.alpha.DummyBetController;
 
 /**
- * The implementation of SetbackGameController for the Gamma version.
+ * The implementation of SetbackGameController for the Beta version.
  * This version consists of a single round with four tricks.
- * Actual betting is implemented in this version.
+ * Player One always begins the round, spades are always trump.
  * @author Michael Burns
- * @version Oct 30, 2013
+ * @version Oct 21, 2013
  */
-public class GammaSetbackGame extends SetbackGameControllerObservable implements
+public class BetaSetbackGameImpl extends SetbackGameObservableImpl implements
 		SetbackGameController {
-
+	
 	/**
-	 * Constructor for a GammaSetbackGame.  Initializes the state variables.
+	 * Constructor for a BetaSetbackGameImpl.  Initializes the state variables.
 	 */
-	public GammaSetbackGame() {
+	public BetaSetbackGameImpl() {
 		gameStarted = false;
 		roundStarted = false;
 		bettingResolved = false;
@@ -32,7 +32,7 @@ public class GammaSetbackGame extends SetbackGameControllerObservable implements
 		discardingResolved = false;
 		trickStarted = false;
 		dealerController = new BetaCardDealerController();
-		betController = new GammaBetController();
+		betController = new DummyBetController();
 		discardingIgnored = true;
 		observers = new ArrayList<SetbackObserver>();
 	}

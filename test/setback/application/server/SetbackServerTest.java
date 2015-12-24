@@ -14,7 +14,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import setback.game.SetbackGameController;
-import setback.game.version.delta.DeltaSetbackGame;
+import setback.game.version.delta.DeltaSetbackGameImpl;
 
 /**
  * This class is to test the SetbackServer.  It will prove that
@@ -30,21 +30,21 @@ public class SetbackServerTest {
 	public void createRetailGameNullDebugTest() {
 		final String debug = null;
 		final SetbackGameController game = SetbackServer.makeGame(debug);
-		assertEquals(DeltaSetbackGame.class, game.getClass());
+		assertEquals(DeltaSetbackGameImpl.class, game.getClass());
 	}
 	
 	@Test
 	public void createRetailGameFalseDebugTest() {
 		final String debug = "false";
 		final SetbackGameController game = SetbackServer.makeGame(debug);
-		assertEquals(DeltaSetbackGame.class, game.getClass());
+		assertEquals(DeltaSetbackGameImpl.class, game.getClass());
 	}
 	
 	@Test
 	public void createDebugGameTest() {
 		final String debug = "true";
 		final SetbackGameController game = SetbackServer.makeGame(debug);
-		assertEquals(DeltaSetbackGame.class, game.getClass());
+		assertEquals(DeltaSetbackGameImpl.class, game.getClass());
 	}
 	
 	@Test

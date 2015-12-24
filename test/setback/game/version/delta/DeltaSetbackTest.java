@@ -201,7 +201,7 @@ public class DeltaSetbackTest {
 	@Test
 	public void testRandomlySeededDeltaSetback() throws SetbackException {
 		game = factory.makeDeltaSetbackGame();
-		assertEquals(DeltaSetbackGame.class, game.getClass());
+		assertEquals(DeltaSetbackGameImpl.class, game.getClass());
 	}
 	
 	/**
