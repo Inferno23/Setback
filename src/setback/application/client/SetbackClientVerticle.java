@@ -5,7 +5,6 @@
 package setback.application.client;
 
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Vertx;
 
 /**
  * This class functions as the client that a player will run
@@ -22,6 +21,6 @@ public class SetbackClientVerticle extends AbstractVerticle {
 
   @Override
   public void start() {
-    controller = new SetbackVertxClientController(vertx);
+    controller = new SetbackVertxClientControllerImpl(vertx);
   }
 }

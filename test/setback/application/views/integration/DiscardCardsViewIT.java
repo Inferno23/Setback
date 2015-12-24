@@ -17,7 +17,7 @@ import javax.swing.JFrame;
 import org.junit.Before;
 import org.junit.Test;
 
-import setback.application.client.SetbackClientControllerMock;
+import setback.application.client.SetbackClientControllerImplMock;
 import setback.common.PlayerNumber;
 
 /**
@@ -30,7 +30,7 @@ import setback.common.PlayerNumber;
 public class DiscardCardsViewIT {
 	
 	private DiscardCardsView view;
-	private SetbackClientControllerMock controller;
+	private SetbackClientControllerImplMock controller;
 	private JFrame frame;
 	
 	@Before
@@ -40,7 +40,7 @@ public class DiscardCardsViewIT {
 	
 	@Test
 	public void trumpLabelTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		view = new DiscardCardsView(controller, frame);
 		assertTrue(view.trumpLabel.isVisible());
 		assertEquals("TRUMP IS SPADES", view.trumpLabel.getText());
@@ -48,7 +48,7 @@ public class DiscardCardsViewIT {
 
 	@Test
 	public void selectOneCardTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		view = new DiscardCardsView(controller, frame);
 		MouseListener[] cardOneListeners = view.cardOne.getMouseListeners();
 		cardOneListeners[0].mousePressed(null);
@@ -58,7 +58,7 @@ public class DiscardCardsViewIT {
 	
 	@Test
 	public void selectTwoCardsTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		view = new DiscardCardsView(controller, frame);
 		MouseListener[] cardOneListeners = view.cardOne.getMouseListeners();
 		cardOneListeners[0].mousePressed(null);
@@ -70,7 +70,7 @@ public class DiscardCardsViewIT {
 	
 	@Test
 	public void selectThreeCardsTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		view = new DiscardCardsView(controller, frame);
 		MouseListener[] cardOneListeners = view.cardOne.getMouseListeners();
 		cardOneListeners[0].mousePressed(null);
@@ -84,7 +84,7 @@ public class DiscardCardsViewIT {
 	
 	@Test
 	public void selectAndDeselectOneCardTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		view = new DiscardCardsView(controller, frame);
 		MouseListener[] cardOneListeners = view.cardOne.getMouseListeners();
 		cardOneListeners[0].mousePressed(null);
@@ -96,7 +96,7 @@ public class DiscardCardsViewIT {
 	
 	@Test
 	public void selectThreeAndDeselectOneCardTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		view = new DiscardCardsView(controller, frame);
 		MouseListener[] cardOneListeners = view.cardOne.getMouseListeners();
 		cardOneListeners[0].mousePressed(null);
@@ -112,7 +112,7 @@ public class DiscardCardsViewIT {
 	
 	@Test
 	public void discardWithoutTrickStartedTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		controller.discarded = true;
 		view = new DiscardCardsView(controller, frame);
 		MouseListener[] cardOneListeners = view.cardOne.getMouseListeners();
@@ -141,7 +141,7 @@ public class DiscardCardsViewIT {
 	
 	@Test
 	public void discardAndThenTrickStartedTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		controller.discarded = true;
 		controller.noCommandString = "TRICK STARTED";
 		view = new DiscardCardsView(controller, frame);
@@ -172,7 +172,7 @@ public class DiscardCardsViewIT {
 	
 	@Test
 	public void discardWithTrickStartedTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		controller.discarded = true;
 		controller.trickStarted = true;
 		view = new DiscardCardsView(controller, frame);

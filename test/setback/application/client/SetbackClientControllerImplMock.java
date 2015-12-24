@@ -10,13 +10,13 @@ import setback.game.common.Bet;
 import setback.game.common.BetResult;
 
 /**
- * This class subclasses the real SetbackClientController, but has getters
+ * This class subclasses the real SetbackClientControllerImpl, but has getters
  * in order to do testing.  Additionally, it fakes out the userInput method
  * so it can provide responses without needed a socket connection.
  * @author Michael Burns
  * @version May 25, 2014
  */
-public class SetbackClientControllerMock extends SetbackClientController {
+public class SetbackClientControllerImplMock extends SetbackClientControllerImpl {
 
 	public String noCommandString;
 	public boolean bettingResolved;
@@ -29,7 +29,7 @@ public class SetbackClientControllerMock extends SetbackClientController {
 	 * A constructor for the subclass which does not take in a socket,
 	 * because we do not want a real socket connection.
 	 */
-	public SetbackClientControllerMock() {
+	public SetbackClientControllerImplMock() {
 		// We do not want an actual socket for the mock
 		super(new MockIOPair(null));
 		noCommandString = "No command";
@@ -41,7 +41,7 @@ public class SetbackClientControllerMock extends SetbackClientController {
 	 * in PlayerNumbers for each player to test the player selection buttons.
 	 * @param myNumber The PlayerNumber for the player.
 	 */
-	public SetbackClientControllerMock(PlayerNumber myNumber) {
+	public SetbackClientControllerImplMock(PlayerNumber myNumber) {
 		// We do not want an actual socket for the mock
 		super(new MockIOPair(null));
 		// Set the given player numbers, which may be null.

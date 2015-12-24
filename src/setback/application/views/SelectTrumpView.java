@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
-import setback.application.client.ListenerEnum;
 import setback.application.client.SetbackClientController;
 import setback.common.PlayerNumber;
 
@@ -39,7 +38,7 @@ public class SelectTrumpView extends SetbackClientView {
 	/**
 	 * Create the GUI for selecting trump.  Just call the
 	 * super constructor.
-	 * @param controller  The SetbackClientController that
+	 * @param controller  The SetbackClientControllerImpl that
 	 * will handle all of the communication with the server.
 	 * @param frame The JFrame that the application runs in.
 	 */

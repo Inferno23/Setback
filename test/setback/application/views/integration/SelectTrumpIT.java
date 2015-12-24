@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import org.junit.Before;
 import org.junit.Test;
 
-import setback.application.client.SetbackClientControllerMock;
+import setback.application.client.SetbackClientControllerImplMock;
 import setback.common.PlayerNumber;
 
 /**
@@ -26,7 +26,7 @@ import setback.common.PlayerNumber;
 public class SelectTrumpIT {
 
 	private SelectTrumpView view;
-	private SetbackClientControllerMock controller;
+	private SetbackClientControllerImplMock controller;
 	private JFrame frame;
 	
 	@Before
@@ -36,7 +36,7 @@ public class SelectTrumpIT {
 	
 	@Test
 	public void winningBetLabelTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		view = new SelectTrumpView(controller, frame);
 		assertTrue(view.winningBet.isVisible());
 		assertEquals("PLAYER_TWO WON WITH A BET OF TWO", view.winningBet.getText());
@@ -44,7 +44,7 @@ public class SelectTrumpIT {
 	
 	@Test
 	public void buttonsForBetLosersTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		view = new SelectTrumpView(controller, frame);
 		assertTrue(view.spadesButton.isVisible());
 		assertFalse(view.spadesButton.isEnabled());
@@ -58,7 +58,7 @@ public class SelectTrumpIT {
 	
 	@Test
 	public void buttonsForBetWinnerTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_TWO);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_TWO);
 		view = new SelectTrumpView(controller, frame);
 		assertTrue(view.spadesButton.isVisible());
 		assertTrue(view.spadesButton.isEnabled());
@@ -72,7 +72,7 @@ public class SelectTrumpIT {
 	
 	@Test
 	public void clickSpadesTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_TWO);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_TWO);
 		view = new SelectTrumpView(controller, frame);
 		view.spadesButton.doClick();
 		assertEquals(DiscardCardsView.class, view.getView().getClass());
@@ -80,7 +80,7 @@ public class SelectTrumpIT {
 	
 	@Test
 	public void clickHeartsTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_TWO);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_TWO);
 		view = new SelectTrumpView(controller, frame);
 		view.heartsButton.doClick();
 		assertEquals(DiscardCardsView.class, view.getView().getClass());
@@ -88,7 +88,7 @@ public class SelectTrumpIT {
 	
 	@Test
 	public void clickClubsTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_TWO);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_TWO);
 		view = new SelectTrumpView(controller, frame);
 		view.clubsButton.doClick();
 		assertEquals(DiscardCardsView.class, view.getView().getClass());
@@ -96,7 +96,7 @@ public class SelectTrumpIT {
 	
 	@Test
 	public void clickDiamondsTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_TWO);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_TWO);
 		view = new SelectTrumpView(controller, frame);
 		view.diamondsButton.doClick();
 		assertEquals(DiscardCardsView.class, view.getView().getClass());
@@ -104,28 +104,28 @@ public class SelectTrumpIT {
 	
 	@Test
 	public void hearSpadesTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		controller.noCommandString = "PLAYER_TWO SELECTED SPADES";
 		view = new SelectTrumpView(controller, frame);
 	}
 	
 	@Test
 	public void hearHeartsTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		controller.noCommandString = "PLAYER_TWO SELECTED HEARTS";
 		view = new SelectTrumpView(controller, frame);
 	}
 	
 	@Test
 	public void hearClubsTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		controller.noCommandString = "PLAYER_TWO SELECTED CLUBS";
 		view = new SelectTrumpView(controller, frame);
 	}
 	
 	@Test
 	public void hearDiamondsTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		controller.noCommandString = "PLAYER_TWO SELECTED DIAMONDS";
 		view = new SelectTrumpView(controller, frame);
 	}

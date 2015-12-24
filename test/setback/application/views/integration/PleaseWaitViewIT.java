@@ -14,8 +14,8 @@ import javax.swing.JFrame;
 import org.junit.Before;
 import org.junit.Test;
 
-import setback.application.client.SetbackClientController;
-import setback.application.client.SetbackClientControllerMock;
+import setback.application.client.SetbackClientControllerImpl;
+import setback.application.client.SetbackClientControllerImplMock;
 import setback.common.PlayerNumber;
 
 /**
@@ -27,7 +27,7 @@ import setback.common.PlayerNumber;
 public class PleaseWaitViewIT {
 	
 	private PleaseWaitView view;
-	private SetbackClientController controller;
+	private SetbackClientControllerImpl controller;
 	private JFrame frame;
 	
 	@Before
@@ -37,7 +37,7 @@ public class PleaseWaitViewIT {
 	
 	@Test
 	public void pleaseWaitStringVisibleTest() {
-		controller = new SetbackClientControllerMock();
+		controller = new SetbackClientControllerImplMock();
 		view = new PleaseWaitView(controller, frame);
 		String text = view.pleaseWait.getText();
 		assertEquals("Please wait for other players", text);
@@ -46,7 +46,7 @@ public class PleaseWaitViewIT {
 	
 	@Test
 	public void pleaseWaitNoTransitionTest() {
-		controller = new SetbackClientControllerMock();
+		controller = new SetbackClientControllerImplMock();
 		view = new PleaseWaitView(controller, frame);
 		ActionListener listeners[] = view.connectionTimer.getActionListeners();
 		listeners[0].actionPerformed(null);
@@ -55,7 +55,7 @@ public class PleaseWaitViewIT {
 	
 	@Test
 	public void pleaseWaitToPlaceBetsTransistionTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		view = new PleaseWaitView(controller, frame);
 		ActionListener listeners[] = view.connectionTimer.getActionListeners();
 		listeners[0].actionPerformed(null);

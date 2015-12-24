@@ -26,7 +26,7 @@ public class PleaseWaitView extends SetbackClientView {
 	/**
 	 * Create the GUI for waiting for connections.
 	 * Just call the super constructor.
-	 * @param controller The SetbacClientControlle that
+	 * @param controller The SetbackClientController that
 	 * will handle all of the communication with the server.
 	 * @param frame The JFrame that the application runs in.
 	 */

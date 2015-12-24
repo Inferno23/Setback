@@ -13,8 +13,8 @@ import javax.swing.JFrame;
 import org.junit.Before;
 import org.junit.Test;
 
-import setback.application.client.SetbackClientController;
-import setback.application.client.SetbackClientControllerMock;
+import setback.application.client.SetbackClientControllerImpl;
+import setback.application.client.SetbackClientControllerImplMock;
 import setback.common.PlayerNumber;
 
 /**
@@ -27,7 +27,7 @@ import setback.common.PlayerNumber;
 public class PlayerSelectViewIT {
 
 	private PlayerSelectView view;
-	private SetbackClientController controller;
+	private SetbackClientControllerImpl controller;
 	private JFrame frame;
 	
 	@Before
@@ -37,7 +37,7 @@ public class PlayerSelectViewIT {
 	
 	@Test
 	public void teamOneLabelTest() {
-		controller = new SetbackClientControllerMock();
+		controller = new SetbackClientControllerImplMock();
 		view = new PlayerSelectView(controller, frame);
 		String text = view.teamOneLabel.getText();
 		assertEquals("Team One", text);
@@ -46,7 +46,7 @@ public class PlayerSelectViewIT {
 	
 	@Test
 	public void teamTwoLabelTest() {
-		controller = new SetbackClientControllerMock();
+		controller = new SetbackClientControllerImplMock();
 		view = new PlayerSelectView(controller, frame);
 		String text = view.teamTwoLabel.getText();
 		assertEquals("Team Two", text);
@@ -55,7 +55,7 @@ public class PlayerSelectViewIT {
 	
 	@Test
 	public void errorLabelInitialTest() {
-		controller = new SetbackClientControllerMock();
+		controller = new SetbackClientControllerImplMock();
 		view = new PlayerSelectView(controller, frame);
 		String text = view.errorLabel.getText();
 		assertEquals("That player has already been selected.", text);
@@ -64,7 +64,7 @@ public class PlayerSelectViewIT {
 	
 	@Test
 	public void selectPlayerOneSuccessTest() {
-		controller = new SetbackClientControllerMock();
+		controller = new SetbackClientControllerImplMock();
 		view = new PlayerSelectView(controller, frame);
 		view.playerOneButton.doClick();
 		assertEquals(PleaseWaitView.class, view.getView().getClass());
@@ -72,7 +72,7 @@ public class PlayerSelectViewIT {
 	
 	@Test
 	public void selectPlayerOneFailureTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		view = new PlayerSelectView(controller, frame);
 		view.playerOneButton.doClick();
 		assertEquals(PlayerSelectView.class, view.getView().getClass());
@@ -81,7 +81,7 @@ public class PlayerSelectViewIT {
 	
 	@Test
 	public void selectPlayerTwoSuccessTest() {
-		controller = new SetbackClientControllerMock();
+		controller = new SetbackClientControllerImplMock();
 		view = new PlayerSelectView(controller, frame);
 		view.playerTwoButton.doClick();
 		assertEquals(PleaseWaitView.class, view.getView().getClass());
@@ -89,7 +89,7 @@ public class PlayerSelectViewIT {
 	
 	@Test
 	public void selectPlayerTwoFailureTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_TWO);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_TWO);
 		view = new PlayerSelectView(controller, frame);
 		view.playerTwoButton.doClick();
 		assertEquals(PlayerSelectView.class, view.getView().getClass());
@@ -98,7 +98,7 @@ public class PlayerSelectViewIT {
 	
 	@Test
 	public void selectPlayerThreeSuccessTest() {
-		controller = new SetbackClientControllerMock();
+		controller = new SetbackClientControllerImplMock();
 		view = new PlayerSelectView(controller, frame);
 		view.playerThreeButton.doClick();
 		assertEquals(PleaseWaitView.class, view.getView().getClass());
@@ -106,7 +106,7 @@ public class PlayerSelectViewIT {
 	
 	@Test
 	public void selectPlayerThreeFailureTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_THREE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_THREE);
 		view = new PlayerSelectView(controller, frame);
 		view.playerThreeButton.doClick();
 		assertEquals(PlayerSelectView.class, view.getView().getClass());
@@ -115,7 +115,7 @@ public class PlayerSelectViewIT {
 	
 	@Test
 	public void selectPlayerFourSuccessTest() {
-		controller = new SetbackClientControllerMock();
+		controller = new SetbackClientControllerImplMock();
 		view = new PlayerSelectView(controller, frame);
 		view.playerFourButton.doClick();
 		assertEquals(PleaseWaitView.class, view.getView().getClass());
@@ -123,7 +123,7 @@ public class PlayerSelectViewIT {
 	
 	@Test
 	public void selectPlayerFourFailureTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_FOUR);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_FOUR);
 		view = new PlayerSelectView(controller, frame);
 		view.playerFourButton.doClick();
 		assertEquals(PlayerSelectView.class, view.getView().getClass());

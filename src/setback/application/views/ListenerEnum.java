@@ -2,7 +2,7 @@
  * This file was developed for fun by Michael Burns for a private
  * implementation of the card game Setback, also known as Pitch.
  */
-package setback.application.client;
+package setback.application.views;
 
 /**
  * This enumeration specifies the different Listeners

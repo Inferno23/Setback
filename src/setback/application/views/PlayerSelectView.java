@@ -33,7 +33,7 @@ public class PlayerSelectView extends SetbackClientView {
 	/**
 	 * Create the GUI for player selection.  Just call the
 	 * super constructor.
-	 * @param controller The SetbackClientController that
+	 * @param controller The SetbackClientControllerImpl that
 	 * will handle all of the communication with the server.
 	 * @param frame The JFrame that the application runs in.
 	 */

@@ -14,7 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
-import setback.application.client.ListenerEnum;
 import setback.application.client.SetbackClientController;
 import setback.common.PlayerNumber;
 
@@ -44,7 +43,7 @@ public class PlayCardsView extends SetbackClientView {
 	 * Create the GUI for playing cards, call the super constructor.
 	 * Initialization must be done in the constructor, because it requires knowledge of the
 	 * previously played cards, which won't get passed to initialize().
-	 * @param controller  The SetbackClientController that
+	 * @param controller  The SetbackClientControllerImpl that
 	 * will handle all of the communication with the server.
 	 * @param frame The JFrame that the application runs in.
 	 * @param myCardName The name of the card that I have played in this trick.

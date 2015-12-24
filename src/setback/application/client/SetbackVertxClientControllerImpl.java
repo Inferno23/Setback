@@ -15,7 +15,8 @@ import io.vertx.core.eventbus.EventBus;
  * messages back to the server.
  * @author Mike Burns
  */
-public class SetbackVertxClientController extends SetbackClientController {
+public class SetbackVertxClientControllerImpl extends SetbackClientControllerSkeleton
+    implements SetbackClientController {
 
   private EventBus eventBus;
 
@@ -24,7 +25,7 @@ public class SetbackVertxClientController extends SetbackClientController {
    * can get the event bus and set up our consumers.
    * @param vertx The clustered vertx instance shared among the clients.
    */
-  SetbackVertxClientController(Vertx vertx) {
+  SetbackVertxClientControllerImpl(Vertx vertx) {
     // TODO: Remove the super class.
     super();
     this.eventBus = vertx.eventBus();
@@ -49,5 +50,16 @@ public class SetbackVertxClientController extends SetbackClientController {
     eventBus.send("REQUEST_PLAYER_CHANNEL", "REQUEST_PLAYER_ONE", sendHandler -> {
       // TODO: Do some stuff
     });
+  }
+
+  @Override
+  public void setPlayerNumbersFromString(String input) {
+    // TODO: Implement me.
+  }
+
+  @Override
+  public String userInput(String input) {
+    // TODO: Implement me.
+    return null;
   }
 }

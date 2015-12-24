@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 import org.junit.Before;
 import org.junit.Test;
 
-import setback.application.client.SetbackClientControllerMock;
+import setback.application.client.SetbackClientControllerImplMock;
 import setback.common.PlayerNumber;
 
 /**
@@ -25,7 +25,7 @@ import setback.common.PlayerNumber;
 public class RoundScoreViewIT {
 
 	private RoundScoreView view;
-	private SetbackClientControllerMock controller;
+	private SetbackClientControllerImplMock controller;
 	private JFrame frame;
 	
 	@Before
@@ -35,7 +35,7 @@ public class RoundScoreViewIT {
 	
 	@Test
 	public void playerOneTeamStringTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		view = new RoundScoreView(controller, frame);
 		assertTrue(view.teamLabel.isVisible());
 		assertEquals(view.teamLabel.getText(), "FYI: You're on TEAM ONE");
@@ -43,7 +43,7 @@ public class RoundScoreViewIT {
 	
 	@Test
 	public void playerTwoTeamStringTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_TWO);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_TWO);
 		view = new RoundScoreView(controller, frame);
 		assertTrue(view.teamLabel.isVisible());
 		assertEquals(view.teamLabel.getText(), "FYI: You're on TEAM TWO");
@@ -51,7 +51,7 @@ public class RoundScoreViewIT {
 	
 	@Test
 	public void playerThreeTeamStringTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_THREE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_THREE);
 		view = new RoundScoreView(controller, frame);
 		assertTrue(view.teamLabel.isVisible());
 		assertEquals(view.teamLabel.getText(), "FYI: You're on TEAM ONE");
@@ -59,7 +59,7 @@ public class RoundScoreViewIT {
 	
 	@Test
 	public void playerFourTeamStringTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_FOUR);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_FOUR);
 		view = new RoundScoreView(controller, frame);
 		assertTrue(view.teamLabel.isVisible());
 		assertEquals(view.teamLabel.getText(), "FYI: You're on TEAM TWO");
@@ -67,7 +67,7 @@ public class RoundScoreViewIT {
 	
 	@Test
 	public void teamScoresTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		view = new RoundScoreView(controller, frame);
 		assertTrue(view.teamOneScore.isVisible());
 		assertEquals("TEAM ONE: 1", view.teamOneScore.getText());
@@ -77,7 +77,7 @@ public class RoundScoreViewIT {
 	
 	@Test
 	public void continueButtonTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		view = new RoundScoreView(controller, frame);
 		view.continueButton.doClick();
 		assertEquals(PlaceBetsView.class, view.getView().getClass());

@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
-import setback.application.client.ListenerEnum;
 import setback.application.client.SetbackClientController;
 import setback.common.PlayerNumber;
 

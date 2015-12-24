@@ -32,7 +32,7 @@ public class RoundScoreView extends SetbackClientView {
 	 * Create the GUI for displaying the score after a round of Setback.
 	 * It will contain the team scores and a continue button, which
 	 * will take the player to the next hand.
-	 * @param controller  The SetbackClientController that
+	 * @param controller  The SetbackClientControllerImpl that
 	 * will handle all of the communication with the server.
 	 * @param frame The JFrame that the application runs in.
 	 */

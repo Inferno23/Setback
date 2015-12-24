@@ -48,7 +48,7 @@ public class SetbackClient {
 			
 			final IOPair pair = new SocketIOPair(socket);
 			// Start the controller
-			new SetbackClientController(pair);
+			new SetbackClientControllerImpl(pair);
 
 		} catch (SetbackException e) {
 			System.err.println(e.getMessage());

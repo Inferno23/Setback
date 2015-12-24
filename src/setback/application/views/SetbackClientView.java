@@ -16,9 +16,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
-import setback.application.client.CardImageFactory;
-import setback.application.client.ListenerEnum;
 import setback.application.client.SetbackClientController;
+import setback.application.client.SetbackClientControllerImpl;
 import setback.game.common.Card;
 
 /**

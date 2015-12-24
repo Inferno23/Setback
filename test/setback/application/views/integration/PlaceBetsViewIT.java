@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 import org.junit.Before;
 import org.junit.Test;
 
-import setback.application.client.SetbackClientControllerMock;
+import setback.application.client.SetbackClientControllerImplMock;
 import setback.common.PlayerNumber;
 
 /**
@@ -28,7 +28,7 @@ import setback.common.PlayerNumber;
 public class PlaceBetsViewIT {
 
 	private PlaceBetsView view;
-	private SetbackClientControllerMock controller;
+	private SetbackClientControllerImplMock controller;
 	private JFrame frame;
 	
 	@Before
@@ -38,7 +38,7 @@ public class PlaceBetsViewIT {
 	
 	@Test
 	public void playerHandVisibleTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		view = new PlaceBetsView(controller, frame);
 		assertTrue(view.cardOne.isVisible());
 		assertTrue(view.cardTwo.isVisible());
@@ -56,7 +56,7 @@ public class PlaceBetsViewIT {
 	
 	@Test
 	public void leftHandVisibleTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		view = new PlaceBetsView(controller, frame);
 		assertTrue(view.leftHand[1].isVisible());
 		assertTrue(view.leftHand[2].isVisible());
@@ -74,7 +74,7 @@ public class PlaceBetsViewIT {
 	
 	@Test
 	public void centerHandVisibleTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		view = new PlaceBetsView(controller, frame);
 		assertTrue(view.centerHand[1].isVisible());
 		assertTrue(view.centerHand[2].isVisible());
@@ -92,7 +92,7 @@ public class PlaceBetsViewIT {
 	
 	@Test
 	public void rightHandVisibleTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		view = new PlaceBetsView(controller, frame);
 		assertTrue(view.rightHand[1].isVisible());
 		assertTrue(view.rightHand[2].isVisible());
@@ -110,7 +110,7 @@ public class PlaceBetsViewIT {
 	
 	@Test
 	public void leftPlayerBetsTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		controller.noCommandString = "PLAYER_TWO BET PASS";
 		view = new PlaceBetsView(controller, frame);
 		ActionListener listeners[] = view.neighborBetTimer.getActionListeners();
@@ -121,7 +121,7 @@ public class PlaceBetsViewIT {
 	
 	@Test
 	public void centerPlayerBetsTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_FOUR);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_FOUR);
 		controller.noCommandString = "PLAYER_TWO BET PASS";
 		view = new PlaceBetsView(controller, frame);
 		ActionListener listeners[] = view.neighborBetTimer.getActionListeners();
@@ -132,7 +132,7 @@ public class PlaceBetsViewIT {
 	
 	@Test
 	public void rightPlayerBetsTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_THREE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_THREE);
 		controller.noCommandString = "PLAYER_TWO BET PASS";
 		view = new PlaceBetsView(controller, frame);
 		ActionListener listeners[] = view.neighborBetTimer.getActionListeners();
@@ -143,7 +143,7 @@ public class PlaceBetsViewIT {
 	
 	@Test
 	public void buttonsNotEnabledTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_ONE);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_ONE);
 		view = new PlaceBetsView(controller, frame);
 		assertFalse(view.passButton.isEnabled());
 		assertFalse(view.twoButton.isEnabled());
@@ -155,7 +155,7 @@ public class PlaceBetsViewIT {
 	
 	@Test
 	public void buttonsEnabledTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_TWO);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_TWO);
 		view = new PlaceBetsView(controller, frame);
 		assertTrue(view.passButton.isEnabled());
 		assertTrue(view.twoButton.isEnabled());
@@ -167,7 +167,7 @@ public class PlaceBetsViewIT {
 	
 	@Test
 	public void playerTwoBetsPassTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_TWO);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_TWO);
 		view = new PlaceBetsView(controller, frame);
 		view.passButton.doClick();
 		assertTrue(view.myBet.isVisible());
@@ -176,7 +176,7 @@ public class PlaceBetsViewIT {
 	
 	@Test
 	public void playerTwoBetsTwoTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_TWO);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_TWO);
 		view = new PlaceBetsView(controller, frame);
 		view.twoButton.doClick();
 		assertTrue(view.myBet.isVisible());
@@ -185,7 +185,7 @@ public class PlaceBetsViewIT {
 	
 	@Test
 	public void playerTwoBetsThreeTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_TWO);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_TWO);
 		view = new PlaceBetsView(controller, frame);
 		view.threeButton.doClick();
 		assertTrue(view.myBet.isVisible());
@@ -194,7 +194,7 @@ public class PlaceBetsViewIT {
 	
 	@Test
 	public void playerTwoBetsFourTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_TWO);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_TWO);
 		view = new PlaceBetsView(controller, frame);
 		view.fourButton.doClick();
 		assertTrue(view.myBet.isVisible());
@@ -203,7 +203,7 @@ public class PlaceBetsViewIT {
 	
 	@Test
 	public void playerTwoBetsFiveTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_TWO);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_TWO);
 		view = new PlaceBetsView(controller, frame);
 		view.fiveButton.doClick();
 		assertTrue(view.myBet.isVisible());
@@ -212,7 +212,7 @@ public class PlaceBetsViewIT {
 	
 	@Test
 	public void playerTwoTakesBetTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_TWO);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_TWO);
 		view = new PlaceBetsView(controller, frame);
 		view.takeButton.doClick();
 		assertTrue(view.myBet.isVisible());
@@ -221,7 +221,7 @@ public class PlaceBetsViewIT {
 	
 	@Test
 	public void playerTwoPassesBetBettingResolvedTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_TWO);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_TWO);
 		controller.bettingResolved = true;
 		view = new PlaceBetsView(controller, frame);
 		view.passButton.doClick();
@@ -230,7 +230,7 @@ public class PlaceBetsViewIT {
 	
 	@Test
 	public void playerTwoBetsTwoBettingResolvedTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_TWO);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_TWO);
 		controller.bettingResolved = true;
 		view = new PlaceBetsView(controller, frame);
 		view.twoButton.doClick();
@@ -239,7 +239,7 @@ public class PlaceBetsViewIT {
 	
 	@Test
 	public void playerTwoBetsThreeBettingResolvedTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_TWO);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_TWO);
 		controller.bettingResolved = true;
 		view = new PlaceBetsView(controller, frame);
 		view.threeButton.doClick();
@@ -248,7 +248,7 @@ public class PlaceBetsViewIT {
 	
 	@Test
 	public void playerTwoBetsFourBettingResolvedTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_TWO);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_TWO);
 		controller.bettingResolved = true;
 		view = new PlaceBetsView(controller, frame);
 		view.fourButton.doClick();
@@ -257,7 +257,7 @@ public class PlaceBetsViewIT {
 	
 	@Test
 	public void playerTwoBetsFiveBettingResolvedTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_TWO);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_TWO);
 		controller.bettingResolved = true;
 		view = new PlaceBetsView(controller, frame);
 		view.fiveButton.doClick();
@@ -266,7 +266,7 @@ public class PlaceBetsViewIT {
 	
 	@Test
 	public void playerTwoBetsTakeBettingResolvedTest() {
-		controller = new SetbackClientControllerMock(PlayerNumber.PLAYER_TWO);
+		controller = new SetbackClientControllerImplMock(PlayerNumber.PLAYER_TWO);
 		controller.bettingResolved = true;
 		view = new PlaceBetsView(controller, frame);
 		view.takeButton.doClick();
