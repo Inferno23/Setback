@@ -8,7 +8,10 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
+import setback.application.command.Command;
+import setback.application.command.CommandMessageJson;
 import setback.common.PlayerNumber;
+import setback.common.SetbackRuntimeException;
 
 /**
  * This class is the brains behind the SetbackClient using vertx.
@@ -19,6 +22,7 @@ import setback.common.PlayerNumber;
 public class SetbackVertxClientControllerImpl extends SetbackClientControllerSkeleton
     implements SetbackClientController {
 
+  private Vertx vertx;
   private EventBus eventBus;
 
   /**
@@ -29,6 +33,7 @@ public class SetbackVertxClientControllerImpl extends SetbackClientControllerSke
   SetbackVertxClientControllerImpl(Vertx vertx) {
     // TODO: Remove the super class.
     super();
+    this.vertx = vertx;
     this.eventBus = vertx.eventBus();
     // Set up our consumers
     configureConsumers();
@@ -57,7 +62,51 @@ public class SetbackVertxClientControllerImpl extends SetbackClientControllerSke
 
   @Override
   public String requestPlayer(PlayerNumber playerNumber) {
+    Command command;
+    switch (playerNumber) {
+      case PLAYER_ONE:
+        command = Command.REQUEST_PLAYER_ONE;
+        break;
+      case PLAYER_TWO:
+        command = Command.REQUEST_PLAYER_TWO;
+        break;
+      case PLAYER_THREE:
+        command = Command.REQUEST_PLAYER_THREE;
+        break;
+      case PLAYER_FOUR:
+        command = Command.REQUEST_PLAYER_FOUR;
+        break;
+      default:
+        return "rejected";
+    }
+
+    CommandMessageJson json = CommandMessageJson.constructCommandMessage(command);
+
+    // TODO: Need a better solution than this.
+    final String[] result = new String[1];
+
+    // TODO: Abstract this into a method.
+    vertx.<String>executeBlocking(blockingHandler -> {
+      blockingHandler.complete(sendCommandMessageJson(json));
+    }, resultHandler -> {
+      if (resultHandler.succeeded()) {
+        result[0] = resultHandler.result();
+      } else {
+        result[0] = "rejected";
+      }
+    });
+
+    return result[0];
+  }
+
+  /**
+   * Helper method to handle sending a commandMessage from the client
+   * to the server.
+   * @param commandMessage The commandMessage to send to the server.
+   * @return The reply from the server.
+   */
+  private String sendCommandMessageJson(CommandMessageJson commandMessage) {
     // TODO: Implement me.
-    return null;
+    return "";
   }
 }

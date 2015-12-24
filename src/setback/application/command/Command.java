@@ -14,6 +14,7 @@ public enum Command {
 
 	NO_COMMAND(0),
 	EXIT(0),
+	// TODO: Should just have one REQUEST_PLAYER(1) command
 	REQUEST_PLAYER_ONE(0),
 	REQUEST_PLAYER_TWO(0),
 	REQUEST_PLAYER_THREE(0),

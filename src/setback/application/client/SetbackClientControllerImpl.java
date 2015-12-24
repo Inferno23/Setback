@@ -112,7 +112,7 @@ public class SetbackClientControllerImpl extends SetbackClientControllerSkeleton
       case PLAYER_FOUR:
         return userInput("REQUEST_PLAYER_FOUR");
       default:
-        throw new SetbackRuntimeException("Invalid player number requested.");
+        return "rejected";
     }
   }
 

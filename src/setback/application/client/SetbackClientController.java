@@ -17,6 +17,7 @@ public interface SetbackClientController {
   void setPlayerNumbersFromString(String input);
 
   // TODO: Remove this and replace with individual commands
+  @Deprecated
   String userInput(String input);
 
   // Getters for the players
