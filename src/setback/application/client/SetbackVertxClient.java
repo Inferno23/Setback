@@ -5,9 +5,6 @@
 package setback.application.client;
 
 import io.vertx.core.Vertx;
-import io.vertx.core.VertxOptions;
-import io.vertx.core.spi.cluster.ClusterManager;
-import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
 import setback.application.server.SetbackVertxServer;
 
 /**
@@ -19,19 +16,17 @@ import setback.application.server.SetbackVertxServer;
 public class SetbackVertxClient {
 
   public static void main(String[] args) {
-    ClusterManager mgr = new HazelcastClusterManager();
-    VertxOptions options = new VertxOptions()
-        .setClusterManager(mgr)
-        .setClusterHost(SetbackVertxServer.HOST)
-        .setClusterPort(SetbackVertxServer.PORT);
-    Vertx.clusteredVertx(options, handler -> {
-      if (handler.succeeded()) {
-        final Vertx vertx = handler.result();
-        System.out.println("Client connected.");
-      } else {
-        System.out.println("Failed to use clustered vertx.");
-        System.exit(-1);
-      }
-    });
+
+    final Vertx vertx = Vertx.vertx();
+    vertx.createNetClient().connect(SetbackVertxServer.PORT, SetbackVertxServer.HOST,
+        handler -> {
+          if (handler.succeeded()) {
+            System.out.println("Client connected successfully!");
+          } else {
+            System.out.println("Client failed to connect.");
+            System.out.println(handler.cause());
+            System.exit(-1);
+          }
+        });
   }
 }

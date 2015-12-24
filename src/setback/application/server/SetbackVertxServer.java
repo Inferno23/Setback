@@ -8,6 +8,8 @@ import io.netty.util.internal.ConcurrentSet;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.net.NetServer;
+import io.vertx.core.net.NetServerOptions;
 import io.vertx.core.spi.cluster.ClusterManager;
 import setback.game.SetbackGameController;
 import setback.game.SetbackGameFactory;
@@ -42,39 +44,31 @@ public class SetbackVertxServer {
   public static void main(String[] args) {
     final SetbackGameController game;
     final VertxOptions options;
+    final Vertx vertx;
+    final EventBus eventBus;
+    // TODO: Connections should be in the server.
     final ConcurrentSet<String> connections = new ConcurrentSet<>();
 
     // TODO: Debug vs Retail
     game = SetbackGameFactory.getInstance().makeDeltaSetbackGame();
 
-    // TODO: Default options
-    ClusterManager mgr = new HazelcastClusterManager();
-    options = new VertxOptions()
-        .setClusterManager(mgr)
-        .setClusterHost(HOST)
-        .setClusterPort(PORT);
-
-    Vertx.clusteredVertx(options, handler -> {
-      if (handler.succeeded()) {
-        final Vertx vertx = handler.result();
-        final EventBus eventBus = vertx.eventBus();
-
-        eventBus.<String>consumer(CONNECTION_CHANNEL, connectionHandler -> {
-          String message = connectionHandler.body();
-          System.out.println("Connection from " + message);
-          connections.add(message);
-          // TODO: Send back a channel to listen on?
-
-          if (connections.size() == MAX_PLAYERS) {
-            // TODO: Send a message to start the game
-          }
+    vertx = Vertx.vertx();
+    final NetServerOptions serverOptions = new NetServerOptions()
+        .setHost(HOST)
+        .setPort(PORT);
+    NetServer netServer = vertx.createNetServer(serverOptions)
+        .connectHandler(connectHandler -> {
+          System.out.println("Connect handler called.");
         });
-
+    netServer.listen(handler -> {
+      if (handler.succeeded()) {
+        System.out.println("Server deployed successfully!");
       } else {
-        System.out.println("Failed to deploy clustered vertx instance.");
+        System.out.println("Server failed to deploy.");
         System.out.println(handler.cause());
         System.exit(-1);
       }
     });
+
   }
 }
