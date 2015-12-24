@@ -4,17 +4,14 @@
  */
 package setback.game.version;
 
-import java.util.List;
-
 import setback.application.SetbackObserver;
 import setback.common.PlayerNumber;
 import setback.common.SetbackException;
-import setback.game.common.Bet;
-import setback.game.common.Card;
-import setback.game.common.CardPlayerDescriptor;
-import setback.game.common.CardSuit;
-import setback.game.common.RoundResult;
-import setback.game.common.TrickResult;
+import setback.game.common.*;
+
+import java.util.List;
+
+import static setback.application.command.CommandMessageConstants.*;
 
 /**
  * This is the abstract class that adds observability features to
@@ -90,7 +87,7 @@ public abstract class SetbackGameObservableImpl
 	@Override
 	public void startRound() throws SetbackException {
 		super.startRound();
-		notifyObservers("ROUND BEGIN");
+		notifyObservers(ROUND_BEGIN);
 	}
 	
 	/*
@@ -111,7 +108,7 @@ public abstract class SetbackGameObservableImpl
 	@Override
 	public void resolveBets() throws SetbackException {
 		super.resolveBets();
-		notifyObservers("BETTING RESOLVED");
+		notifyObservers(BETTING_RESOLVED);
 	}
 	
 	/*
@@ -140,7 +137,7 @@ public abstract class SetbackGameObservableImpl
 	@Override
 	public void startTrick() throws SetbackException {
 		super.startTrick();
-		notifyObservers("TRICK STARTED");
+		notifyObservers(TRICK_STARTED);
 	}
 	
 	/* 
@@ -179,7 +176,7 @@ public abstract class SetbackGameObservableImpl
 	public RoundResult playRound(List<TrickResult> tricks)
 			throws SetbackException {
 		final RoundResult result = super.playRound(tricks);
-		notifyObservers("ROUND ENDED");
+		notifyObservers(ROUND_ENDED);
 		return result;
 	}
 

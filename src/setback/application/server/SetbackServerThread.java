@@ -9,13 +9,14 @@ import setback.application.command.CommandMessageJson;
 import setback.application.command.CommandParser;
 import setback.application.socket.IOPair;
 import setback.common.SetbackException;
-import setback.game.SetbackGameController;
 import setback.game.version.SetbackMultiplayerGame;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+
+import static setback.application.command.CommandMessageConstants.*;
 
 /**
  * This is the thread that the server spawns.  It is associated
@@ -25,7 +26,7 @@ import java.io.PrintWriter;
  */
 public class SetbackServerThread extends Thread implements SetbackObserver {
 
-	private final IOPair pair;
+  private final IOPair pair;
 	protected PlayerController controller;
 	private final CommandParser parser;
 
@@ -95,18 +96,18 @@ public class SetbackServerThread extends Thread implements SetbackObserver {
 	public void update(String message) {
 		if (message != null) {
 			// Game inputs
-			if (message.equals("ROUND BEGIN")) {
+			if (message.equals(ROUND_BEGIN)) {
 				controller.startRound();
 			}
-			else if (message.equals("BETTING RESOLVED")) {
+			else if (message.equals(BETTING_RESOLVED)) {
 				// The PlayerController does not care, but we need to tell the client
 				out.print(message + " ");
 			}
-			else if (message.contains("TRICK STARTED")) {
+			else if (message.contains(TRICK_STARTED)) {
 				// The PlayerController does not care, but we need to tell the client
 				out.print(message + " ");
 			}
-			else if (message.contains("ROUND ENDED")) {
+			else if (message.contains(ROUND_ENDED)) {
 				// The PlayerController does not care, but we need to tell the client
 				out.print(message + " ");
 			}
