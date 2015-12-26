@@ -52,7 +52,7 @@ public class DiscardCardsView extends SetbackClientView {
 		// Background and visibility
 		super.initialize();
 		// Trump label
-		trumpLabel = new JLabel("TRUMP IS " + controller.userInput("GET_TRUMP"));
+		trumpLabel = new JLabel("TRUMP IS " + controller.getTrump());
 		trumpLabel.setBounds(GUI_WIDTH_CENTER - GUI_DISCARD_CARDS_STRING_LENGTH / 2,
 				GUI_HEIGHT_CENTER - (3 * GUI_SPACING_CONSTANT),
 				GUI_DISCARD_CARDS_STRING_LENGTH,
@@ -60,7 +60,7 @@ public class DiscardCardsView extends SetbackClientView {
 		trumpLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		frame.getContentPane().add(trumpLabel);
 		// Hands
-		final String handContents = controller.userInput("SHOW_HAND");
+		final String handContents = controller.showHand();
 		displayHand(handContents, ListenerEnum.SHIFT_UP);
 		displayNeighborHands(12);
 		// Discard button
@@ -70,8 +70,7 @@ public class DiscardCardsView extends SetbackClientView {
 		discardButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (discardList.size() == 3) {
-					final String response = controller.userInput("DISCARD_CARDS "
-							+ discardList.get(0) + " " + discardList.get(1) + " " + discardList.get(2));
+					final String response = controller.discardCards(discardList);
 					// Double check that we discarded properly
 					if (response.contains(controller.getMyNumber().toString() + " DISCARDED")) {
 						discardButton.setEnabled(false);
@@ -86,12 +85,12 @@ public class DiscardCardsView extends SetbackClientView {
 								frame.getContentPane().remove(card);
 							}
 							cardList.clear();
-							final String handContents = controller.userInput("SHOW_HAND");
+							final String handContents = controller.showHand();
 							displayHand(handContents, ListenerEnum.NONE);
 							// Check that everyone has discarded
 							final ActionListener allDiscardAction = new ActionListener() {
 								public void actionPerformed(ActionEvent evt) {
-									final String response = controller.userInput("NO_COMMAND");
+									final String response = controller.noCommand();
 									if (response.contains("TRICK STARTED")) {
 										allDiscardTimer.stop();
 										view = update(response);

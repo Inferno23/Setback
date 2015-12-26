@@ -4,14 +4,17 @@
  */
 package setback.application.client;
 
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 import setback.application.command.Command;
 import setback.application.command.CommandMessageJson;
 import setback.common.PlayerNumber;
-import setback.common.SetbackRuntimeException;
+import setback.common.PlayerTeam;
+import setback.game.common.Bet;
+import setback.game.common.Card;
+import setback.game.common.CardSuit;
+
+import java.util.List;
 
 /**
  * This class is the brains behind the SetbackClient using vertx.
@@ -55,7 +58,7 @@ public class SetbackVertxClientControllerImpl extends SetbackClientControllerSke
   }
 
   @Override
-  public String userInput(String input) {
+  public String noCommand() {
     // TODO: Implement me.
     return null;
   }
@@ -97,6 +100,60 @@ public class SetbackVertxClientControllerImpl extends SetbackClientControllerSke
     });
 
     return result[0];
+  }
+
+  @Override
+  public String showHand() {
+    // TODO: Implement me
+    return null;
+  }
+
+  @Override
+  public String getCurrentPlayer() {
+    // TODO: Implement me
+    return null;
+  }
+
+  @Override
+  public String placeBid(Bet bid) {
+    // TODO: Implement me
+    return null;
+  }
+
+  @Override
+  public String getWinningBid() {
+    // TODO: Implement me.
+    return null;
+  }
+
+  @Override
+  public String selectTrump(CardSuit suit) {
+    // TODO: Implement me.
+    return null;
+  }
+
+  @Override
+  public String getTrump() {
+    // TODO: Implement me.
+    return null;
+  }
+
+  @Override
+  public String discardCards(List<Card> discardList) {
+    // TODO: Implement me.
+    return null;
+  }
+
+  @Override
+  public String playCard(Card card) {
+    // TODO: Implement me.
+    return null;
+  }
+
+  @Override
+  public String getTeamScore(PlayerTeam team) {
+    // TODO: Implement me.
+    return null;
   }
 
   /**

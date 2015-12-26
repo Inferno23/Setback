@@ -8,14 +8,19 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.swing.JFrame;
 
 import setback.application.socket.IOPair;
 import setback.application.views.PlayerSelectView;
 import setback.common.PlayerNumber;
+import setback.common.PlayerTeam;
 import setback.common.SetbackException;
 import setback.common.SetbackRuntimeException;
+import setback.game.common.Bet;
+import setback.game.common.Card;
+import setback.game.common.CardSuit;
 
 /**
  * This is the brain of the SetbackClient.
@@ -71,7 +76,7 @@ public class SetbackClientControllerImpl extends SetbackClientControllerSkeleton
 	 * @param input The string from the button click.
 	 * @return The server's response.
 	 */
-	public String userInput(String input) {
+	protected String userInput(String input) {
 		String fromServer;
 		String returnString = null;
 
@@ -101,6 +106,11 @@ public class SetbackClientControllerImpl extends SetbackClientControllerSkeleton
 	}
 
   @Override
+  public String noCommand() {
+    return userInput("NO_COMMAND");
+  }
+
+  @Override
   public String requestPlayer(PlayerNumber playerNumber) {
     switch (playerNumber) {
       case PLAYER_ONE:
@@ -113,6 +123,61 @@ public class SetbackClientControllerImpl extends SetbackClientControllerSkeleton
         return userInput("REQUEST_PLAYER_FOUR");
       default:
         return "rejected";
+    }
+  }
+
+	@Override
+	public String showHand() {
+		return userInput("SHOW_HAND");
+	}
+
+  @Override
+  public String getCurrentPlayer() {
+    return userInput("GET_CURRENT_PLAYER");
+  }
+
+	@Override
+	public String placeBid(Bet bid) {
+		return userInput("PLACE_BET " + bid.toString().toUpperCase());
+	}
+
+  @Override
+  public String getWinningBid() {
+    return userInput("GET_WINNING_BET");
+  }
+
+  @Override
+  public String selectTrump(CardSuit suit) {
+    return userInput("SELECT_TRUMP " + suit.toString().toUpperCase()).toUpperCase();
+  }
+
+  @Override
+  public String getTrump() {
+    return userInput("GET_TRUMP");
+  }
+
+  @Override
+  public String discardCards(List<Card> discardList) {
+    return userInput("DISCARD_CARDS "
+        + discardList.get(0) + " "
+        + discardList.get(1) + " "
+        + discardList.get(2));
+  }
+
+  @Override
+  public String playCard(Card card) {
+    return userInput("PLAY_CARD " + card.toString());
+  }
+
+  @Override
+  public String getTeamScore(PlayerTeam team) {
+    switch (team) {
+      case TEAM_ONE:
+        return userInput("GET_TEAM_ONE_SCORE");
+      case TEAM_TWO:
+        return userInput("GET_TEAM_TWO_SCORE");
+      default:
+        throw new SetbackRuntimeException("Invalid Team!");
     }
   }
 

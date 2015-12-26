@@ -16,6 +16,7 @@ import javax.swing.Timer;
 
 import setback.application.client.SetbackClientController;
 import setback.common.PlayerNumber;
+import setback.game.common.Card;
 
 /**
  * This view will handle playing cards.  It will
@@ -66,7 +67,7 @@ public class PlayCardsView extends SetbackClientView {
 				GUI_PLAY_CARDS_STRING_LENGTH, GUI_TEXT_HEIGHT);
 		frame.getContentPane().add(currentPlayerLabel);
 		// Get my hand and display it
-		final String handContents = controller.userInput("SHOW_HAND");
+		final String handContents = controller.showHand();
 		displayHand(handContents, ListenerEnum.PLAY);
 		// Find the number of cards that are in the hand
 		numCards = handContents.split("\t").length - 1;
@@ -77,7 +78,7 @@ public class PlayCardsView extends SetbackClientView {
 		if (!isEndOfTrick()) {
 
 			// Find the current player
-			final PlayerNumber currentPlayer = PlayerNumber.valueOf(controller.userInput("GET_CURRENT_PLAYER").toUpperCase());
+			final PlayerNumber currentPlayer = PlayerNumber.valueOf(controller.getCurrentPlayer().toUpperCase());
 			// If I am the current player we won't call waitForAnyCard.
 			if (currentPlayer.equals(controller.getMyNumber())) {
 				currentPlayerLabel.setText("Current Player: Me");
@@ -207,7 +208,8 @@ public class PlayCardsView extends SetbackClientView {
 					// is my turn, this solves some multiplayer issues
 					if (currentPlayerLabel.getText().equals("Current Player: Me")) {
 						// Try to play the card
-						final String response = controller.userInput("PLAY_CARD " + cardName);
+						final Card cardObject = Card.fromString(cardName);
+						final String response = controller.playCard(cardObject);
 						// We expect it to get played
 						final String desired = controller.getMyNumber() + " PLAYED " + cardName;
 						// If we played the card properly
@@ -236,7 +238,7 @@ public class PlayCardsView extends SetbackClientView {
 	protected void waitForAnyCard() {
 		final ActionListener cardPlayedAction = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				final String response = controller.userInput("NO_COMMAND");
+				final String response = controller.noCommand();
 				if (!response.equals("No command")) {
 					// Stop the timer
 					cardTimer.stop();

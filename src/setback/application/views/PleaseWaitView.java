@@ -51,19 +51,15 @@ public class PleaseWaitView extends SetbackClientView {
 				pleaseWait = new JLabel(pleaseWaitString);
 				pleaseWait.setBounds(GUI_WIDTH_CENTER - (pleaseWaitSize / 2), GUI_HEIGHT_CENTER, pleaseWaitSize, GUI_TEXT_HEIGHT);
 				frame.getContentPane().add(pleaseWait);
-				// Update timer
-				final ActionListener updateAction = new ActionListener() {
-					public void actionPerformed(ActionEvent evt) {
-						final String handContents = controller.userInput("SHOW_HAND");
-						if (!handContents.equals("You do not have a hand yet!")) {
-							connectionTimer.stop();
-							// Wipe anything from before
-							frame.getContentPane().removeAll();
-							view = new PlaceBetsView(controller, frame);
-						}
-					}
-				};
-				connectionTimer = new Timer(DELAY, updateAction);
+				connectionTimer = new Timer(DELAY, updateAction -> {
+          final String handContents = controller.showHand();
+          if (!handContents.equals("You do not have a hand yet!")) {
+            connectionTimer.stop();
+            // Wipe anything from before
+            frame.getContentPane().removeAll();
+            view = new PlaceBetsView(controller, frame);
+          }
+				});
 				timerList.add(connectionTimer);
 				connectionTimer.start();
 	}

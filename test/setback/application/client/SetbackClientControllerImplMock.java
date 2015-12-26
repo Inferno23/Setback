@@ -51,7 +51,7 @@ public class SetbackClientControllerImplMock extends SetbackClientControllerImpl
 	}
 
 	@Override
-	public String userInput(String input) {
+	protected String userInput(String input) {
 		String returnString = null;
 
 		// PlayerSelectView

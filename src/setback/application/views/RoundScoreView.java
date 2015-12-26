@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 
 import setback.application.client.SetbackClientController;
 import setback.common.PlayerNumber;
+import setback.common.PlayerTeam;
 
 /**
  * This class will display the scores for each team until the
@@ -51,8 +52,8 @@ public class RoundScoreView extends SetbackClientView {
 	protected void initialize() {
 		// Background and visibility
 		super.initialize();
-		final String teamOne = "TEAM ONE: " + controller.userInput("GET_TEAM_ONE_SCORE");
-		final String teamTwo = "TEAM TWO: " + controller.userInput("GET_TEAM_TWO_SCORE");
+		final String teamOne = "TEAM ONE: " + controller.getTeamScore(PlayerTeam.TEAM_ONE);
+		final String teamTwo = "TEAM TWO: " + controller.getTeamScore(PlayerTeam.TEAM_TWO);
 		final int teamLength = teamOne.length() * UNICODE_SIZE_CONSTANT;
 		final PlayerNumber myNumber = controller.getMyNumber();
 		String teamString = "FYI: You're on ";
