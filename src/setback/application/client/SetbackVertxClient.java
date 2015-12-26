@@ -5,6 +5,7 @@
 package setback.application.client;
 
 import io.vertx.core.Vertx;
+import io.vertx.core.net.NetSocket;
 import setback.application.server.SetbackVertxServer;
 
 /**
@@ -19,12 +20,17 @@ public class SetbackVertxClient {
 
     final Vertx vertx = Vertx.vertx();
     vertx.createNetClient().connect(SetbackVertxServer.PORT, SetbackVertxServer.HOST,
-        handler -> {
-          if (handler.succeeded()) {
+        connectionHandler -> {
+          if (connectionHandler.succeeded()) {
             System.out.println("Client connected successfully!");
+            NetSocket netSocket = connectionHandler.result();
+            netSocket.handler(socketHandler -> {
+              // TODO: This is where all of the listening logic will go, so make it a helper method.
+              System.out.println(socketHandler.toString());
+            });
           } else {
             System.out.println("Client failed to connect.");
-            System.out.println(handler.cause());
+            System.out.println(connectionHandler.cause());
             System.exit(-1);
           }
         });

@@ -10,11 +10,13 @@ import io.vertx.core.VertxOptions;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.net.NetServer;
 import io.vertx.core.net.NetServerOptions;
+import io.vertx.core.net.NetSocket;
 import io.vertx.core.spi.cluster.ClusterManager;
 import setback.game.SetbackGameController;
 import setback.game.SetbackGameFactory;
 import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
 import com.hazelcast.config.Config;
+import sun.nio.ch.Net;
 
 /**
  * This class functions as the server that the players' clients
@@ -28,7 +30,6 @@ public class SetbackVertxServer {
   public static final String HOST = "localhost";
   public static final int PORT = 8080;
   private static final int MAX_PLAYERS = 4;
-  public static final String CONNECTION_CHANNEL = "CONNECTION_CHANNEL";
 
   /**
    * This is the executable function that creates the server.
@@ -47,7 +48,7 @@ public class SetbackVertxServer {
     final Vertx vertx;
     final EventBus eventBus;
     // TODO: Connections should be in the server.
-    final ConcurrentSet<String> connections = new ConcurrentSet<>();
+    final ConcurrentSet<NetSocket> connections = new ConcurrentSet<>();
 
     // TODO: Debug vs Retail
     game = SetbackGameFactory.getInstance().makeDeltaSetbackGame();
@@ -59,6 +60,14 @@ public class SetbackVertxServer {
     NetServer netServer = vertx.createNetServer(serverOptions)
         .connectHandler(connectHandler -> {
           System.out.println("Connect handler called.");
+          connections.add(connectHandler);
+          if (connections.size() == MAX_PLAYERS) {
+            System.out.println("Time to start the game");
+            int number = 1;
+            for (NetSocket client : connections) {
+              client.write("Hello there client #" + number++);
+            }
+          }
         });
     netServer.listen(handler -> {
       if (handler.succeeded()) {
