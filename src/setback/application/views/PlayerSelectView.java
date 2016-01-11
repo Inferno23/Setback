@@ -42,6 +42,17 @@ public class PlayerSelectView extends SetbackClientView {
 	}
 
 	/**
+	 * Create the GUI for player selection.  Just call the
+   * super constructor.
+	 * @param controller  The SetbackClientControllerImpl that
+   *                    will handle all of the communication
+   *                    with the server.
+   */
+	public PlayerSelectView(SetbackClientController controller) {
+		super(controller, new JFrame());
+	}
+
+	/**
 	 * This function initializes the Player Selection screen.
 	 * The background and visibility is handled by calling
 	 * the super version of initialize.

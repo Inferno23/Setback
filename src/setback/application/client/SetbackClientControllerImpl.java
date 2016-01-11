@@ -42,7 +42,7 @@ public class SetbackClientControllerImpl extends SetbackClientControllerSkeleton
 	 */
 	SetbackClientControllerImpl() {
 		// Create the GUI
-		new PlayerSelectView(this, new JFrame());
+		new PlayerSelectView(this);
 	}
 
 	/**

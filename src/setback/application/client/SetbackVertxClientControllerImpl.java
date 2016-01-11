@@ -164,6 +164,7 @@ public class SetbackVertxClientControllerImpl extends SetbackClientControllerSke
    */
   private String sendCommandMessageJson(CommandMessageJson commandMessage) {
     // TODO: Implement me.
+
     return "";
   }
 }

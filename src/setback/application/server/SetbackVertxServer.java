@@ -12,6 +12,7 @@ import io.vertx.core.net.NetServer;
 import io.vertx.core.net.NetServerOptions;
 import io.vertx.core.net.NetSocket;
 import io.vertx.core.spi.cluster.ClusterManager;
+import setback.common.SetbackException;
 import setback.game.SetbackGameController;
 import setback.game.SetbackGameFactory;
 import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
@@ -29,7 +30,7 @@ public class SetbackVertxServer {
   // TODO: HOST and PORT
   public static final String HOST = "localhost";
   public static final int PORT = 8080;
-  private static final int MAX_PLAYERS = 4;
+  private static final int MAX_PLAYERS = 1;
 
   /**
    * This is the executable function that creates the server.
@@ -42,7 +43,7 @@ public class SetbackVertxServer {
    * passed in as the only argument, it will be used as the
    * port number for the socket connection.
    */
-  public static void main(String[] args) {
+  public static void main(String[] args) throws SetbackException {
     final SetbackGameController game;
     final VertxOptions options;
     final Vertx vertx;
@@ -65,7 +66,12 @@ public class SetbackVertxServer {
             System.out.println("Time to start the game");
             int number = 1;
             for (NetSocket client : connections) {
-              client.write("Hello there client #" + number++);
+//              client.write("Hello there client #" + number++);
+              try {
+                playSetback(game);
+              } catch (SetbackException e) {
+                System.out.println(e);
+              }
             }
           }
         });
@@ -79,5 +85,14 @@ public class SetbackVertxServer {
       }
     });
 
+  }
+
+  /**
+   * This is where the actual Setback logic for the server goes.
+   * @param game  The Setback game to play.
+   * @throws SetbackException If something goes wrong.
+   */
+  private static void playSetback(SetbackGameController game) throws SetbackException {
+    game.startGame();
   }
 }
